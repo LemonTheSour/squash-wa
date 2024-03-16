@@ -9,7 +9,9 @@ export default function NavBar() {
 
   useEffect(() => {
     if (pathname == "/login") {
-      setTitle("Login");
+      setTitle("LOGIN");
+    } else if (pathname == "/admin") {
+      setTitle("ADMIN CONTROLS");
     }
   }, [pathname]);
 
