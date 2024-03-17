@@ -1,0 +1,65 @@
+[
+    {
+        "id": "1",
+        "name": "Golden Open",
+        "date": "15/03/2024",
+        "gender": "Men & Women", 
+        "level": "Open",
+        "size": 16,
+        "playersMen":[
+            "Mike Corren",
+            "Remi Young",
+            "Oscar Curtis",
+            "David Ilich"
+        ],
+        "playersWomen":[
+            "Erin Classen",
+            "Pascale Louka",
+            "Hannah Slyth",
+            "Joannah Hitch",
+            "Zoe Petrovansky"
+        ]
+    },
+    {
+        "id": "2",
+        "name": "WA Closed",
+        "date": "01/03/2024",
+        "gender": "Men Only", 
+        "level": "Satellite",
+        "size": 8,
+        "playersMen":[
+            "Mike Corren",
+            "Remi Young",
+            "Oscar Curtis",
+            "David Ilich"
+        ],
+        "playersWomen":[
+            "Erin Classen",
+            "Pascale Louka",
+            "Hannah Slyth",
+            "Joannah Hitch",
+            "Zoe Petrovansky"
+        ]
+    },
+    {
+        "id": "3",
+        "name": "New Years Hit",
+        "date": "24/01/2024",
+        "gender": "Men & Women", 
+        "level": "Satellite",
+        "size": 16,
+        "playersMen":[
+            "Mike Corren",
+            "Remi Young",
+            "Oscar Curtis",
+            "David Ilich"
+        ],
+        "playersWomen":[
+            "Erin Classen",
+            "Pascale Louka",
+            "Hannah Slyth",
+            "Joannah Hitch",
+            "Zoe Petrovansky"
+        ]
+    }
+]
