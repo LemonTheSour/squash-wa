@@ -5,6 +5,7 @@ import LeagueCard from "./leaguecard";
 import AddButton from "./addbutton";
 import { useState } from "react";
 import Modal from "./modal";
+import LeagueForm from "./leagueform";
 
 interface LeagueProps {
   data: LeagueData[];
@@ -31,7 +32,7 @@ export default function Tournaments({ data }: LeagueProps) {
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        Test
+        <LeagueForm />
       </Modal>
     </div>
   );
