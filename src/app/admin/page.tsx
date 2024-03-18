@@ -5,7 +5,7 @@ import LeagueData from "../data/leagues.json";
 
 export default function Admin() {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center pt-20">
       <Tournaments data={TournamentData} />
       <Leagues data={LeagueData} />
     </div>

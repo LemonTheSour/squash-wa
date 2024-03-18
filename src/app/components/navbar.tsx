@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function NavBar() {
   const pathname = usePathname();
+
   const [title, setTitle] = useState("STATE TEAM CHAMPIONSHIP LADDER");
 
   useEffect(() => {

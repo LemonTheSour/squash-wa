@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.closeIcon:hover{
+    fill: #ffed7b;
+
+}

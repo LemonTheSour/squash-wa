@@ -4,7 +4,8 @@ import { TournamentData } from "./tournamentcard";
 import TournamentCard from "./tournamentcard";
 import AddButton from "./addbutton";
 import Modal from "./modal";
-import { useState, createContext, useContext } from "react";
+import { useState } from "react";
+import TournamentForm from "./tournamentform";
 
 interface TournamentProps {
   data: TournamentData[];
@@ -31,7 +32,7 @@ export default function Tournaments({ data }: TournamentProps) {
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        Test
+        <TournamentForm />
       </Modal>
     </div>
   );
