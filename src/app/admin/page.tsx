@@ -1,3 +1,4 @@
+"use client";
 import Tournaments from "../components/tournaments";
 import TournamentData from "../data/tournaments.json";
 import Leagues from "../components/leagues";
