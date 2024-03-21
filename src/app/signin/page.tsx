@@ -44,7 +44,8 @@ export default function Login() {
           )}
           <input
             type="submit"
-            className="bg-yellow-400 w-1/2 rounded-md mt-4"
+            value="Sign In"
+            className="bg-yellow-400 w-3/4 h-12 rounded-md mt-4 hover:bg-yellow-300"
           />
         </form>
       </div>
