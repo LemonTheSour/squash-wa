@@ -1,4 +1,3 @@
-import { SessionProvider } from "next-auth/react";
 import Rankings from "./components/rankings";
 import MensData from "./data/men.json";
 import WomensData from "./data/women.json";

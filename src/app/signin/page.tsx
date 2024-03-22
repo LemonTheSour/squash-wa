@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm, SubmitHandler } from "react-hook-form";
+import { signIn } from "next-auth/react";
 
 type Inputs = {
   username: String;
@@ -13,7 +14,17 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      await signIn("credentials", {
+        redirect: true,
+        username: data.username,
+        password: data.password,
+      });
+    } catch (error) {
+      console.error("Sign in failed:", error);
+    }
+  };
 
   return (
     <div className="flex justify-center align-center h-screen">
