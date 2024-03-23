@@ -14,7 +14,7 @@ export default function PlayerCard({
   return (
     <div>
       {Number(position) < 4 ? (
-        <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl bg-yellow-400">
+        <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:border-black bg-yellow-400">
           <div className="flex">
             <div className="pr-2">{position} .</div>
             <div>{name}</div>
@@ -22,7 +22,7 @@ export default function PlayerCard({
           <div>{rating}</div>
         </div>
       ) : (
-        <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl">
+        <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:border-black">
           <div className="flex">
             <div className="pr-2">{position} .</div>
             <div>{name}</div>

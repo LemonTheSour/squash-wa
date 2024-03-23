@@ -1,18 +1,11 @@
 "use client";
-import { useRouter } from "next/navigation";
+
+import Link from "next/link";
 
 export default function HomeButton() {
-  const router = useRouter();
   return (
-    <div>
-      <button
-        onClick={() => {
-          router.push("/");
-        }}
-        className="text-3xl font-bold"
-      >
-        SQUASH WA
-      </button>
+    <div className="text-3xl font-bold text-white hover:text-gold">
+      <Link href="/">SQUASH WA</Link>
     </div>
   );
 }
