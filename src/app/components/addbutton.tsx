@@ -8,7 +8,7 @@ interface ButtonProps {
 export default function AddButton({ title, onClick }: ButtonProps) {
   return (
     <button
-      className="flex justify-center items-center w-full bg-yellow-300 rounded-md hover:bg-yellow-200 "
+      className="flex justify-center items-center w-full bg-yellow-300 rounded-md hover:bg-yellow-200"
       onClick={onClick}
     >
       <div className="text-xl">{title}</div>
