@@ -9,7 +9,9 @@ const config: Config = {
   theme: {
     extend:{
       colors:{
-        'gold': '#f0c200'
+        'gold': '#f0c200',
+        'bright-gold': '#fad950',
+        'shade':'#ebeae8'
       }
     }
   },

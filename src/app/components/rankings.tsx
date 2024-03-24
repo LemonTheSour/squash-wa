@@ -1,4 +1,4 @@
-import PlayerCard from "./playercard";
+import PlayerCard from "./playercard/playercard";
 
 interface PlayerData {
   id: string;
