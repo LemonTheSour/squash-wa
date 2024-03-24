@@ -1,4 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../../../firebase/clientApp";
 
 type FormInputs = {
   firstName: string;
@@ -7,6 +9,30 @@ type FormInputs = {
   region: string;
 };
 
+type PlayerData = {
+  firstName: string;
+  lastName: string;
+  rating: string;
+  gender: string;
+  region: string;
+};
+
+async function addData({ firstName, lastName, gender, region }: FormInputs) {
+  try {
+    const docRef = await setDoc(doc(db, "players", "player2"), {
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      region: region,
+      rating: "0",
+    });
+    console.log("Document writtenw ith ID: ");
+    return true;
+  } catch {
+    console.log("Error Adding Document ");
+    return false;
+  }
+}
 export default function AddPlayerForm() {
   const {
     register,
@@ -14,7 +40,10 @@ export default function AddPlayerForm() {
     formState: { errors },
   } = useForm<FormInputs>();
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    addData(data);
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-full">
       <div className="w-full text-center text-2xl">Add Player</div>
@@ -52,7 +81,7 @@ export default function AddPlayerForm() {
         <input
           type="submit"
           value="Save"
-          className="w-1/2 h-8 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
+          className="h-8 rounded-md bg-yellow-400 hover:border-2 hover:border-black col-span-2"
         />
       </form>
     </div>
