@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
-import AddPlayerForm from "./addplayer";
+import AddPlayerForm from "./editplayer";
 import Modal from "../modal";
 
 export default function EditOverlay() {

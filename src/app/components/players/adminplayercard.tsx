@@ -1,6 +1,4 @@
-import { getServerSession } from "next-auth";
-import EditOverlay from "./editoverlay";
-import { options } from "@/app/api/auth/[...nextauth]/options";
+import EditOverlay from "../playercard/editoverlay";
 
 interface PlayerCardProps {
   position: string;
@@ -12,12 +10,7 @@ interface PlayerCardProps {
   region: string;
 }
 
-const style1 =
-  "flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl bg-gold hover:bg-bright-gold";
-const style2 =
-  "flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:bg-shade";
-
-export default async function PlayerCard({
+export default function AdminPlayerCard({
   position,
   firstName,
   lastName,
@@ -26,10 +19,9 @@ export default async function PlayerCard({
   squashId,
   region,
 }: PlayerCardProps) {
-  const session = await getServerSession(options);
   return (
     <div>
-      <div className={Number(position) < 4 ? style1 : style2}>
+      <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:bg-shade">
         <div className="flex">
           <div className="pr-2">{position}</div>
           <div>{firstName}</div>
@@ -37,7 +29,7 @@ export default async function PlayerCard({
         </div>
         <div className="flex justify-center items-center ">
           <div className="pr-2">{rating}</div>
-          {session && <EditOverlay />}
+          <EditOverlay />
         </div>
       </div>
     </div>

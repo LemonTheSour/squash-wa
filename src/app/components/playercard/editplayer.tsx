@@ -9,14 +9,6 @@ type FormInputs = {
   region: string;
 };
 
-type PlayerData = {
-  firstName: string;
-  lastName: string;
-  rating: string;
-  gender: string;
-  region: string;
-};
-
 async function addData({ firstName, lastName, gender, region }: FormInputs) {
   try {
     const docRef = await setDoc(doc(db, "players", "player2"), {
@@ -26,7 +18,7 @@ async function addData({ firstName, lastName, gender, region }: FormInputs) {
       region: region,
       rating: "0",
     });
-    console.log("Document writtenw ith ID: ");
+    console.log("Document written with ID: ");
     return true;
   } catch {
     console.log("Error Adding Document ");
@@ -46,7 +38,7 @@ export default function AddPlayerForm() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
-      <div className="w-full text-center text-2xl">Add Player</div>
+      <div className="w-full text-center text-2xl">Edit Player</div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-2 p-4 w-3/4"

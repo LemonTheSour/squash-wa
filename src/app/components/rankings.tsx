@@ -12,6 +12,7 @@ interface RankingProps {
 }
 
 export default function Rankings({ title, data }: RankingProps) {
+  console.log("Player Data: ", data[0]);
   return (
     <div className="flex flex-col w-1/4">
       <div className="text-center text-3xl">{title}</div>
