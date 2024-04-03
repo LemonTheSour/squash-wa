@@ -1,4 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { db } from "../../../firebase/clientApp";
+import { doc, setDoc } from "firebase/firestore";
 
 type FormInputs = {
   name: string;
@@ -11,6 +13,33 @@ type FormInputs = {
   games2: string;
 };
 
+async function addData({
+  name,
+  date,
+  division,
+  position,
+  player1,
+  player2,
+  games1,
+  games2,
+}: FormInputs) {
+  try {
+    const docRef = await setDoc(doc(db, "leagues", name), {
+      date: date,
+      division: division,
+      position: position,
+      player1: player1,
+      player2: player2,
+      player1Games: games1,
+      player2Games: games2,
+    });
+    console.log("Document written with ID: ");
+    return true;
+  } catch {
+    console.log("Error Adding Document ");
+    return false;
+  }
+}
 export default function LeagueForm() {
   const {
     register,
@@ -18,7 +47,10 @@ export default function LeagueForm() {
     formState: { errors },
   } = useForm<FormInputs>();
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    addData(data);
+  };
+
   return (
     <div className="flex flex-col w-full items-center">
       <div className="text-2xl">Add League</div>
@@ -91,7 +123,7 @@ export default function LeagueForm() {
         <div className="pl-5">
           <input
             type="submit"
-            value="Save"
+            value="Create League"
             className="w-1/6 h-8 m-2 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
           />
         </div>

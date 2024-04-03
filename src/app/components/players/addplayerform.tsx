@@ -74,17 +74,17 @@ export default function AddPlayerForm() {
           {...register("gender", { required: true })}
           className="bg-white border-2 border-slate-200 rounded-md col-span-1"
         >
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="unspecified">Unspecified</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Unspecified">Unspecified</option>
         </select>
         <select
           defaultValue=""
           {...register("region", { required: true })}
           className="bg-white border-2 border-slate-200 rounded-md col-span-1"
         >
-          <option value="metro">Metro</option>
-          <option value="country">Country</option>
+          <option value="Metro">Metro</option>
+          <option value="Country">Country</option>
         </select>
         <input
           placeholder="Rating"
