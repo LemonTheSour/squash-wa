@@ -1,6 +1,7 @@
 import { doc, setDoc } from "firebase/firestore";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { db } from "../../../../firebase/clientApp";
+import getPlayerIds from "@/app/hooks/getPlayerIds";
 
 interface PlayerData {
   position: string;
@@ -10,6 +11,9 @@ interface PlayerData {
   rating: string;
   squashId: string;
   region: string;
+}
+async function GetPlayerIds() {
+  return getPlayerIds();
 }
 
 async function addData({
@@ -21,7 +25,14 @@ async function addData({
   squashId,
 }: PlayerData) {
   try {
-    const docRef = await setDoc(doc(db, "players", squashId), {
+    const PlayerIds = GetPlayerIds();
+    if ((await PlayerIds).includes(squashId)) {
+      console.log("Cannot use Duplicate Id");
+      return false;
+    }
+
+    const docRef = await setDoc(doc(db, "players"), {
+      squashId: squashId,
       firstName: firstName,
       lastName: lastName,
       gender: gender,
