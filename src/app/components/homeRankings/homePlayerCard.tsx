@@ -9,9 +9,9 @@ interface PlayerCardProps {
 }
 
 const style1 =
-  "flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl bg-gold hover:bg-bright-gold";
+  "flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl bg-gold";
 const style2 =
-  "flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:bg-shade";
+  "flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl";
 
 export default async function PlayerCard({
   position,

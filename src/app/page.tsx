@@ -1,6 +1,4 @@
 import Rankings from "./components/homeRankings/rankings";
-import MensData from "./data/men.json";
-import WomensData from "./data/women.json";
 import getPlayerData from "./hooks/getPlayerData";
 
 const MaleData = await getPlayerData("Male");

@@ -24,14 +24,14 @@ async function addData({
   rating,
   squashId,
 }: PlayerData) {
+  console.log(firstName);
+  console.log(lastName);
+  console.log(gender);
+  console.log(region);
+  console.log(rating);
+  console.log(squashId);
   try {
-    const PlayerIds = GetPlayerIds();
-    if ((await PlayerIds).includes(squashId)) {
-      console.log("Cannot use Duplicate Id");
-      return false;
-    }
-
-    const docRef = await setDoc(doc(db, "players"), {
+    await setDoc(doc(db, "players", squashId), {
       squashId: squashId,
       firstName: firstName,
       lastName: lastName,
@@ -55,6 +55,11 @@ export default function AddPlayerForm() {
   } = useForm<PlayerData>();
 
   const onSubmit: SubmitHandler<PlayerData> = async (data) => {
+    const PlayerIds = GetPlayerIds();
+    if ((await PlayerIds).includes(data.squashId)) {
+      console.log("Cannot use Duplicate Id");
+      return false;
+    }
     addData(data);
   };
 
