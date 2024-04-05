@@ -1,7 +1,8 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase/clientApp";
 
-type maleData = {
+type playerData = {
+  squashId: string;
   firstName: string;
   lastName: string;
   gender: string;
@@ -9,14 +10,13 @@ type maleData = {
   rating: string;
 };
 
-export default async function getMaleData() {
-  const maleData: maleData[] = [];
-  const q = query(collection(db, "players"), where("gender", "==", "Male"));
+export default async function getPlayerData(gender: string) {
+  const playerData: playerData[] = [];
+  const q = query(collection(db, "players"), where("gender", "==", gender));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    // console.log(doc.id, " => ", doc.data());
-
-    maleData.push({
+    playerData.push({
+      squashId: doc.data().squashId,
       firstName: doc.data().firstName,
       lastName: doc.data().lastName,
       region: doc.data().region,
@@ -24,5 +24,5 @@ export default async function getMaleData() {
       rating: doc.data().rating,
     });
   });
-  return maleData;
+  return playerData;
 }

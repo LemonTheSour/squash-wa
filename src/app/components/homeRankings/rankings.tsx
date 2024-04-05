@@ -1,8 +1,11 @@
-import PlayerCard from "./playercard/playercard";
+import HomePlayerCard from "./homePlayerCard";
 
 interface PlayerData {
-  id: string;
-  name: string;
+  squashId: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  region: string;
   rating: string;
 }
 
@@ -12,20 +15,15 @@ interface RankingProps {
 }
 
 export default function Rankings({ title, data }: RankingProps) {
-  console.log("Player Data: ", data[0]);
   return (
     <div className="flex flex-col w-1/4">
       <div className="text-center text-3xl">{title}</div>
       <div className="mx-12 my-2 p-4 border-2 border-grey-200 rounded-xl">
-        {/*data.map((player) => (
-          <div key={player.id}>
-            <PlayerCard
-              name={player.name}
-              rating={player.rating}
-              position={player.id}
-            />
+        {data.map((player, index) => (
+          <div key={player.squashId}>
+            <HomePlayerCard position={index + 1} {...player} />
           </div>
-        ))*/}
+        ))}
       </div>
     </div>
   );
