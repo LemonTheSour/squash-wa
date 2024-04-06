@@ -1,12 +1,13 @@
 import Tournaments from "../components/tournaments";
 import TournamentData from "../data/tournaments.json";
 import Leagues from "../components/leagues/leagues";
-import LeagueData from "../data/leagues.json";
 import Players from "../components/players/players";
 import PlayerData from "../data/players.json";
 import getPlayers from "../hooks/getPlayers";
+import getLeagues from "../hooks/getLeagues";
 
 const AllPlayers = await getPlayers();
+const LeagueData = await getLeagues();
 
 export default function Admin() {
   return (

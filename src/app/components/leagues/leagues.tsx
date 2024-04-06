@@ -25,7 +25,7 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="flex flex-col w-1/3 mx-2">
+    <div className="flex flex-col w-1/3 mx-2 mt-8">
       <div className="flex justify-between items-center mt-2 px-2">
         <div className="text-3xl text-center">Leagues</div>
         <div className="w-1/4">
@@ -33,10 +33,10 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
         </div>
       </div>
 
-      <div className="m-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-        {LeagueData.map((league) => (
-          <div key={league.id}>
-            <LeagueCard name={league.name} date={league.date} />
+      <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
+        {LeagueData.map((league, index) => (
+          <div key={index}>
+            <LeagueCard {...league} />
           </div>
         ))}
       </div>

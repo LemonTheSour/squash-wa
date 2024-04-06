@@ -1,4 +1,4 @@
-import EditOverlay from "../playercard/editoverlay";
+import EditOverlay from "../playercard/editButton";
 
 interface PlayerCardProps {
   position: string;
