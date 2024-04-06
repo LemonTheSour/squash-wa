@@ -12,6 +12,7 @@ interface PlayerData {
   squashId: string;
   region: string;
 }
+
 async function GetPlayerIds() {
   return getPlayerIds();
 }

@@ -2,16 +2,26 @@
 
 import { LeagueData } from "./leaguecard";
 import LeagueCard from "./leaguecard";
-import AddButton from "./addbutton";
+import AddButton from "../addbutton";
 import { useState } from "react";
-import Modal from "./modal";
+import Modal from "../modal";
 import LeagueForm from "./leagueform";
 
-interface LeagueProps {
-  data: LeagueData[];
+interface PlayerData {
+  squashId: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  region: string;
+  rating: string;
 }
 
-export default function Tournaments({ data }: LeagueProps) {
+interface LeagueProps {
+  LeagueData: LeagueData[];
+  PlayerData: PlayerData[];
+}
+
+export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -24,7 +34,7 @@ export default function Tournaments({ data }: LeagueProps) {
       </div>
 
       <div className="m-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-        {data.map((league) => (
+        {LeagueData.map((league) => (
           <div key={league.id}>
             <LeagueCard name={league.name} date={league.date} />
           </div>
@@ -32,7 +42,7 @@ export default function Tournaments({ data }: LeagueProps) {
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <LeagueForm />
+        <LeagueForm PlayerData={PlayerData} />
       </Modal>
     </div>
   );

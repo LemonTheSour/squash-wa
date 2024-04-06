@@ -25,7 +25,7 @@ async function addData({ firstName, lastName, gender, region }: FormInputs) {
     return false;
   }
 }
-export default function AddPlayerForm() {
+export default function EditPlayerForm() {
   const {
     register,
     handleSubmit,
