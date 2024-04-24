@@ -2,8 +2,8 @@
 
 import { TournamentData } from "./tournamentcard";
 import TournamentCard from "./tournamentcard";
-import AddButton from "./addbutton";
-import Modal from "./modal";
+import AddButton from "../addbutton";
+import Modal from "../modal";
 import { useState } from "react";
 import TournamentForm from "./tournamentform";
 

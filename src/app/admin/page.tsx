@@ -1,4 +1,4 @@
-import Tournaments from "../components/tournaments";
+import Tournaments from "../components/tournaments/tournaments";
 import TournamentData from "../data/tournaments.json";
 import Leagues from "../components/leagues/leagues";
 import Players from "../components/players/players";

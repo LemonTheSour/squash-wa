@@ -4,8 +4,8 @@ type FormInputs = {
   tournamentName: string;
   date: string;
   gender: string;
-  menLevel: string;
-  menSize: string;
+  level: string;
+  size: string;
   menWinner: string;
   menRunnerUp: string;
   menSemiFinalist1: string;
@@ -15,8 +15,6 @@ type FormInputs = {
   menQuarterFinalist2: string;
   menQuarterFinalist3: string;
   menQuarterFinalist4: string;
-  womenLevel: string;
-  womenSize: string;
   womenWinner: string;
   womenRunnerUp: string;
   womenSemiFinalist1: string;
@@ -38,60 +36,75 @@ export default function TournamentForm() {
   const onSubmit: SubmitHandler<FormInputs> = (data) => console.log(data);
 
   return (
-    <div className="grid grid-cols-7 pl-4 grid-rows-auto gap-2">
-      <div className="text-2xl col-span-7 col-start-4">Add Tournament</div>
-      <form onSubmit={handleSubmit(onSubmit)} className="col-span-7 w-full">
+    <div className="grid grid-cols-9 px-2 grid-rows-auto gap-2">
+      <div className="text-2xl col-span-9 justify-self-center">
+        Add Tournament
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="col-span-9 w-full justify-self-center"
+      >
         {/*Title and First 3 Modules of the Form */}
-        <div className="grid grid-cols-6 space-x-2">
-          <input
-            placeholder="Tournament Name"
-            {...register("tournamentName", { required: true })}
-            className="border-2 border-slate-200 rounded-md col-span-2"
-          />
-          <input
-            placeholder="DD/MM/YYYY"
-            {...register("date", { required: true })}
-            className="border-2 border-slate-200 rounded-md col-span-2"
-          />
-          <select
-            defaultValue="men"
-            {...register("gender", { required: true })}
-            className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-2"
-          >
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-            <option value="men&women">Men & Women</option>
-          </select>
+
+        <div className="grid grid-cols-9 space-x-2">
+          <div className="flex flex-col col-span-2">
+            <label className="text-sm">Tournament</label>
+            <input
+              placeholder="Tournament Name"
+              {...register("tournamentName", { required: true })}
+              className="border-2 border-slate-200 rounded-md"
+            />
+          </div>
+          <div className="flex flex-col col-span-2">
+            <label className="text-sm">Date</label>
+            <input
+              placeholder="DD/MM/YYYY"
+              {...register("date", { required: true })}
+              className="border-2 border-slate-200 rounded-md col-span-2"
+            />
+          </div>
+          <div className="flex flex-col col-span-2">
+            <label className="text-sm">Gender</label>
+            <select
+              defaultValue="men&women"
+              {...register("gender", { required: true })}
+              className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-2"
+            >
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+              <option value="men&women">Men & Women</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col col-span-2">
+            <label className="text-sm">Level</label>
+            <select
+              defaultValue="psa"
+              {...register("level", { required: true })}
+              className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-2"
+            >
+              <option value="psa">PSA</option>
+              <option value="satellite">Satellite</option>
+              <option value="open">Open</option>
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm">Size</label>
+            <select
+              defaultValue="8"
+              {...register("size", { required: true })}
+              className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
+            >
+              <option value="8">8</option>
+              <option value="16">16</option>
+            </select>
+          </div>
         </div>
+        {/* -------------------------------------------------- Dynamic Form Options ---------------------------------- */}
         <div className="flex w-full">
           {/*---------------------------------Male Form Options------------------------------------*/}
           <div className="flex-col justify-center items-center w-1/2 m-2">
             <div className="text-2xl w-full text-center">Men</div>
-            <div className="flex justify-center space-x-2">
-              <div className="flex flex-col w-1/2">
-                <label className="text-sm">Level</label>
-                <select
-                  defaultValue="psa"
-                  {...register("menLevel", { required: true })}
-                  className="text-xl bg-white border-2 border-slate-200 rounded-md"
-                >
-                  <option value="psa">PSA</option>
-                  <option value="satellite">Satellite</option>
-                  <option value="open">Open</option>
-                </select>
-              </div>
-              <div className="flex flex-col w-1/2">
-                <label className="text-sm">Size</label>
-                <select
-                  defaultValue="8"
-                  {...register("menSize", { required: true })}
-                  className="text-xl bg-white border-2 border-slate-200 rounded-md"
-                >
-                  <option value="8">8</option>
-                  <option value="16">16</option>
-                </select>
-              </div>
-            </div>
             {/*---------------------------------Finalists---------------------------------------- */}
             <input
               placeholder="Winner"
@@ -142,31 +155,6 @@ export default function TournamentForm() {
           {/* ---------------------------------Female Form Options------------------------------- */}
           <div className="flex-col justify-center items-center w-1/2 m-2">
             <div className="text-2xl w-full text-center">Women</div>
-            <div className="flex justify-center space-x-2">
-              <div className="flex flex-col w-1/2">
-                <label className="text-sm">Level</label>
-                <select
-                  defaultValue="psa"
-                  {...register("womenLevel", { required: true })}
-                  className="text-xl bg-white border-2 border-slate-200 rounded-md"
-                >
-                  <option value="psa">PSA</option>
-                  <option value="satellite">Satellite</option>
-                  <option value="open">Open</option>
-                </select>
-              </div>
-              <div className="flex flex-col w-1/2">
-                <label className="text-sm">Size</label>
-                <select
-                  defaultValue="8"
-                  {...register("womenSize", { required: true })}
-                  className="text-xl bg-white border-2 border-slate-200 rounded-md"
-                >
-                  <option value="8">8</option>
-                  <option value="16">16</option>
-                </select>
-              </div>
-            </div>
             {/*----------------------------------Women Other Options------------------------------ */}
             <input
               placeholder="Winner"
