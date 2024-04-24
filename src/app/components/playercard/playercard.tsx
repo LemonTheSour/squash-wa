@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import EditOverlay from "./editButton";
+import EditOverlay from "./editOverlay";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 
 interface PlayerCardProps {
