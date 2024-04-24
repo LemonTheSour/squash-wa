@@ -1,34 +1,23 @@
 import EditOverlay from "../playercard/editOverlay";
+import { PlayerData } from "@/app/types/database";
 
 interface PlayerCardProps {
-  position: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  rating: string;
-  squashId: string;
-  region: string;
+  data: PlayerData;
+  position: number;
 }
 
-export default function AdminPlayerCard({
-  position,
-  firstName,
-  lastName,
-  gender,
-  rating,
-  squashId,
-  region,
-}: PlayerCardProps) {
+export default function AdminPlayerCard({ data, position }: PlayerCardProps) {
   return (
     <div>
       <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:bg-shade">
         <div className="flex">
-          <div className="pr-2">{position}</div>
-          <div>{firstName}</div>
-          <div>{lastName}</div>
+          <div className="pr-2">{position} . </div>
+          <div>
+            {data.firstName} {data.lastName}
+          </div>
         </div>
         <div className="flex justify-center items-center ">
-          <div className="pr-2">{rating}</div>
+          <div className="pr-2">{data.rating}</div>
           <EditOverlay />
         </div>
       </div>

@@ -53,9 +53,13 @@ async function addData({
 
 interface FormComponentProps {
   DefaultValues: FormInputs[];
+  PlayerData: PlayerData[];
 }
 
-export default function EditLeagueForm({ DefaultValues }: FormComponentProps) {
+export default function EditLeagueForm({
+  DefaultValues,
+  PlayerData,
+}: FormComponentProps) {
   const {
     register,
     handleSubmit,

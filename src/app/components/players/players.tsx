@@ -4,24 +4,23 @@ import AddButton from "../addbutton";
 import AdminPlayerCard from "./adminplayercard";
 import Modal from "../modal";
 import AddPlayerForm from "./addplayerform";
-
-interface PlayerData {
-  position: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  rating: string;
-  squashId: string;
-  region: string;
-}
+import { PlayerData } from "@/app/types/database";
 
 interface PlayerProps {
   data: PlayerData[];
 }
 
+function sort_by_rating(array: PlayerData[]) {
+  return array.sort(function (a, b) {
+    var x = Number(a["rating"]);
+    var y = Number(b["rating"]);
+    return x > y ? -1 : x < y ? 1 : 0;
+  });
+}
+
 export default function Players({ data }: PlayerProps) {
   const [openModal, setOpenModal] = useState(false);
-
+  data = sort_by_rating(data);
   return (
     <div className="flex flex-col w-1/3 mt-8 mx-2">
       <div className="flex justify-between items-center mt-2 px-2">
@@ -34,7 +33,7 @@ export default function Players({ data }: PlayerProps) {
       <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
         {data.map((player, index) => (
           <div key={index}>
-            <AdminPlayerCard {...player} />
+            <AdminPlayerCard data={player} position={index + 1} />
           </div>
         ))}
       </div>
