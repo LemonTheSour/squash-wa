@@ -10,17 +10,9 @@ interface PlayerProps {
   data: PlayerData[];
 }
 
-function sort_by_rating(array: PlayerData[]) {
-  return array.sort(function (a, b) {
-    var x = Number(a["rating"]);
-    var y = Number(b["rating"]);
-    return x > y ? -1 : x < y ? 1 : 0;
-  });
-}
-
 export default function Players({ data }: PlayerProps) {
   const [openModal, setOpenModal] = useState(false);
-  data = sort_by_rating(data);
+  data.sort((a, b) => Number(b.rating) - Number(a.rating));
   return (
     <div className="flex flex-col w-1/3 mt-8 mx-2">
       <div className="flex justify-between items-center mt-2 px-2">
