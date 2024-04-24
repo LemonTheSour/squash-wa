@@ -6,15 +6,7 @@ import AddButton from "../addbutton";
 import { useState } from "react";
 import Modal from "../modal";
 import LeagueForm from "./leagueform";
-
-interface PlayerData {
-  squashId: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  region: string;
-  rating: string;
-}
+import { PlayerData } from "@/app/types/database";
 
 interface LeagueProps {
   LeagueData: LeagueData[];

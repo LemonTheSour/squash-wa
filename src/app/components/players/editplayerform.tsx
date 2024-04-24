@@ -1,45 +1,10 @@
-import { doc, setDoc } from "firebase/firestore";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { db } from "../../../../firebase/clientApp";
-import getPlayerIds from "@/app/hooks/getPlayerIds";
 import { PlayerData } from "@/app/types/database";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-async function GetPlayerIds() {
-  return getPlayerIds();
+interface EditPlayerProps {
+  data: PlayerData;
 }
-
-async function addData({
-  firstName,
-  lastName,
-  gender,
-  region,
-  rating,
-  squashId,
-}: PlayerData) {
-  console.log(firstName);
-  console.log(lastName);
-  console.log(gender);
-  console.log(region);
-  console.log(rating);
-  console.log(squashId);
-  try {
-    await setDoc(doc(db, "players", squashId), {
-      squashId: squashId,
-      firstName: firstName,
-      lastName: lastName,
-      gender: gender,
-      region: region,
-      rating: rating,
-    });
-    console.log("Document written with ID: ");
-    return true;
-  } catch {
-    console.log("Error Adding Document ");
-    return false;
-  }
-}
-
-export default function AddPlayerForm() {
+export default function EditPlayerForm({ data }: EditPlayerProps) {
   const {
     register,
     handleSubmit,
@@ -47,38 +12,37 @@ export default function AddPlayerForm() {
   } = useForm<PlayerData>();
 
   const onSubmit: SubmitHandler<PlayerData> = async (data) => {
-    const PlayerIds = GetPlayerIds();
-    if ((await PlayerIds).includes(data.squashId)) {
-      console.log("Cannot use Duplicate Id");
-      return false;
-    }
-    addData(data);
+    console.log(data);
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
-      <div className="w-full text-center text-2xl">Create New Players</div>
+    <div className="flex flex-col justify-center items-center">
+      <div className="text-3xl">Edit Player</div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-2 p-4 w-3/4"
       >
         <input
           placeholder="Squash Id"
+          defaultValue={data.squashId}
+          readOnly={true}
           {...register("squashId", { required: true })}
-          className="border-2 border-slate-200 rounded-md col-span-2"
+          className="border-2 border-slate-200 rounded-md col-span-2 text-slate-400"
         />
         <input
           placeholder="First Name"
+          defaultValue={data.firstName}
           {...register("firstName", { required: true })}
           className="border-2 border-slate-200 rounded-md col-span-1"
         />
         <input
           placeholder="Last Name"
+          defaultValue={data.lastName}
           {...register("lastName", { required: true })}
           className="border-2 border-slate-200 rounded-md col-span-1"
         />
         <select
-          defaultValue=""
+          defaultValue={data.gender}
           {...register("gender", { required: true })}
           className="bg-white border-2 border-slate-200 rounded-md col-span-1"
         >
@@ -87,7 +51,7 @@ export default function AddPlayerForm() {
           <option value="Unspecified">Unspecified</option>
         </select>
         <select
-          defaultValue=""
+          defaultValue={data.region}
           {...register("region", { required: true })}
           className="bg-white border-2 border-slate-200 rounded-md col-span-1"
         >
@@ -96,12 +60,13 @@ export default function AddPlayerForm() {
         </select>
         <input
           placeholder="Rating"
+          defaultValue={data.rating}
           {...register("rating", { required: true })}
           className="border-2 border-slate-200 rounded-md col-span-2"
         />
         <input
           type="submit"
-          value="Create Player"
+          value="Edit Player"
           className="h-8 rounded-md bg-yellow-400 hover:border-2 hover:border-black col-span-2"
         />
       </form>
