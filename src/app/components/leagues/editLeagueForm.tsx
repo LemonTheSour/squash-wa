@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { PlayerData, LeagueData } from "@/app/types/database";
 import { db } from "../../../../firebase/clientApp";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
 async function addData({
   name,
@@ -14,7 +14,7 @@ async function addData({
   games2,
 }: LeagueData) {
   try {
-    await setDoc(doc(db, "leagues", name), {
+    await updateDoc(doc(db, "leagues", name), {
       name: name,
       date: date,
       division: division,
@@ -53,7 +53,7 @@ export default function EditLeagueForm({
 
   return (
     <div className="flex flex-col w-full items-center">
-      <div className="text-2xl">Add League</div>
+      <div className="text-2xl">Edit League</div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}

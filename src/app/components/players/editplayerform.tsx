@@ -1,8 +1,41 @@
 import { PlayerData } from "@/app/types/database";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../../firebase/clientApp";
 
 interface EditPlayerProps {
   data: PlayerData;
+}
+
+async function updateData({
+  firstName,
+  lastName,
+  gender,
+  region,
+  rating,
+  squashId,
+}: PlayerData) {
+  console.log(firstName);
+  console.log(lastName);
+  console.log(gender);
+  console.log(region);
+  console.log(rating);
+  console.log(squashId);
+  try {
+    await updateDoc(doc(db, "players", squashId), {
+      squashId: squashId,
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      region: region,
+      rating: rating,
+    });
+    console.log("Document written with ID: ");
+    return true;
+  } catch {
+    console.log("Error Adding Document ");
+    return false;
+  }
 }
 export default function EditPlayerForm({ data }: EditPlayerProps) {
   const {
@@ -12,7 +45,7 @@ export default function EditPlayerForm({ data }: EditPlayerProps) {
   } = useForm<PlayerData>();
 
   const onSubmit: SubmitHandler<PlayerData> = async (data) => {
-    console.log(data);
+    updateData(data);
   };
 
   return (
