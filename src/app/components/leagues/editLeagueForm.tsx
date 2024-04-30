@@ -1,26 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { PlayerData, LeagueData } from "@/app/types/database";
 import { db } from "../../../../firebase/clientApp";
 import { doc, setDoc } from "firebase/firestore";
-
-type FormInputs = {
-  name: string;
-  date: string;
-  division: string;
-  position: string;
-  player1: string;
-  player2: string;
-  games1: string;
-  games2: string;
-};
-
-interface PlayerData {
-  squashId: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  region: string;
-  rating: string;
-}
 
 async function addData({
   name,
@@ -31,7 +12,7 @@ async function addData({
   player2,
   games1,
   games2,
-}: FormInputs) {
+}: LeagueData) {
   try {
     await setDoc(doc(db, "leagues", name), {
       name: name,
@@ -52,7 +33,7 @@ async function addData({
 }
 
 interface FormComponentProps {
-  DefaultValues: FormInputs[];
+  DefaultValues: LeagueData;
   PlayerData: PlayerData[];
 }
 
@@ -64,9 +45,9 @@ export default function EditLeagueForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>();
+  } = useForm<LeagueData>();
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<LeagueData> = async (data) => {
     addData(data);
   };
 
@@ -81,11 +62,13 @@ export default function EditLeagueForm({
         <div className="flex justify-center items-center space-x-2 w-full">
           <input
             placeholder="League Name"
+            defaultValue={DefaultValues.name}
             {...register("name", { required: true })}
             className="border-2 border-slate-200 rounded-md w-2/3"
           />
           <input
             placeholder="DD/MM/YYYY"
+            defaultValue={DefaultValues.date}
             {...register("date", { required: true })}
             className="border-2 border-slate-200 rounded-md w-1/4"
           />
@@ -94,6 +77,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col">
             <label className="text-xs">Division</label>
             <select
+              defaultValue={DefaultValues.division}
               {...register("division", { required: true })}
               className="border-2 border-slate-200 rounded-md pl-2"
             >
@@ -106,6 +90,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col">
             <label className="text-xs">Position</label>
             <select
+              defaultValue={DefaultValues.position}
               {...register("position", { required: true })}
               className="border-2 border-slate-200 rounded-md pl-2"
             >
@@ -117,6 +102,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col col-span-2">
             <label className="text-xs">Player1</label>
             <select
+              defaultValue={DefaultValues.player1}
               {...register("player1", { required: true })}
               className="border-2 border-slate-200 rounded-md pl-2"
             >
@@ -130,6 +116,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col col-span-1">
             <label className="text-xs">Games</label>
             <select
+              defaultValue={DefaultValues.games1}
               {...register("games1", { required: true })}
               className="border-2 border-slate-200 rounded-md pl-2"
             >
@@ -141,6 +128,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col col-span-2">
             <label className="text-xs">Player2</label>
             <select
+              defaultValue={DefaultValues.player2}
               {...register("player2", { required: true })}
               className="border-2 border-slate-200 rounded-md pl-2"
             >
@@ -154,6 +142,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col col-span-1">
             <label className="text-xs">Games</label>
             <select
+              defaultValue={DefaultValues.games2}
               {...register("games2", { required: true })}
               className="border-2 border-slate-200 rounded-md pl-2"
             >

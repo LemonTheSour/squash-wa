@@ -1,12 +1,11 @@
 "use client";
 
-import { LeagueData } from "./leaguecard";
 import LeagueCard from "./leaguecard";
 import AddButton from "../addbutton";
 import { useState } from "react";
 import Modal from "../modal";
 import LeagueForm from "./leagueform";
-import { PlayerData } from "@/app/types/database";
+import { PlayerData, LeagueData } from "@/app/types/database";
 
 interface LeagueProps {
   LeagueData: LeagueData[];
@@ -28,7 +27,7 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
       <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
         {LeagueData.map((league, index) => (
           <div key={index}>
-            <LeagueCard {...league} />
+            <LeagueCard DefaultValues={league} PlayerData={PlayerData} />
           </div>
         ))}
       </div>
