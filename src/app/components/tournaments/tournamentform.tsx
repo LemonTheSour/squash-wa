@@ -1,9 +1,87 @@
-"use client";
-
 import { useForm, SubmitHandler } from "react-hook-form";
 import { TournamentData } from "@/app/types/database";
 import { useState } from "react";
+import { db } from "../../../../firebase/clientApp";
+import { doc, setDoc } from "firebase/firestore";
 
+async function addData({
+  tournamentName,
+  date,
+  gender,
+  menSize,
+  womenSize,
+  menLevel,
+  womenLevel,
+  menWinner,
+  menRunnerUp,
+  menSemiFinalist1,
+  menSemiFinalist2,
+  menQuarterFinalist1,
+  menQuarterFinalist2,
+  menQuarterFinalist3,
+  menQuarterFinalist4,
+  menPlateWinner,
+  womenWinner,
+  womenRunnerUp,
+  womenSemiFinalist1,
+  womenSemiFinalist2,
+  womenQuarterFinalist1,
+  womenQuarterFinalist2,
+  womenQuarterFinalist3,
+  womenQuarterFinalist4,
+  womenPlateWinner,
+}: TournamentData) {
+  if (menPlateWinner == undefined || womenPlateWinner == undefined) {
+    menPlateWinner = "Male Plate Winner";
+    womenPlateWinner = "Women Plate Winner";
+  }
+
+  if (menQuarterFinalist1 == undefined) {
+    menQuarterFinalist1 = " Male Quarter Finalist";
+    menQuarterFinalist2 = " Male Quarter Finalist";
+    menQuarterFinalist3 = " Male Quarter Finalist";
+    menQuarterFinalist4 = " Male Quarter Finalist";
+    womenQuarterFinalist1 = " Female Quarter Finalist";
+    womenQuarterFinalist2 = " Female Quarter Finalist";
+    womenQuarterFinalist3 = " Female Quarter Finalist";
+    womenQuarterFinalist4 = " Female Quarter Finalist";
+  }
+
+  try {
+    await setDoc(doc(db, "tournaments", tournamentName), {
+      tournamentName: tournamentName,
+      date: date,
+      gender: gender,
+      menSize: menSize,
+      womenSize: womenSize,
+      menLevel: menLevel,
+      womenLevel: womenLevel,
+      menWinner: menWinner,
+      menRunnerUp: menRunnerUp,
+      menSemiFinalist1: menSemiFinalist1,
+      menSemiFinalist2: menSemiFinalist2,
+      menQuarterFinalist1: menQuarterFinalist1,
+      menQuarterFinalist2: menQuarterFinalist2,
+      menQuarterFinalist3: menQuarterFinalist3,
+      menQuarterFinalist4: menQuarterFinalist4,
+      menPlateWinner: menPlateWinner,
+      womenWinner: womenWinner,
+      womenRunnerUp: womenRunnerUp,
+      womenSemiFinalist1: womenSemiFinalist1,
+      womenSemiFinalist2: womenSemiFinalist2,
+      womenQuarterFinalist1: womenQuarterFinalist1,
+      womenQuarterFinalist2: womenQuarterFinalist2,
+      womenQuarterFinalist3: womenQuarterFinalist3,
+      womenQuarterFinalist4: womenQuarterFinalist4,
+      womenPlateWinner: womenPlateWinner,
+    });
+    console.log("Document written with ID: ");
+    return true;
+  } catch {
+    console.log("Error Adding Document ");
+    return false;
+  }
+}
 export default function TournamentForm() {
   const {
     register,
@@ -11,8 +89,10 @@ export default function TournamentForm() {
     formState: { errors },
   } = useForm<TournamentData>();
 
-  const onSubmit: SubmitHandler<TournamentData> = (data) => console.log(data);
-
+  const onSubmit: SubmitHandler<TournamentData> = (data) => {
+    console.log(data);
+    addData(data);
+  };
   const [gender, setGender] = useState("men&women");
   const [menSize, setMenSize] = useState("16");
   const [womenSize, setWomenSize] = useState("16");
@@ -81,7 +161,7 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2">
                   <label className="text-sm">Size</label>
                   <select
-                    defaultValue="8"
+                    defaultValue="16"
                     {...register("menSize", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                     onChange={(e) => setMenSize(e.target.value)}
@@ -118,6 +198,7 @@ export default function TournamentForm() {
                   <div>
                     <input
                       placeholder="Plate Winner"
+                      defaultValue="Male Plate Winner"
                       {...register("menPlateWinner", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
@@ -170,7 +251,7 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2">
                   <label className="text-sm">Size</label>
                   <select
-                    defaultValue="8"
+                    defaultValue="16"
                     {...register("womenSize", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                     onChange={(e) => setWomenSize(e.target.value)}
@@ -206,6 +287,7 @@ export default function TournamentForm() {
                   <div>
                     <input
                       placeholder="Plate Winner"
+                      defaultValue="Female Plate Winner"
                       {...register("womenPlateWinner", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />

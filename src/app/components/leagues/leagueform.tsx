@@ -1,26 +1,7 @@
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import { db } from "../../../../firebase/clientApp";
 import { doc, setDoc } from "firebase/firestore";
-
-type FormInputs = {
-  name: string;
-  date: string;
-  division: string;
-  position: string;
-  player1: string;
-  player2: string;
-  games1: string;
-  games2: string;
-};
-
-interface PlayerData {
-  squashId: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  region: string;
-  rating: string;
-}
+import { PlayerData, LeagueData } from "@/app/types/database";
 
 async function addData({
   name,
@@ -31,7 +12,7 @@ async function addData({
   player2,
   games1,
   games2,
-}: FormInputs) {
+}: LeagueData) {
   try {
     await setDoc(doc(db, "leagues", name), {
       name: name,
@@ -62,9 +43,9 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>();
+  } = useForm<LeagueData>();
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<LeagueData> = async (data) => {
     addData(data);
   };
 

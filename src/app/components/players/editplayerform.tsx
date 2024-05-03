@@ -15,12 +15,6 @@ async function updateData({
   rating,
   squashId,
 }: PlayerData) {
-  console.log(firstName);
-  console.log(lastName);
-  console.log(gender);
-  console.log(region);
-  console.log(rating);
-  console.log(squashId);
   try {
     await updateDoc(doc(db, "players", squashId), {
       squashId: squashId,
