@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { TournamentData } from "@/app/types/database";
 import { useState } from "react";
 import { db } from "../../../../firebase/clientApp";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
 async function addData({
   tournamentName,
@@ -48,7 +48,7 @@ async function addData({
   }
 
   try {
-    await setDoc(doc(db, "tournaments", tournamentName), {
+    await updateDoc(doc(db, "tournaments", tournamentName), {
       tournamentName: tournamentName,
       date: date,
       gender: gender,
@@ -82,7 +82,11 @@ async function addData({
     return false;
   }
 }
-export default function TournamentForm() {
+
+interface EditTournamentFormProps {
+  data: TournamentData;
+}
+export default function EditTournamentForm({ data }: EditTournamentFormProps) {
   const {
     register,
     handleSubmit,
@@ -100,7 +104,7 @@ export default function TournamentForm() {
   return (
     <div className="grid grid-cols-9 px-2 grid-rows-auto gap-2">
       <div className="text-2xl col-span-9 justify-self-center">
-        Add Tournament
+        Edit Tournament
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -113,6 +117,7 @@ export default function TournamentForm() {
             <label className="text-sm">Tournament</label>
             <input
               placeholder="Tournament Name"
+              defaultValue={data.tournamentName}
               {...register("tournamentName", { required: true })}
               className="border-2 border-slate-200 rounded-md"
             />
@@ -121,6 +126,7 @@ export default function TournamentForm() {
             <label className="text-sm">Date</label>
             <input
               placeholder="DD/MM/YYYY"
+              defaultValue={data.date}
               {...register("date", { required: true })}
               className="border-2 border-slate-200 rounded-md col-span-2"
             />
@@ -128,7 +134,7 @@ export default function TournamentForm() {
           <div className="flex flex-col col-span-3">
             <label className="text-sm">Gender</label>
             <select
-              defaultValue="men&women"
+              defaultValue={data.gender}
               {...register("gender", { required: true })}
               className="text-xl bg-white border-2 border-slate-200 rounded-md"
               onChange={(e) => setGender(e.target.value)}
@@ -149,7 +155,7 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2 pr-2">
                   <label className="text-sm">Level</label>
                   <select
-                    defaultValue="psa"
+                    defaultValue={data.menLevel}
                     {...register("menLevel", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                   >
@@ -161,7 +167,7 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2">
                   <label className="text-sm">Size</label>
                   <select
-                    defaultValue="16"
+                    defaultValue={data.menSize}
                     {...register("menSize", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                     onChange={(e) => setMenSize(e.target.value)}
@@ -174,21 +180,25 @@ export default function TournamentForm() {
               {/*---------------------------------Finalists---------------------------------------- */}
               <input
                 placeholder="Winner"
+                defaultValue={data.menWinner}
                 {...register("menWinner", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
               <input
                 placeholder="Runner Up"
+                defaultValue={data.menRunnerUp}
                 {...register("menRunnerUp", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
               <input
                 placeholder="Semi-Finalist"
+                defaultValue={data.menSemiFinalist1}
                 {...register("menSemiFinalist1", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
               <input
                 placeholder="Semi-Finalist"
+                defaultValue={data.menSemiFinalist2}
                 {...register("menSemiFinalist2", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
@@ -198,7 +208,7 @@ export default function TournamentForm() {
                   <div>
                     <input
                       placeholder="Plate Winner"
-                      defaultValue="Male Plate Winner"
+                      defaultValue={data.menPlateWinner}
                       {...register("menPlateWinner", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
@@ -207,21 +217,25 @@ export default function TournamentForm() {
                   <div>
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.menQuarterFinalist1}
                       {...register("menQuarterFinalist1", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.menQuarterFinalist2}
                       {...register("menQuarterFinalist2", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.menQuarterFinalist3}
                       {...register("menQuarterFinalist3", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.menQuarterFinalist4}
                       {...register("menQuarterFinalist4", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
@@ -239,7 +253,7 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2 pr-2">
                   <label className="text-sm">Level</label>
                   <select
-                    defaultValue="psa"
+                    defaultValue={data.womenLevel}
                     {...register("womenLevel", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                   >
@@ -251,7 +265,7 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2">
                   <label className="text-sm">Size</label>
                   <select
-                    defaultValue="16"
+                    defaultValue={data.womenSize}
                     {...register("womenSize", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                     onChange={(e) => setWomenSize(e.target.value)}
@@ -264,21 +278,25 @@ export default function TournamentForm() {
               {/*----------------------------------Women Other Options------------------------------ */}
               <input
                 placeholder="Winner"
+                defaultValue={data.womenWinner}
                 {...register("womenWinner", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
               <input
                 placeholder="Runner Up"
+                defaultValue={data.womenRunnerUp}
                 {...register("womenRunnerUp", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
               <input
                 placeholder="Semi-Finalist"
+                defaultValue={data.womenSemiFinalist1}
                 {...register("womenSemiFinalist1", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
               <input
                 placeholder="Semi-Finalist"
+                defaultValue={data.womenSemiFinalist2}
                 {...register("womenSemiFinalist2", { required: true })}
                 className="w-full border-2 border-slate-200 rounded-md mt-2"
               />
@@ -287,7 +305,7 @@ export default function TournamentForm() {
                   <div>
                     <input
                       placeholder="Plate Winner"
-                      defaultValue="Female Plate Winner"
+                      defaultValue={data.womenPlateWinner}
                       {...register("womenPlateWinner", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
@@ -296,21 +314,25 @@ export default function TournamentForm() {
                   <div>
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.womenQuarterFinalist1}
                       {...register("womenQuarterFinalist1", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.womenQuarterFinalist2}
                       {...register("womenQuarterFinalist2", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.womenQuarterFinalist3}
                       {...register("womenQuarterFinalist3", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
                     <input
                       placeholder="Quarter Finalist"
+                      defaultValue={data.womenQuarterFinalist4}
                       {...register("womenQuarterFinalist4", { required: true })}
                       className="w-full border-2 border-slate-200 rounded-md mt-2"
                     />
@@ -322,7 +344,7 @@ export default function TournamentForm() {
         </div>
         <input
           type="submit"
-          value="Save"
+          value="Edit"
           className="w-1/4 h-12 m-2 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
         />
       </form>

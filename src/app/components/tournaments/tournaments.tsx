@@ -1,11 +1,11 @@
 "use client";
 
-import { TournamentData } from "./tournamentcard";
 import TournamentCard from "./tournamentcard";
 import AddButton from "../addbutton";
 import Modal from "../modal";
 import { useState } from "react";
 import TournamentForm from "./tournamentform";
+import { TournamentData } from "@/app/types/database";
 
 interface TournamentProps {
   data: TournamentData[];
@@ -24,9 +24,9 @@ export default function Tournaments({ data }: TournamentProps) {
       </div>
 
       <div className=" mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-        {data.map((tournament) => (
-          <div key={tournament.id}>
-            <TournamentCard name={tournament.name} date={tournament.date} />
+        {data.map((tournament, index) => (
+          <div key={index}>
+            <TournamentCard data={tournament} />
           </div>
         ))}
       </div>

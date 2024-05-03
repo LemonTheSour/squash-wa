@@ -1,27 +1,26 @@
-export interface TournamentData {
-  id: string;
-  name: string;
-  date: string;
-  gender: string;
-  level: string;
-  size: number;
-  playersMen: string[];
-  playersWomen: string[];
-}
+import Modal from "../modal";
+import EditButton from "../editButton";
+import EditTournamentForm from "./edittournamentform";
+import { TournamentData } from "@/app/types/database";
+import { useState } from "react";
 
 interface TournamentCardProps {
-  name: string;
-  date: string;
+  data: TournamentData;
 }
 
-export default function TournamentCard({ name, date }: TournamentCardProps) {
+export default function TournamentCard({ data }: TournamentCardProps) {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl">
       <div className="flex">
-        <div className="pr-8">{date}</div>
-        <div>{name}</div>
+        <div className="pr-8">{data.date}</div>
+        <div>{data.tournamentName}</div>
       </div>
-      <div>Edit/Delete</div>
+      <EditButton onClick={() => setOpenModal(!openModal)} />
+
+      <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
+        <EditTournamentForm data={data} />
+      </Modal>
     </div>
   );
 }
