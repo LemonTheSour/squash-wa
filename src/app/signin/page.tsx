@@ -2,6 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   username: String;
@@ -9,6 +10,7 @@ type Inputs = {
 };
 
 export default function Login() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -17,10 +19,10 @@ export default function Login() {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       await signIn("credentials", {
-        redirect: true,
         username: data.username,
         password: data.password,
       });
+      router.push("/admin");
     } catch (error) {
       console.error("Sign in failed:", error);
     }
