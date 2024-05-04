@@ -1,5 +1,4 @@
 import { getServerSession } from "next-auth";
-import EditOverlay from "./editOverlay";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 
 interface PlayerCardProps {
@@ -37,7 +36,6 @@ export default async function PlayerCard({
         </div>
         <div className="flex justify-center items-center ">
           <div className="pr-2">{rating}</div>
-          <EditOverlay />
         </div>
       </div>
     </div>

@@ -15,10 +15,12 @@ export default function LeagueCard({ PlayerData, DefaultValues }: Props) {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div>
-      <div className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:bg-shade">
-        <div className="pr-8">{DefaultValues.date}</div>
+      <div
+        className="flex justify-between my-2 p-2 border-2 border-grey-200 rounded-xl hover:bg-shade"
+        onClick={() => setOpenModal(!openModal)}
+      >
         <div>{DefaultValues.name}</div>
-        <EditButton onClick={() => setOpenModal(!openModal)} />
+        <div className="">{DefaultValues.date}</div>
       </div>
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <EditLeagueForm DefaultValues={DefaultValues} PlayerData={PlayerData} />
