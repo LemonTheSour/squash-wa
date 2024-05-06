@@ -1,92 +1,19 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TournamentData } from "@/app/types/database";
+import { PlayerData, TournamentData } from "@/app/types/database";
 import { useState } from "react";
-import { db } from "../../../../firebase/clientApp";
-import { doc, updateDoc } from "firebase/firestore";
-
-async function addData({
-  tournamentName,
-  date,
-  gender,
-  menSize,
-  womenSize,
-  menLevel,
-  womenLevel,
-  menWinner,
-  menRunnerUp,
-  menSemiFinalist1,
-  menSemiFinalist2,
-  menQuarterFinalist1,
-  menQuarterFinalist2,
-  menQuarterFinalist3,
-  menQuarterFinalist4,
-  menPlateWinner,
-  womenWinner,
-  womenRunnerUp,
-  womenSemiFinalist1,
-  womenSemiFinalist2,
-  womenQuarterFinalist1,
-  womenQuarterFinalist2,
-  womenQuarterFinalist3,
-  womenQuarterFinalist4,
-  womenPlateWinner,
-}: TournamentData) {
-  if (menPlateWinner == undefined || womenPlateWinner == undefined) {
-    menPlateWinner = "Male Plate Winner";
-    womenPlateWinner = "Women Plate Winner";
-  }
-
-  if (menQuarterFinalist1 == undefined) {
-    menQuarterFinalist1 = "Male Quarter Finalist";
-    menQuarterFinalist2 = "Male Quarter Finalist";
-    menQuarterFinalist3 = "Male Quarter Finalist";
-    menQuarterFinalist4 = "Male Quarter Finalist";
-    womenQuarterFinalist1 = "Female Quarter Finalist";
-    womenQuarterFinalist2 = "Female Quarter Finalist";
-    womenQuarterFinalist3 = "Female Quarter Finalist";
-    womenQuarterFinalist4 = "Female Quarter Finalist";
-  }
-
-  try {
-    await updateDoc(doc(db, "tournaments", tournamentName), {
-      tournamentName: tournamentName,
-      date: date,
-      gender: gender,
-      menSize: menSize,
-      womenSize: womenSize,
-      menLevel: menLevel,
-      womenLevel: womenLevel,
-      menWinner: menWinner,
-      menRunnerUp: menRunnerUp,
-      menSemiFinalist1: menSemiFinalist1,
-      menSemiFinalist2: menSemiFinalist2,
-      menQuarterFinalist1: menQuarterFinalist1,
-      menQuarterFinalist2: menQuarterFinalist2,
-      menQuarterFinalist3: menQuarterFinalist3,
-      menQuarterFinalist4: menQuarterFinalist4,
-      menPlateWinner: menPlateWinner,
-      womenWinner: womenWinner,
-      womenRunnerUp: womenRunnerUp,
-      womenSemiFinalist1: womenSemiFinalist1,
-      womenSemiFinalist2: womenSemiFinalist2,
-      womenQuarterFinalist1: womenQuarterFinalist1,
-      womenQuarterFinalist2: womenQuarterFinalist2,
-      womenQuarterFinalist3: womenQuarterFinalist3,
-      womenQuarterFinalist4: womenQuarterFinalist4,
-      womenPlateWinner: womenPlateWinner,
-    });
-    console.log("Document written with ID: ");
-    return true;
-  } catch {
-    console.log("Error Adding Document ");
-    return false;
-  }
-}
+import { UpdateTournaments } from "@/app/hooks/updateData";
 
 interface EditTournamentFormProps {
   data: TournamentData;
+  playerData: PlayerData[];
 }
-export default function EditTournamentForm({ data }: EditTournamentFormProps) {
+
+const inputStyles = "w-full border-2 border-slate-200 rounded-md";
+
+export default function EditTournamentForm({
+  data,
+  playerData,
+}: EditTournamentFormProps) {
   const {
     register,
     handleSubmit,
@@ -94,9 +21,9 @@ export default function EditTournamentForm({ data }: EditTournamentFormProps) {
   } = useForm<TournamentData>();
 
   const onSubmit: SubmitHandler<TournamentData> = (data) => {
-    console.log(data);
-    addData(data);
+    UpdateTournaments(data);
   };
+
   const [gender, setGender] = useState("men&women");
   const [menSize, setMenSize] = useState("16");
   const [womenSize, setWomenSize] = useState("16");
@@ -178,67 +105,100 @@ export default function EditTournamentForm({ data }: EditTournamentFormProps) {
                 </div>
               </div>
               {/*---------------------------------Finalists---------------------------------------- */}
-              <input
-                placeholder="Winner"
-                defaultValue={data.menWinner}
-                {...register("menWinner", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Runner Up"
-                defaultValue={data.menRunnerUp}
-                {...register("menRunnerUp", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                defaultValue={data.menSemiFinalist1}
-                {...register("menSemiFinalist1", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                defaultValue={data.menSemiFinalist2}
-                {...register("menSemiFinalist2", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
+              <div>
+                <label className="text-sm font-medium">Winner</label>
+                <input
+                  placeholder="Winner"
+                  defaultValue={data.menWinner}
+                  {...register("menWinner", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Runner Up</label>
+                <input
+                  placeholder="Runner Up"
+                  defaultValue={data.menRunnerUp}
+                  {...register("menRunnerUp", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 1</label>
+                <input
+                  placeholder="Semi-Finalist"
+                  defaultValue={data.menSemiFinalist1}
+                  {...register("menSemiFinalist1", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 2</label>
+                <input
+                  placeholder="Semi-Finalist"
+                  defaultValue={data.menSemiFinalist2}
+                  {...register("menSemiFinalist2", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
               {/*-------------------------------- Dynamic Portion ---------------------------------- */}
               <div>
                 {menSize == "8" ? (
                   <div>
+                    <label className="text-sm font-medium">Plate Winner</label>
                     <input
                       placeholder="Plate Winner"
                       defaultValue={data.menPlateWinner}
                       {...register("menPlateWinner", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
+                      className={inputStyles}
                     />
                   </div>
                 ) : (
                   <div>
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.menQuarterFinalist1}
-                      {...register("menQuarterFinalist1", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.menQuarterFinalist2}
-                      {...register("menQuarterFinalist2", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.menQuarterFinalist3}
-                      {...register("menQuarterFinalist3", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.menQuarterFinalist4}
-                      {...register("menQuarterFinalist4", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 1
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.menQuarterFinalist1}
+                        {...register("menQuarterFinalist1", { required: true })}
+                        className={inputStyles}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 2
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.menQuarterFinalist2}
+                        {...register("menQuarterFinalist2", { required: true })}
+                        className={inputStyles}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 3
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.menQuarterFinalist3}
+                        {...register("menQuarterFinalist3", { required: true })}
+                        className={inputStyles}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 4
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.menQuarterFinalist4}
+                        {...register("menQuarterFinalist4", { required: true })}
+                        className={inputStyles}
+                      />
+                    </div>
                   </div>
                 )}
               </div>
@@ -276,66 +236,107 @@ export default function EditTournamentForm({ data }: EditTournamentFormProps) {
                 </div>
               </div>
               {/*----------------------------------Women Other Options------------------------------ */}
-              <input
-                placeholder="Winner"
-                defaultValue={data.womenWinner}
-                {...register("womenWinner", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Runner Up"
-                defaultValue={data.womenRunnerUp}
-                {...register("womenRunnerUp", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                defaultValue={data.womenSemiFinalist1}
-                {...register("womenSemiFinalist1", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                defaultValue={data.womenSemiFinalist2}
-                {...register("womenSemiFinalist2", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
+              <div>
+                <label className="text-sm font-medium">Winner</label>
+                <input
+                  placeholder="Winner"
+                  defaultValue={data.womenWinner}
+                  {...register("womenWinner", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Runner Up</label>
+                <input
+                  placeholder="Runner Up"
+                  defaultValue={data.womenRunnerUp}
+                  {...register("womenRunnerUp", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 1</label>
+                <input
+                  placeholder="Semi-Finalist"
+                  defaultValue={data.womenSemiFinalist1}
+                  {...register("womenSemiFinalist1", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 2</label>
+                <input
+                  placeholder="Semi-Finalist"
+                  defaultValue={data.womenSemiFinalist2}
+                  {...register("womenSemiFinalist2", { required: true })}
+                  className={inputStyles}
+                />
+              </div>
               <div>
                 {womenSize == "8" ? (
                   <div>
+                    <label className="text-sm font-medium">Plate Winner</label>
                     <input
                       placeholder="Plate Winner"
                       defaultValue={data.womenPlateWinner}
                       {...register("womenPlateWinner", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
+                      className={inputStyles}
                     />
                   </div>
                 ) : (
                   <div>
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.womenQuarterFinalist1}
-                      {...register("womenQuarterFinalist1", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.womenQuarterFinalist2}
-                      {...register("womenQuarterFinalist2", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.womenQuarterFinalist3}
-                      {...register("womenQuarterFinalist3", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      defaultValue={data.womenQuarterFinalist4}
-                      {...register("womenQuarterFinalist4", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 1
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.womenQuarterFinalist1}
+                        {...register("womenQuarterFinalist1", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 2
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.womenQuarterFinalist2}
+                        {...register("womenQuarterFinalist2", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 3
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.womenQuarterFinalist3}
+                        {...register("womenQuarterFinalist3", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 4
+                      </label>
+                      <input
+                        placeholder="Quarter Finalist"
+                        defaultValue={data.womenQuarterFinalist4}
+                        {...register("womenQuarterFinalist4", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      />
+                    </div>
                   </div>
                 )}
               </div>

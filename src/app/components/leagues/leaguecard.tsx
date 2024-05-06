@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import EditButton from "../editButton";
 import Modal from "../modal";
 import EditLeagueForm from "./editLeagueForm";
 import { PlayerData, LeagueData } from "@/app/types/database";

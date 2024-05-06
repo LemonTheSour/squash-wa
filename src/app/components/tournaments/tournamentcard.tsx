@@ -1,13 +1,17 @@
 import Modal from "../modal";
 import EditTournamentForm from "./edittournamentform";
-import { TournamentData } from "@/app/types/database";
+import { PlayerData, TournamentData } from "@/app/types/database";
 import { useState } from "react";
 
 interface TournamentCardProps {
   data: TournamentData;
+  playerdata: PlayerData[];
 }
 
-export default function TournamentCard({ data }: TournamentCardProps) {
+export default function TournamentCard({
+  data,
+  playerdata,
+}: TournamentCardProps) {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div>
@@ -20,7 +24,7 @@ export default function TournamentCard({ data }: TournamentCardProps) {
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <EditTournamentForm data={data} />
+        <EditTournamentForm data={data} playerData={playerdata} />
       </Modal>
     </div>
   );

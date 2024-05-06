@@ -82,6 +82,7 @@ async function addData({
     return false;
   }
 }
+
 export default function TournamentForm() {
   const {
     register,

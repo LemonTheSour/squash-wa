@@ -5,13 +5,17 @@ import AddButton from "../addbutton";
 import Modal from "../modal";
 import { useState } from "react";
 import TournamentForm from "./tournamentform";
-import { TournamentData } from "@/app/types/database";
+import { PlayerData, TournamentData } from "@/app/types/database";
 
 interface TournamentProps {
-  data: TournamentData[];
+  TournamentData: TournamentData[];
+  PlayerData: PlayerData[];
 }
 
-export default function Tournaments({ data }: TournamentProps) {
+export default function Tournaments({
+  TournamentData,
+  PlayerData,
+}: TournamentProps) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -24,9 +28,9 @@ export default function Tournaments({ data }: TournamentProps) {
       </div>
 
       <div className=" mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-        {data.map((tournament, index) => (
+        {TournamentData.map((tournament, index) => (
           <div key={index}>
-            <TournamentCard data={tournament} />
+            <TournamentCard data={tournament} playerdata={PlayerData} />
           </div>
         ))}
       </div>

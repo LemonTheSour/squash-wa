@@ -12,7 +12,7 @@ const TournamentData = await getTournaments();
 export default function Admin() {
   return (
     <div className="flex flex-col justify-center items-center pt-20">
-      <Tournaments data={TournamentData} />
+      <Tournaments TournamentData={TournamentData} PlayerData={AllPlayers} />
       <Leagues LeagueData={LeagueData} PlayerData={AllPlayers} />
       <Players data={AllPlayers} />
     </div>
