@@ -1,44 +1,14 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { db } from "../../../../firebase/clientApp";
-import { doc, setDoc } from "firebase/firestore";
 import { PlayerData, LeagueData } from "@/app/types/database";
-
-async function addData({
-  name,
-  date,
-  division,
-  position,
-  player1,
-  player2,
-  games1,
-  games2,
-}: LeagueData) {
-  try {
-    await setDoc(doc(db, "leagues", name), {
-      name: name,
-      date: date,
-      division: division,
-      position: position,
-      player1: player1,
-      player2: player2,
-      player1Games: games1,
-      player2Games: games2,
-    });
-    console.log("Document written with ID: ");
-    return true;
-  } catch {
-    console.log("Error Adding Document ");
-    return false;
-  }
-}
+import { addLeague } from "@/app/hooks/addData";
 
 interface FormComponentProps {
   PlayerData: PlayerData[];
 }
 
-export default function LeagueForm({ PlayerData }: FormComponentProps) {
-  const methods = useForm();
+const selectorStyles = "border-2 border-slate-200 rounded-md pl-2 bg-white";
 
+export default function LeagueForm({ PlayerData }: FormComponentProps) {
   const {
     register,
     handleSubmit,
@@ -46,7 +16,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
   } = useForm<LeagueData>();
 
   const onSubmit: SubmitHandler<LeagueData> = async (data) => {
-    addData(data);
+    addLeague(data);
   };
 
   return (
@@ -84,7 +54,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
             <label className="text-xs">Division</label>
             <select
               {...register("division", { required: true })}
-              className="border-2 border-slate-200 rounded-md pl-2"
+              className={selectorStyles}
               defaultValue=""
             >
               <option value={1}>1</option>
@@ -97,7 +67,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
             <label className="text-xs">Position</label>
             <select
               {...register("position", { required: true })}
-              className="border-2 border-slate-200 rounded-md pl-2"
+              className={selectorStyles}
             >
               <option value={1}>1</option>
               <option value={2}>2</option>
@@ -108,7 +78,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
             <label className="text-xs">Player1</label>
             <select
               {...register("player1", { required: true })}
-              className="border-2 border-slate-200 rounded-md pl-2"
+              className={selectorStyles}
             >
               {PlayerData.map((player, index) => (
                 <option key={index} value={player.squashId}>
@@ -121,7 +91,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
             <label className="text-xs">Games</label>
             <select
               {...register("games1", { required: true })}
-              className="border-2 border-slate-200 rounded-md pl-2"
+              className={selectorStyles}
             >
               <option value={1}>1</option>
               <option value={2}>2</option>
@@ -132,7 +102,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
             <label className="text-xs">Player2</label>
             <select
               {...register("player2", { required: true })}
-              className="border-2 border-slate-200 rounded-md pl-2"
+              className={selectorStyles}
             >
               {PlayerData.map((player, index) => (
                 <option key={index} value={player.squashId}>
@@ -145,7 +115,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
             <label className="text-xs">Games</label>
             <select
               {...register("games2", { required: true })}
-              className="border-2 border-slate-200 rounded-md pl-2"
+              className={selectorStyles}
             >
               <option value={1}>1</option>
               <option value={2}>2</option>

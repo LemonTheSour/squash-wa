@@ -7,7 +7,7 @@ interface FormComponentProps {
   PlayerData: PlayerData[];
 }
 
-const selectorStyles = "border-2 border-slate-200 rounded-md pl-2";
+const selectorStyles = "border-2 border-slate-200 rounded-md pl-2 bg-white";
 
 export default function EditLeagueForm({
   DefaultValues,
