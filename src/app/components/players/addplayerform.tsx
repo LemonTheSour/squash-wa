@@ -1,37 +1,7 @@
-import { doc, setDoc } from "firebase/firestore";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { db } from "../../../../firebase/clientApp";
 import getPlayerIds from "@/app/hooks/getPlayerIds";
 import { PlayerData } from "@/app/types/database";
-
-async function GetPlayerIds() {
-  return getPlayerIds();
-}
-
-async function addData({
-  firstName,
-  lastName,
-  gender,
-  region,
-  rating,
-  squashId,
-}: PlayerData) {
-  try {
-    await setDoc(doc(db, "players", squashId), {
-      squashId: squashId,
-      firstName: firstName,
-      lastName: lastName,
-      gender: gender,
-      region: region,
-      rating: rating,
-    });
-    console.log("Document written with ID: ");
-    return true;
-  } catch {
-    console.log("Error Adding Document ");
-    return false;
-  }
-}
+import { addPlayer } from "@/app/hooks/addData";
 
 export default function AddPlayerForm() {
   const {
@@ -41,12 +11,12 @@ export default function AddPlayerForm() {
   } = useForm<PlayerData>();
 
   const onSubmit: SubmitHandler<PlayerData> = async (data) => {
-    const PlayerIds = GetPlayerIds();
+    const PlayerIds = getPlayerIds();
     if ((await PlayerIds).includes(data.squashId)) {
       console.log("Cannot use Duplicate Id");
       return false;
     }
-    addData(data);
+    addPlayer(data);
   };
 
   return (
@@ -56,23 +26,37 @@ export default function AddPlayerForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-2 p-4 w-3/4"
       >
-        <input
-          placeholder="Squash Id"
-          {...register("squashId", { required: true })}
-          className="border-2 border-slate-200 rounded-md col-span-2"
-        />
-        <input
-          placeholder="First Name"
-          {...register("firstName", { required: true })}
-          className="border-2 border-slate-200 rounded-md col-span-1"
-        />
-        <input
-          placeholder="Last Name"
-          {...register("lastName", { required: true })}
-          className="border-2 border-slate-200 rounded-md col-span-1"
-        />
+        <div className="col-span-2">
+          <input
+            placeholder="Squash Id"
+            {...register("squashId", { required: true })}
+            className="border-2 border-slate-200 rounded-md w-full"
+          />
+          {errors.squashId?.type === "required" && (
+            <p className="flex text-red-400">Squad Id is required</p>
+          )}
+        </div>
+        <div className="col-span-1">
+          <input
+            placeholder="First Name"
+            {...register("firstName", { required: true })}
+            className="border-2 border-slate-200 rounded-md w-full"
+          />
+          {errors.firstName?.type === "required" && (
+            <p className="flex text-red-400">First name is required</p>
+          )}
+        </div>
+        <div className="col-span-1">
+          <input
+            placeholder="Last Name"
+            {...register("lastName", { required: true })}
+            className="border-2 border-slate-200 rounded-md w-full"
+          />
+          {errors.lastName?.type === "required" && (
+            <p className="flex text-red-400">Last Name is required</p>
+          )}
+        </div>
         <select
-          defaultValue=""
           {...register("gender", { required: true })}
           className="bg-white border-2 border-slate-200 rounded-md col-span-1"
         >

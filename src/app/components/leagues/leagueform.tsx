@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { db } from "../../../../firebase/clientApp";
 import { doc, setDoc } from "firebase/firestore";
 import { PlayerData, LeagueData } from "@/app/types/database";
@@ -52,105 +52,115 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
   return (
     <div className="flex flex-col w-full items-center">
       <div className="text-2xl">Add League</div>
-      <FormProvider {...methods}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full p-2 space-x-2"
-        >
-          <div className="flex justify-center items-center space-x-2 w-full">
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-full p-2 space-x-2"
+      >
+        <div className="flex justify-center items-center space-x-2 w-full">
+          <div className="flex flex-col w-2/3">
             <input
               placeholder="League Name"
               {...register("name", { required: true })}
-              className="border-2 border-slate-200 rounded-md w-2/3"
+              className="border-2 border-slate-200 rounded-md w-full"
             />
+            {errors.name?.type === "required" && (
+              <p className="flex text-red-400">League Name is required</p>
+            )}
+          </div>
+          <div className="flex flex-col w-1/4">
             <input
               placeholder="DD/MM/YYYY"
               {...register("date", { required: true })}
-              className="border-2 border-slate-200 rounded-md w-1/4"
+              className="border-2 border-slate-200 rounded-md w-full"
             />
+            {errors.date?.type === "required" && (
+              <p className="flex text-red-400">Date is required</p>
+            )}
           </div>
-          <div className="grid grid-cols-9 gap-2 pl-7 mt-2">
-            <div className="flex flex-col">
-              <label className="text-xs">Division</label>
-              <select
-                {...register("division", { required: true })}
-                className="border-2 border-slate-200 rounded-md pl-2"
-              >
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-              </select>
-            </div>
-            <div className="flex flex-col">
-              <label className="text-xs">Position</label>
-              <select
-                {...register("position", { required: true })}
-                className="border-2 border-slate-200 rounded-md pl-2"
-              >
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-              </select>
-            </div>
-            <div className="flex flex-col col-span-2">
-              <label className="text-xs">Player1</label>
-              <select
-                {...register("player1", { required: true })}
-                className="border-2 border-slate-200 rounded-md pl-2"
-              >
-                {PlayerData.map((player, index) => (
-                  <option key={index} value={player.squashId}>
-                    {player.firstName} {player.lastName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex flex-col col-span-1">
-              <label className="text-xs">Games</label>
-              <select
-                {...register("games1", { required: true })}
-                className="border-2 border-slate-200 rounded-md pl-2"
-              >
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-              </select>
-            </div>
-            <div className="flex flex-col col-span-2">
-              <label className="text-xs">Player2</label>
-              <select
-                {...register("player2", { required: true })}
-                className="border-2 border-slate-200 rounded-md pl-2"
-              >
-                {PlayerData.map((player, index) => (
-                  <option key={index} value={player.squashId}>
-                    {player.firstName} {player.lastName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex flex-col col-span-1">
-              <label className="text-xs">Games</label>
-              <select
-                {...register("games2", { required: true })}
-                className="border-2 border-slate-200 rounded-md pl-2"
-              >
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-              </select>
-            </div>
+        </div>
+        <div className="grid grid-cols-9 gap-2 pl-7 mt-2">
+          <div className="flex flex-col">
+            <label className="text-xs">Division</label>
+            <select
+              {...register("division", { required: true })}
+              className="border-2 border-slate-200 rounded-md pl-2"
+              defaultValue=""
+            >
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+            </select>
           </div>
-          <div className="pl-5">
-            <input
-              type="submit"
-              value="Create League"
-              className="w-1/6 h-8 m-2 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
-            />
+          <div className="flex flex-col">
+            <label className="text-xs">Position</label>
+            <select
+              {...register("position", { required: true })}
+              className="border-2 border-slate-200 rounded-md pl-2"
+            >
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+            </select>
           </div>
-        </form>
-      </FormProvider>
+          <div className="flex flex-col col-span-2">
+            <label className="text-xs">Player1</label>
+            <select
+              {...register("player1", { required: true })}
+              className="border-2 border-slate-200 rounded-md pl-2"
+            >
+              {PlayerData.map((player, index) => (
+                <option key={index} value={player.squashId}>
+                  {player.firstName} {player.lastName}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col col-span-1">
+            <label className="text-xs">Games</label>
+            <select
+              {...register("games1", { required: true })}
+              className="border-2 border-slate-200 rounded-md pl-2"
+            >
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+            </select>
+          </div>
+          <div className="flex flex-col col-span-2">
+            <label className="text-xs">Player2</label>
+            <select
+              {...register("player2", { required: true })}
+              className="border-2 border-slate-200 rounded-md pl-2"
+            >
+              {PlayerData.map((player, index) => (
+                <option key={index} value={player.squashId}>
+                  {player.firstName} {player.lastName}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col col-span-1">
+            <label className="text-xs">Games</label>
+            <select
+              {...register("games2", { required: true })}
+              className="border-2 border-slate-200 rounded-md pl-2"
+            >
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+            </select>
+          </div>
+        </div>
+        <div className="pl-5">
+          <input
+            type="submit"
+            value="Create League"
+            className="w-1/6 h-8 m-2 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
+          />
+        </div>
+      </form>
     </div>
   );
 }

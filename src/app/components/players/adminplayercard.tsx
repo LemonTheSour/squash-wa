@@ -19,7 +19,6 @@ export default function AdminPlayerCard({ data, position }: PlayerCardProps) {
         onClick={() => setOpenModal(!openModal)}
       >
         <div className="flex">
-          <div className="pr-2">{position} . </div>
           {data.firstName} {data.lastName}
         </div>
         <div className="pr-2">{data.rating}</div>

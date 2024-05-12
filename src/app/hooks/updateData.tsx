@@ -1,6 +1,6 @@
 import { db } from "../../../firebase/clientApp";
 import { doc, updateDoc } from "firebase/firestore";
-import { TournamentData } from "../types/database";
+import { TournamentData, LeagueData, PlayerData } from "../types/database";
 
 export async function UpdateTournaments({
   tournamentName,
@@ -72,6 +72,60 @@ export async function UpdateTournaments({
       womenQuarterFinalist3: womenQuarterFinalist3,
       womenQuarterFinalist4: womenQuarterFinalist4,
       womenPlateWinner: womenPlateWinner,
+    });
+    console.log("Document written with ID: ");
+    return true;
+  } catch {
+    console.log("Error Adding Document ");
+    return false;
+  }
+}
+
+export async function updateLeague({
+  name,
+  date,
+  division,
+  position,
+  player1,
+  player2,
+  games1,
+  games2,
+}: LeagueData) {
+  try {
+    await updateDoc(doc(db, "leagues", name), {
+      name: name,
+      date: date,
+      division: division,
+      position: position,
+      player1: player1,
+      player2: player2,
+      player1Games: games1,
+      player2Games: games2,
+    });
+    console.log("Document written with ID: ");
+    return true;
+  } catch {
+    console.log("Error Adding Document ");
+    return false;
+  }
+}
+
+export async function updatePlayer({
+  firstName,
+  lastName,
+  gender,
+  region,
+  rating,
+  squashId,
+}: PlayerData) {
+  try {
+    await updateDoc(doc(db, "players", squashId), {
+      squashId: squashId,
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      region: region,
+      rating: rating,
     });
     console.log("Document written with ID: ");
     return true;
