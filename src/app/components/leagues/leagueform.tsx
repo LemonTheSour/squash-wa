@@ -156,7 +156,7 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
         <div className="pl-5">
           <input
             type="submit"
-            value="Create League"
+            value="Add League"
             className="w-1/6 h-8 m-2 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
           />
         </div>

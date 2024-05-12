@@ -12,11 +12,33 @@ interface TournamentProps {
   PlayerData: PlayerData[];
 }
 
+function separateGenders(playerData: PlayerData[], gender: String) {
+  let MaleData: PlayerData[] = [];
+  let FemaleData: PlayerData[] = [];
+
+  {
+    playerData.map((player) => {
+      if (player.gender === "Male") {
+        MaleData.push(player);
+      } else {
+        FemaleData.push(player);
+      }
+    });
+  }
+
+  if (gender === "Male") {
+    return MaleData;
+  }
+  return FemaleData;
+}
+
 export default function Tournaments({
   TournamentData,
   PlayerData,
 }: TournamentProps) {
   const [openModal, setOpenModal] = useState(false);
+  const MaleData = separateGenders(PlayerData, "Male");
+  const FemaleData = separateGenders(PlayerData, "Female");
 
   return (
     <div className="flex flex-col w-1/3 mx-2">
@@ -30,13 +52,17 @@ export default function Tournaments({
       <div className=" mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
         {TournamentData.map((tournament, index) => (
           <div key={index}>
-            <TournamentCard data={tournament} playerdata={PlayerData} />
+            <TournamentCard
+              data={tournament}
+              maleData={MaleData}
+              femaleData={FemaleData}
+            />
           </div>
         ))}
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <TournamentForm />
+        <TournamentForm maleData={MaleData} femaleData={FemaleData} />
       </Modal>
     </div>
   );

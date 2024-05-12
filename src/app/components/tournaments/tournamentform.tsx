@@ -1,89 +1,19 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TournamentData } from "@/app/types/database";
+import { PlayerData, TournamentData } from "@/app/types/database";
 import { useState } from "react";
-import { db } from "../../../../firebase/clientApp";
-import { doc, setDoc } from "firebase/firestore";
+import { addTournament } from "@/app/hooks/addData";
 
-async function addData({
-  tournamentName,
-  date,
-  gender,
-  menSize,
-  womenSize,
-  menLevel,
-  womenLevel,
-  menWinner,
-  menRunnerUp,
-  menSemiFinalist1,
-  menSemiFinalist2,
-  menQuarterFinalist1,
-  menQuarterFinalist2,
-  menQuarterFinalist3,
-  menQuarterFinalist4,
-  menPlateWinner,
-  womenWinner,
-  womenRunnerUp,
-  womenSemiFinalist1,
-  womenSemiFinalist2,
-  womenQuarterFinalist1,
-  womenQuarterFinalist2,
-  womenQuarterFinalist3,
-  womenQuarterFinalist4,
-  womenPlateWinner,
-}: TournamentData) {
-  if (menPlateWinner == undefined || womenPlateWinner == undefined) {
-    menPlateWinner = "Male Plate Winner";
-    womenPlateWinner = "Women Plate Winner";
-  }
+const inputStyles = "w-full border-2 border-slate-200 rounded-md bg-white";
 
-  if (menQuarterFinalist1 == undefined) {
-    menQuarterFinalist1 = "Male Quarter Finalist";
-    menQuarterFinalist2 = "Male Quarter Finalist";
-    menQuarterFinalist3 = "Male Quarter Finalist";
-    menQuarterFinalist4 = "Male Quarter Finalist";
-    womenQuarterFinalist1 = "Female Quarter Finalist";
-    womenQuarterFinalist2 = "Female Quarter Finalist";
-    womenQuarterFinalist3 = "Female Quarter Finalist";
-    womenQuarterFinalist4 = "Female Quarter Finalist";
-  }
-
-  try {
-    await setDoc(doc(db, "tournaments", tournamentName), {
-      tournamentName: tournamentName,
-      date: date,
-      gender: gender,
-      menSize: menSize,
-      womenSize: womenSize,
-      menLevel: menLevel,
-      womenLevel: womenLevel,
-      menWinner: menWinner,
-      menRunnerUp: menRunnerUp,
-      menSemiFinalist1: menSemiFinalist1,
-      menSemiFinalist2: menSemiFinalist2,
-      menQuarterFinalist1: menQuarterFinalist1,
-      menQuarterFinalist2: menQuarterFinalist2,
-      menQuarterFinalist3: menQuarterFinalist3,
-      menQuarterFinalist4: menQuarterFinalist4,
-      menPlateWinner: menPlateWinner,
-      womenWinner: womenWinner,
-      womenRunnerUp: womenRunnerUp,
-      womenSemiFinalist1: womenSemiFinalist1,
-      womenSemiFinalist2: womenSemiFinalist2,
-      womenQuarterFinalist1: womenQuarterFinalist1,
-      womenQuarterFinalist2: womenQuarterFinalist2,
-      womenQuarterFinalist3: womenQuarterFinalist3,
-      womenQuarterFinalist4: womenQuarterFinalist4,
-      womenPlateWinner: womenPlateWinner,
-    });
-    console.log("Document written with ID: ");
-    return true;
-  } catch {
-    console.log("Error Adding Document ");
-    return false;
-  }
+interface AddTournamentFormProps {
+  maleData: PlayerData[];
+  femaleData: PlayerData[];
 }
 
-export default function TournamentForm() {
+export default function TournamentForm({
+  maleData,
+  femaleData,
+}: AddTournamentFormProps) {
   const {
     register,
     handleSubmit,
@@ -91,9 +21,9 @@ export default function TournamentForm() {
   } = useForm<TournamentData>();
 
   const onSubmit: SubmitHandler<TournamentData> = (data) => {
-    console.log(data);
-    addData(data);
+    addTournament(data);
   };
+
   const [gender, setGender] = useState("men&women");
   const [menSize, setMenSize] = useState("16");
   const [womenSize, setWomenSize] = useState("16");
@@ -117,6 +47,9 @@ export default function TournamentForm() {
               {...register("tournamentName", { required: true })}
               className="border-2 border-slate-200 rounded-md"
             />
+            {errors.tournamentName?.type === "required" && (
+              <p className="flex text-red-400">Tournament Name is required</p>
+            )}
           </div>
           <div className="flex flex-col col-span-2">
             <label className="text-sm">Date</label>
@@ -125,6 +58,9 @@ export default function TournamentForm() {
               {...register("date", { required: true })}
               className="border-2 border-slate-200 rounded-md col-span-2"
             />
+            {errors.date?.type === "required" && (
+              <p className="flex text-red-400">Date is required</p>
+            )}
           </div>
           <div className="flex flex-col col-span-3">
             <label className="text-sm">Gender</label>
@@ -173,59 +109,136 @@ export default function TournamentForm() {
                 </div>
               </div>
               {/*---------------------------------Finalists---------------------------------------- */}
-              <input
-                placeholder="Winner"
-                {...register("menWinner", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Runner Up"
-                {...register("menRunnerUp", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                {...register("menSemiFinalist1", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                {...register("menSemiFinalist2", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
+              <div>
+                <label className="text-sm font-medium">Winner</label>
+                <select
+                  {...register("menWinner", { required: true })}
+                  className={inputStyles}
+                >
+                  {maleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Runner Up</label>
+                <select
+                  {...register("menRunnerUp", { required: true })}
+                  className={inputStyles}
+                >
+                  {maleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 1</label>
+                <select
+                  {...register("menSemiFinalist1", { required: true })}
+                  className={inputStyles}
+                >
+                  {maleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 2</label>
+                <select
+                  {...register("menSemiFinalist2", { required: true })}
+                  className={inputStyles}
+                >
+                  {maleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
               {/*-------------------------------- Dynamic Portion ---------------------------------- */}
               <div>
                 {menSize == "8" ? (
                   <div>
-                    <input
-                      placeholder="Plate Winner"
-                      defaultValue="Male Plate Winner"
+                    <label className="text-sm font-medium">Plate Winner</label>
+                    <select
                       {...register("menPlateWinner", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
+                      className={inputStyles}
+                    >
+                      {maleData.map((player, index) => (
+                        <option key={index} value={player.squashId}>
+                          {player.firstName} {player.lastName}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 ) : (
                   <div>
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("menQuarterFinalist1", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("menQuarterFinalist2", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("menQuarterFinalist3", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("menQuarterFinalist4", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 1
+                      </label>
+                      <select
+                        {...register("menQuarterFinalist1", { required: true })}
+                        className={inputStyles}
+                      >
+                        {maleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 2
+                      </label>
+                      <select
+                        {...register("menQuarterFinalist2", { required: true })}
+                        className={inputStyles}
+                      >
+                        {maleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 3
+                      </label>
+                      <select
+                        {...register("menQuarterFinalist3", { required: true })}
+                        className={inputStyles}
+                      >
+                        {maleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 4
+                      </label>
+                      <select
+                        {...register("menQuarterFinalist4", { required: true })}
+                        className={inputStyles}
+                      >
+                        {maleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 )}
               </div>
@@ -240,7 +253,6 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2 pr-2">
                   <label className="text-sm">Level</label>
                   <select
-                    defaultValue="psa"
                     {...register("womenLevel", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                   >
@@ -252,7 +264,6 @@ export default function TournamentForm() {
                 <div className="flex flex-col w-1/2">
                   <label className="text-sm">Size</label>
                   <select
-                    defaultValue="16"
                     {...register("womenSize", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
                     onChange={(e) => setWomenSize(e.target.value)}
@@ -263,58 +274,143 @@ export default function TournamentForm() {
                 </div>
               </div>
               {/*----------------------------------Women Other Options------------------------------ */}
-              <input
-                placeholder="Winner"
-                {...register("womenWinner", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Runner Up"
-                {...register("womenRunnerUp", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                {...register("womenSemiFinalist1", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
-              <input
-                placeholder="Semi-Finalist"
-                {...register("womenSemiFinalist2", { required: true })}
-                className="w-full border-2 border-slate-200 rounded-md mt-2"
-              />
+              <div>
+                <label className="text-sm font-medium">Winner</label>
+                <select
+                  {...register("womenWinner", { required: true })}
+                  className={inputStyles}
+                >
+                  {femaleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Runner Up</label>
+                <select
+                  {...register("womenRunnerUp", { required: true })}
+                  className={inputStyles}
+                >
+                  {femaleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 1</label>
+                <select
+                  {...register("womenSemiFinalist1", { required: true })}
+                  className={inputStyles}
+                >
+                  {femaleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Semi-Finalist 2</label>
+                <select
+                  {...register("womenSemiFinalist2", { required: true })}
+                  className={inputStyles}
+                >
+                  {femaleData.map((player, index) => (
+                    <option key={index} value={player.squashId}>
+                      {player.firstName} {player.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div>
                 {womenSize == "8" ? (
                   <div>
-                    <input
-                      placeholder="Plate Winner"
-                      defaultValue="Female Plate Winner"
+                    <label className="text-sm font-medium">Plate Winner</label>
+                    <select
                       {...register("womenPlateWinner", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
+                      className={inputStyles}
+                    >
+                      {femaleData.map((player, index) => (
+                        <option key={index} value={player.squashId}>
+                          {player.firstName} {player.lastName}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 ) : (
                   <div>
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("womenQuarterFinalist1", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("womenQuarterFinalist2", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("womenQuarterFinalist3", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
-                    <input
-                      placeholder="Quarter Finalist"
-                      {...register("womenQuarterFinalist4", { required: true })}
-                      className="w-full border-2 border-slate-200 rounded-md mt-2"
-                    />
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 1
+                      </label>
+                      <select
+                        {...register("womenQuarterFinalist1", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      >
+                        {femaleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 2
+                      </label>
+                      <select
+                        {...register("womenQuarterFinalist2", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      >
+                        {femaleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 3
+                      </label>
+                      <select
+                        {...register("womenQuarterFinalist3", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      >
+                        {femaleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">
+                        Quarter Finalist 4
+                      </label>
+                      <select
+                        {...register("womenQuarterFinalist4", {
+                          required: true,
+                        })}
+                        className={inputStyles}
+                      >
+                        {femaleData.map((player, index) => (
+                          <option key={index} value={player.squashId}>
+                            {player.firstName} {player.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 )}
               </div>
@@ -323,7 +419,7 @@ export default function TournamentForm() {
         </div>
         <input
           type="submit"
-          value="Save"
+          value="Add Tournament"
           className="w-1/4 h-12 m-2 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
         />
       </form>

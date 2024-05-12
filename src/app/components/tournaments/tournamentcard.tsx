@@ -5,12 +5,14 @@ import { useState } from "react";
 
 interface TournamentCardProps {
   data: TournamentData;
-  playerdata: PlayerData[];
+  maleData: PlayerData[];
+  femaleData: PlayerData[];
 }
 
 export default function TournamentCard({
   data,
-  playerdata,
+  maleData,
+  femaleData,
 }: TournamentCardProps) {
   const [openModal, setOpenModal] = useState(false);
   return (
@@ -24,7 +26,11 @@ export default function TournamentCard({
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <EditTournamentForm data={data} playerData={playerdata} />
+        <EditTournamentForm
+          data={data}
+          maleData={maleData}
+          femaleData={femaleData}
+        />
       </Modal>
     </div>
   );

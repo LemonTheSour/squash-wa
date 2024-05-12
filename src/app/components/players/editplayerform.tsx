@@ -88,7 +88,7 @@ export default function EditPlayerForm({ data }: EditPlayerProps) {
         />
         <input
           type="submit"
-          value="Edit Player"
+          value="Update Player"
           className="h-8 rounded-md bg-yellow-400 hover:border-2 hover:border-black col-span-2"
         />
       </form>
