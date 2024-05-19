@@ -10,12 +10,14 @@ export type PlayerData = {
 export type LeagueData = {
   name: string;
   date: string;
-  division: string;
-  position: string;
-  player1: string;
-  player2: string;
-  games1: string;
-  games2: string;
+  matches:{
+    division: string;
+    position: string;
+    player1: string;
+    player2: string;
+    games1: string;
+    games2: string;
+  }[]
 }
 
 export type TournamentData = {

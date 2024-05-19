@@ -27,26 +27,12 @@ export async function addPlayer({
   }
 }
 
-export async function addLeague({
-  name,
-  date,
-  division,
-  position,
-  player1,
-  player2,
-  games1,
-  games2,
-}: LeagueData) {
+export async function addLeague({ name, date, matches }: LeagueData) {
   try {
     await setDoc(doc(db, "leagues", name), {
       name: name,
       date: date,
-      division: division,
-      position: position,
-      player1: player1,
-      player2: player2,
-      player1Games: games1,
-      player2Games: games2,
+      matches: matches,
     });
     console.log("Document written with ID: ");
     return true;
