@@ -40,7 +40,6 @@ export default function Tournaments({
   const MaleData = separateGenders(PlayerData, "Male");
   const FemaleData = separateGenders(PlayerData, "Female");
 
-  console.log(TournamentData);
   return (
     <div className="flex flex-col w-1/3 mx-2">
       <div className="flex justify-between items-center mt-2 px-2 ">

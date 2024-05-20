@@ -16,29 +16,28 @@ interface LeagueProps {
 export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
   const [openModal, setOpenModal] = useState(false);
   const methods = useForm<LeagueData>();
-
+  console.log(LeagueData);
   return (
-    <FormProvider {...methods}>
-      <div className="flex flex-col w-1/3 mx-2 mt-8">
-        <div className="flex justify-between items-center mt-2 px-2">
-          <div className="text-3xl text-center">Leagues</div>
-          <div className="w-1/4">
-            <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
+    <div className="flex flex-col w-1/3 mx-2 mt-8">
+      <div className="flex justify-between items-center mt-2 px-2">
+        <div className="text-3xl text-center">Leagues</div>
+        <div className="w-1/4">
+          <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
+        </div>
+      </div>
+
+      <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
+        {LeagueData.map((league, index) => (
+          <div key={index}>
+            <LeagueCard DefaultValues={league} PlayerData={PlayerData} />
           </div>
-        </div>
-
-        <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-          {LeagueData.map((league, index) => (
-            <div key={index}>
-              <LeagueCard DefaultValues={league} PlayerData={PlayerData} />
-            </div>
-          ))}
-        </div>
-
+        ))}
+      </div>
+      <FormProvider {...methods}>
         <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
           <LeagueForm PlayerData={PlayerData} />
         </Modal>
-      </div>
-    </FormProvider>
+      </FormProvider>
+    </div>
   );
 }
