@@ -2,11 +2,10 @@
 
 import LeagueCard from "./leaguecard";
 import AddButton from "../addbutton";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Modal from "../modal";
 import LeagueForm from "./leagueform";
 import { PlayerData, LeagueData } from "@/app/types/database";
-import { FormProvider, useForm } from "react-hook-form";
 
 interface LeagueProps {
   LeagueData: LeagueData[];
@@ -15,7 +14,7 @@ interface LeagueProps {
 
 export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
   const [openModal, setOpenModal] = useState(false);
-  const methods = useForm<LeagueData>();
+
   console.log(LeagueData);
   return (
     <div className="flex flex-col w-1/3 mx-2 mt-8">
@@ -33,11 +32,10 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
           </div>
         ))}
       </div>
-      <FormProvider {...methods}>
-        <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-          <LeagueForm PlayerData={PlayerData} />
-        </Modal>
-      </FormProvider>
+
+      <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
+        <LeagueForm PlayerData={PlayerData} />
+      </Modal>
     </div>
   );
 }
