@@ -2,12 +2,13 @@ import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { PlayerData, LeagueData } from "@/app/types/database";
 
 interface FormValues {
+  DefaultValues?: LeagueData;
   PlayerData: PlayerData[];
 }
 
 const selectorStyles = "border-2 border-slate-200 rounded-md pl-2 bg-white";
 
-export default function MatchesForm({ PlayerData }: FormValues) {
+export default function MatchesForm({ PlayerData, DefaultValues }: FormValues) {
   const { control, register } = useFormContext<LeagueData>();
 
   const { fields, append, remove } = useFieldArray({
@@ -24,13 +25,14 @@ export default function MatchesForm({ PlayerData }: FormValues) {
               <div className="flex flex-col">
                 <label className="text-xs">Division</label>
                 <select
+                  defaultValue={`DefaultValues?.matches.${index}.division`}
                   className={selectorStyles}
                   {...register(`matches.${index}.division`, { required: true })}
                 >
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
+                  <option value={"1"}>1</option>
+                  <option value={"2"}>2</option>
+                  <option value={"3"}>3</option>
+                  <option value={"4"}>4</option>
                 </select>
               </div>
 

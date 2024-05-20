@@ -3,7 +3,7 @@ import { PlayerData, LeagueData } from "@/app/types/database";
 import { updateLeague } from "@/app/hooks/updateData";
 import MatchesForm from "./matchesForm";
 
-interface FormComponentProps {
+interface EditProps {
   DefaultValues: LeagueData;
   PlayerData: PlayerData[];
 }
@@ -11,7 +11,7 @@ interface FormComponentProps {
 export default function EditLeagueForm({
   DefaultValues,
   PlayerData,
-}: FormComponentProps) {
+}: EditProps) {
   const { register, handleSubmit, formState } = useFormContext<LeagueData>();
   const errors = formState.errors;
 
@@ -31,6 +31,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col w-2/3">
             <input
               placeholder="League Name"
+              defaultValue={DefaultValues.name}
               {...register("name", { required: true })}
               className="border-2 border-slate-200 rounded-md w-full"
             />
@@ -41,6 +42,7 @@ export default function EditLeagueForm({
           <div className="flex flex-col w-1/4">
             <input
               placeholder="DD/MM/YYYY"
+              defaultValue={DefaultValues.date}
               {...register("date", { required: true })}
               className="border-2 border-slate-200 rounded-md w-full"
             />
@@ -53,7 +55,7 @@ export default function EditLeagueForm({
         {/* ----------------------------------------- Dynamic Form Component ----------------------------------*/}
         <div className="grid grid-cols-1 gap-2 pl-7 mt-2">
           <label className="justify-self-center">Matches</label>
-          <MatchesForm PlayerData={PlayerData} />
+          <MatchesForm PlayerData={PlayerData} DefaultValues={DefaultValues} />
         </div>
         <div className="pl-5">
           <input

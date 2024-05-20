@@ -19,7 +19,7 @@ export default function LeagueCard({ PlayerData, DefaultValues }: Props) {
         onClick={() => setOpenModal(!openModal)}
       >
         <div>{DefaultValues.name}</div>
-        <div className="">{DefaultValues.date}</div>
+        <div>{DefaultValues.date}</div>
       </div>
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <EditLeagueForm DefaultValues={DefaultValues} PlayerData={PlayerData} />

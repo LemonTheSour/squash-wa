@@ -47,3 +47,11 @@ export type TournamentData = {
   womenQuarterFinalist4: string;
   womenPlateWinner: string;
 }
+
+export type Matches = {
+  player: string;
+  placement:{
+    event: string;
+    placement: string;
+  }[]
+}

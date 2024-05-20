@@ -4,12 +4,14 @@ import { db } from "../../../firebase/clientApp";
 type leagueData = {
   name: string;
   date: string;
-  division: string;
-  position: string;
-  player1: string;
-  player2: string;
-  games1: string;
-  games2: string;
+  matches: {
+    division: string;
+    position: string;
+    player1: string;
+    player2: string;
+    games1: string;
+    games2: string;
+  }[];
 };
 
 export default async function getLeagues() {
@@ -20,12 +22,7 @@ export default async function getLeagues() {
     leagueData.push({
       name: doc.data().name,
       date: doc.data().date,
-      division: doc.data().division,
-      position: doc.data().position,
-      player1: doc.data().player1,
-      player2: doc.data().player2,
-      games1: doc.data().games1,
-      games2: doc.data().games2,
+      matches: doc.data().matches,
     });
   });
   return leagueData;

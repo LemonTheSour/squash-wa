@@ -20,7 +20,11 @@ export default function EditTournamentForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TournamentData>();
+  } = useForm<TournamentData>({
+    defaultValues: {
+      ...data,
+    },
+  });
 
   const onSubmit: SubmitHandler<TournamentData> = (data) => {
     UpdateTournaments(data);
@@ -121,7 +125,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -135,7 +139,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -149,7 +153,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -163,7 +167,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -180,7 +184,7 @@ export default function EditTournamentForm({
                       className={inputStyles}
                     >
                       {maleData.map((player, index) => (
-                        <option key={index} value={player.squashId}>
+                        <option key={index} value={player.squashId} selected>
                           {player.firstName} {player.lastName}
                         </option>
                       ))}
@@ -198,7 +202,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -214,7 +218,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -230,7 +234,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -246,7 +250,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -297,7 +301,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -311,7 +315,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -325,7 +329,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -339,7 +343,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId}>
+                    <option key={index} value={player.squashId} selected>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -355,7 +359,7 @@ export default function EditTournamentForm({
                       className={inputStyles}
                     >
                       {femaleData.map((player, index) => (
-                        <option key={index} value={player.squashId}>
+                        <option key={index} value={player.squashId} selected>
                           {player.firstName} {player.lastName}
                         </option>
                       ))}
@@ -375,7 +379,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -393,7 +397,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -411,7 +415,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -429,7 +433,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId}>
+                          <option key={index} value={player.squashId} selected>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
