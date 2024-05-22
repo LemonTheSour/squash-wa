@@ -7,6 +7,10 @@ export async function addPlayer({ ...PlayerData }: PlayerData) {
     await setDoc(doc(db, "players", PlayerData.squashId), {
       ...PlayerData,
     });
+    await setDoc(doc(db, "matches", PlayerData.squashId), {
+      playerId: PlayerData.squashId,
+      matches: [],
+    });
     console.log("Document written with ID: ");
     return true;
   } catch {

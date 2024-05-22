@@ -6,7 +6,7 @@ interface PlayerCardProps {
   firstName: string;
   lastName: string;
   gender: string;
-  rating: string;
+  rating: number;
   squashId: string;
   region: string;
 }

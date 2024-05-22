@@ -21,7 +21,6 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
     control,
   });
   const onSubmit: SubmitHandler<LeagueData> = async (data) => {
-    console.log(data);
     addLeague(data);
   };
 

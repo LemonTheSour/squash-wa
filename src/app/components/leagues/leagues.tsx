@@ -15,7 +15,6 @@ interface LeagueProps {
 export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
   const [openModal, setOpenModal] = useState(false);
 
-  console.log(LeagueData);
   return (
     <div className="flex flex-col w-1/3 mx-2 mt-8">
       <div className="flex justify-between items-center mt-2 px-2">

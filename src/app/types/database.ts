@@ -4,7 +4,7 @@ export type PlayerData = {
   lastName: string;
   gender: string;
   region: string;
-  rating: string;
+  rating: number;
 }
 
 export type LeagueData = {
@@ -48,9 +48,10 @@ export type TournamentData = {
   womenPlateWinner: string;
 }
 
-export type Matches = {
-  player: string;
-  placement:{
+export type MatchData = {
+  playerId: string;
+  matches:{
+    points: number;
     event: string;
     placement: string;
   }[]

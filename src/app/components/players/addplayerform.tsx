@@ -73,9 +73,9 @@ export default function AddPlayerForm() {
           <option value="Country">Country</option>
         </select>
         <input
-          placeholder="Rating"
+          value={0}
+          type="hidden"
           {...register("rating", { required: true })}
-          className="border-2 border-slate-200 rounded-md col-span-2"
         />
         <input
           type="submit"

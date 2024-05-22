@@ -7,7 +7,7 @@ type playerData = {
   lastName: string;
   gender: string;
   region: string;
-  rating: string;
+  rating: number;
 };
 
 export default async function getPlayers() {

@@ -4,6 +4,7 @@ import Players from "../components/players/players";
 import getPlayers from "../hooks/getPlayers";
 import getLeagues from "../hooks/getLeagues";
 import getTournaments from "../hooks/getTournaments";
+import { calculateRating } from "../hooks/updateRating";
 
 const AllPlayers = await getPlayers();
 const LeagueData = await getLeagues();

@@ -1,7 +1,6 @@
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { PlayerData, LeagueData } from "@/app/types/database";
 import { updateLeague } from "@/app/hooks/updateData";
-import MatchesForm from "./matchesForm";
 
 interface EditProps {
   DefaultValues: LeagueData;

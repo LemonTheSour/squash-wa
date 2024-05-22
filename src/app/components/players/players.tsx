@@ -12,7 +12,7 @@ interface PlayerProps {
 
 export default function Players({ data }: PlayerProps) {
   const [openModal, setOpenModal] = useState(false);
-  data.sort((a, b) => Number(b.rating) - Number(a.rating));
+  data.sort((a, b) => b.rating - a.rating);
   return (
     <div className="flex flex-col w-1/3 mt-8 mx-2">
       <div className="flex justify-between items-center mt-2 px-2">

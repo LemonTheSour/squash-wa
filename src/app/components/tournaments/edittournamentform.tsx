@@ -30,9 +30,9 @@ export default function EditTournamentForm({
     UpdateTournaments(data);
   };
 
-  const [gender, setGender] = useState("men&women");
-  const [menSize, setMenSize] = useState("16");
-  const [womenSize, setWomenSize] = useState("16");
+  const [gender, setGender] = useState(data.gender);
+  const [menSize, setMenSize] = useState(data.menSize);
+  const [womenSize, setWomenSize] = useState(data.womenSize);
 
   return (
     <div className="grid grid-cols-9 px-2 grid-rows-auto gap-2">
