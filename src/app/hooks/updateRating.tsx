@@ -1,8 +1,11 @@
 import { db } from "../../../firebase/clientApp";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { MatchData, TournamentData } from "../types/database";
-import { LeagueMatches } from "../types/rating";
-import getPlayers from "./getPlayers";
+import {
+  MatchData,
+  TournamentData,
+  LeagueData,
+  Histories,
+} from "../types/database";
 
 const PSA = 5;
 const SATELLLITE = 10;
@@ -15,8 +18,8 @@ const QUARTERFINALIST = 4;
 const PLATEWINNER = 1;
 
 // Parse an array of matches and upload them to the database.
-export async function updateRating(Matches: MatchData[]) {
-  Matches.map(async (match) => {
+export async function updateMatches(Histories: Histories[]) {
+  Histories.map(async (match) => {
     try {
       await updateDoc(doc(db, "matches", match.playerId), {
         match: arrayUnion(match.matches),
@@ -30,9 +33,11 @@ export async function updateRating(Matches: MatchData[]) {
   });
 }
 
+// A function which is given a players match history, and uses it to recalculate
+// The players new ratings.
 export async function calculateRating(Matches: MatchData[]) {
+  // TODO Add function to remove match history based on time.
   Matches.map(async (match) => {
-    // const playerRating = AllPlayers.find(item => item.squashId === match.playerId)
     const playerRef = doc(db, "players", match.playerId);
     let newRating = 0;
     match.matches.map((game) => {
@@ -45,60 +50,61 @@ export async function calculateRating(Matches: MatchData[]) {
   });
 }
 
-// Function which returns two MatchData objects [Winner, Loser]
-export function collectLeagueMatches(
-  matches: LeagueMatches,
-  leagueTitle: string
-) {
-  if (matches.games1 > matches.games2) {
-    return [
-      {
-        playerId: matches.player1,
-        match: {
+// Function which returns an array of match histories.
+export function collectLeagueMatches(LeagueData: LeagueData) {
+  const matches = LeagueData.matches;
+  const matchList: Histories[] = [];
+  matches.map((match) => {
+    // If player1 wins the match, updated the matchlist to reflect
+    // thier win and player2's loss
+    if (match.games1 > match.games2) {
+      matchList.push({
+        playerId: match.player1,
+        matches: {
           points: LEAGUE,
-          event: leagueTitle,
           placement: "Winner",
+          event: LeagueData.name,
         },
-      },
-      {
-        playerId: matches.player2,
-        match: {
+      });
+      matchList.push({
+        playerId: match.player2,
+        matches: {
           points: 0,
-          event: leagueTitle,
           placement: "Loser",
+          event: LeagueData.name,
         },
-      },
-    ];
-  } else {
-    if (matches.games2 > matches.games1) {
-      return [
-        {
-          playerId: matches.player2,
-          match: {
-            points: LEAGUE,
-            event: matches.division,
-            placement: "Winner",
-          },
-        },
-        {
-          playerId: matches.player1,
-          match: {
-            points: 0,
-            event: matches.division,
-            placement: "Loser",
-          },
-        },
-      ];
+      });
     }
-  }
+    // If player2 wins the match, update the match to reflect
+    // player2's win and player 1's loss
+    else {
+      matchList.push({
+        playerId: match.player2,
+        matches: {
+          points: LEAGUE,
+          placement: "Winner",
+          event: LeagueData.name,
+        },
+      });
+      matchList.push({
+        playerId: match.player1,
+        matches: {
+          points: 0,
+          placement: "Loser",
+          event: LeagueData.name,
+        },
+      });
+    }
+  });
+  return matchList;
 }
 
 // Function which returns an array of MatchData from a Tournament form
 export function collectTournamentMatches(matches: TournamentData) {
-  const score = [
+  const score: Histories[] = [
     {
       playerId: matches.menWinner,
-      match: {
+      matches: {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
@@ -106,7 +112,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menRunnerUp,
-      match: {
+      matches: {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
@@ -114,7 +120,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menSemiFinalist1,
-      match: {
+      matches: {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
@@ -122,7 +128,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menSemiFinalist2,
-      match: {
+      matches: {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
@@ -130,7 +136,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menQuarterFinalist1,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -138,7 +144,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menQuarterFinalist2,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -146,7 +152,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menQuarterFinalist3,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -154,7 +160,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menQuarterFinalist4,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -162,7 +168,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.menPlateWinner,
-      match: {
+      matches: {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",
@@ -170,7 +176,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenWinner,
-      match: {
+      matches: {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
@@ -178,7 +184,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenRunnerUp,
-      match: {
+      matches: {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
@@ -186,7 +192,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenSemiFinalist1,
-      match: {
+      matches: {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
@@ -194,7 +200,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenSemiFinalist2,
-      match: {
+      matches: {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
@@ -202,7 +208,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenQuarterFinalist1,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -210,7 +216,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenQuarterFinalist2,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -218,7 +224,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenQuarterFinalist3,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -226,7 +232,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenQuarterFinalist4,
-      match: {
+      matches: {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
@@ -234,7 +240,7 @@ export function collectTournamentMatches(matches: TournamentData) {
     },
     {
       playerId: matches.womenPlateWinner,
-      match: {
+      matches: {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",

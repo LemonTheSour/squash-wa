@@ -9,7 +9,7 @@ export default async function getPlayers() {
   querySnapshot.forEach((doc) => {
     matchData.push({
       playerId: doc.data().playerId,
-      match: doc.data().match,
+      matches: doc.data().matches,
     });
   });
 

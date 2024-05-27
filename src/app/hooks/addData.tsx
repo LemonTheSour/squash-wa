@@ -1,5 +1,6 @@
 import { doc, setDoc } from "firebase/firestore";
 import { LeagueData, PlayerData, TournamentData } from "../types/database";
+import { collectLeagueMatches, updateMatches } from "./updateRating";
 import { db } from "../../../firebase/clientApp";
 
 export async function addPlayer({ ...PlayerData }: PlayerData) {
@@ -7,10 +8,7 @@ export async function addPlayer({ ...PlayerData }: PlayerData) {
     await setDoc(doc(db, "players", PlayerData.squashId), {
       ...PlayerData,
     });
-    await setDoc(doc(db, "matches", PlayerData.squashId), {
-      playerId: PlayerData.squashId,
-      matches: [],
-    });
+    addMatch(PlayerData);
     console.log("Document written with ID: ");
     return true;
   } catch {
@@ -25,6 +23,8 @@ export async function addLeague({ ...LeagueData }: LeagueData) {
       ...LeagueData,
     });
     console.log("Document written with ID: ");
+    const histories = collectLeagueMatches(LeagueData);
+    updateMatches(histories);
     return true;
   } catch {
     console.log("Error Adding Document ");
@@ -60,6 +60,20 @@ export async function addTournament({ ...TournamentData }: TournamentData) {
     return true;
   } catch {
     console.log("Error Adding Document ");
+    return false;
+  }
+}
+
+async function addMatch(PlayerData: PlayerData) {
+  try {
+    await setDoc(doc(db, "matches", PlayerData.squashId), {
+      playerId: PlayerData.squashId,
+      matches: [],
+    });
+    console.log("Match Successfully Created");
+    return true;
+  } catch {
+    console.log("Error adding Match");
     return false;
   }
 }

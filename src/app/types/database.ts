@@ -56,3 +56,12 @@ export type MatchData = {
     placement: string;
   }[]
 }
+
+export type Histories = {
+  playerId: string;
+  matches:{
+    points: number;
+    event: string;
+    placement: string;
+  }
+}
