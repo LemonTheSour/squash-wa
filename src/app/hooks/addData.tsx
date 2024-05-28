@@ -1,6 +1,10 @@
 import { doc, setDoc } from "firebase/firestore";
 import { LeagueData, PlayerData, TournamentData } from "../types/database";
-import { collectLeagueMatches, updateMatches } from "./updateRating";
+import {
+  collectLeagueMatches,
+  collectTournamentMatches,
+  updateMatches,
+} from "./updateRating";
 import { db } from "../../../firebase/clientApp";
 
 export async function addPlayer({ ...PlayerData }: PlayerData) {
@@ -57,6 +61,9 @@ export async function addTournament({ ...TournamentData }: TournamentData) {
       ...TournamentData,
     });
     console.log("Document written with ID: ");
+    const histories = collectTournamentMatches(TournamentData);
+    console.log(histories);
+    updateMatches(histories);
     return true;
   } catch {
     console.log("Error Adding Document ");
@@ -76,4 +83,7 @@ async function addMatch(PlayerData: PlayerData) {
     console.log("Error adding Match");
     return false;
   }
+}
+function forceUpdate() {
+  throw new Error("Function not implemented.");
 }

@@ -1,7 +1,6 @@
 import { PlayerData } from "@/app/types/database";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { updatePlayer } from "@/app/hooks/updateData";
-import getPlayerIds from "@/app/hooks/getPlayerIds";
 
 interface EditPlayerProps {
   data: PlayerData;
@@ -15,11 +14,6 @@ export default function EditPlayerForm({ data }: EditPlayerProps) {
   } = useForm<PlayerData>();
 
   const onSubmit: SubmitHandler<PlayerData> = async (data) => {
-    const PlayerIds = getPlayerIds();
-    if ((await PlayerIds).includes(data.squashId)) {
-      console.log("Cannot use Duplicate Id");
-      return false;
-    }
     updatePlayer(data);
   };
 

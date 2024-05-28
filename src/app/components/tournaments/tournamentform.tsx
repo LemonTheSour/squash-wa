@@ -21,7 +21,6 @@ export default function TournamentForm({
   } = useForm<TournamentData>();
 
   const onSubmit: SubmitHandler<TournamentData> = (data) => {
-    console.log(data);
     addTournament(data);
   };
 
