@@ -22,7 +22,7 @@ export async function updateMatches(Histories: Histories[]) {
   Histories.map(async (match) => {
     try {
       await updateDoc(doc(db, "matches", match.playerId), {
-        match: arrayUnion(match.matches),
+        matches: arrayUnion(match.matches),
       });
       console.log("Match History Updated");
       return true;
@@ -43,7 +43,7 @@ export async function calculateRating(Matches: MatchData[]) {
     match.matches.map((game) => {
       newRating += game.points;
     });
-
+    console.log(newRating);
     await updateDoc(playerRef, {
       rating: newRating,
     });

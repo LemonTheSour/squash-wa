@@ -1,11 +1,13 @@
 import { doc, setDoc } from "firebase/firestore";
 import { LeagueData, PlayerData, TournamentData } from "../types/database";
 import {
+  calculateRating,
   collectLeagueMatches,
   collectTournamentMatches,
   updateMatches,
 } from "./updateRating";
 import { db } from "../../../firebase/clientApp";
+import getMatches from "./getMatches";
 
 export async function addPlayer({ ...PlayerData }: PlayerData) {
   try {
@@ -29,6 +31,8 @@ export async function addLeague({ ...LeagueData }: LeagueData) {
     console.log("Document written with ID: ");
     const histories = collectLeagueMatches(LeagueData);
     updateMatches(histories);
+    const matches = await getMatches();
+    calculateRating(matches);
     return true;
   } catch {
     console.log("Error Adding Document ");
@@ -62,8 +66,9 @@ export async function addTournament({ ...TournamentData }: TournamentData) {
     });
     console.log("Document written with ID: ");
     const histories = collectTournamentMatches(TournamentData);
-    console.log(histories);
     updateMatches(histories);
+    const matches = await getMatches();
+    calculateRating(matches);
     return true;
   } catch {
     console.log("Error Adding Document ");
@@ -83,7 +88,4 @@ async function addMatch(PlayerData: PlayerData) {
     console.log("Error adding Match");
     return false;
   }
-}
-function forceUpdate() {
-  throw new Error("Function not implemented.");
 }
