@@ -1,4 +1,4 @@
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase/clientApp";
 
 type playerData = {
@@ -24,5 +24,17 @@ export default async function getPlayers() {
       rating: doc.data().rating,
     });
   });
+  playerData.sort((a, b) => b.rating - a.rating);
   return playerData;
+}
+
+export async function getPlayers2() {
+  const playerRef = collection(db, "players");
+  const playerSnapshot = onSnapshot(playerRef, (snapshot) => {
+    const playerData = snapshot.docs.map((doc) => {
+      return { ...doc.data() };
+    });
+    return playerData;
+  });
+  return playerSnapshot;
 }

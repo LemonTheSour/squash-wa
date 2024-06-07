@@ -1,18 +1,31 @@
 "use client";
-import { useState } from "react";
+
 import AddButton from "../addbutton";
 import AdminPlayerCard from "./adminplayercard";
 import Modal from "../modal";
 import AddPlayerForm from "./addplayerform";
 import { PlayerData } from "@/app/types/database";
+import { useEffect, useState } from "react";
+import { db } from "../../../../firebase/clientApp";
+import { collection, onSnapshot } from "firebase/firestore";
 
 interface PlayerProps {
-  data: PlayerData[];
+  PlayerData: PlayerData[];
 }
 
-export default function Players({ data }: PlayerProps) {
+export default function Players({ PlayerData }: PlayerProps) {
   const [openModal, setOpenModal] = useState(false);
-  data.sort((a, b) => b.rating - a.rating);
+  const [PlayerData2, setPlayerData2] = useState(PlayerData);
+
+  useEffect(() => {
+    const dataRef = collection(db, "players");
+    const unsub = onSnapshot(dataRef, (snapshot) => {
+      const newData: PlayerData[] = [];
+      snapshot.docs.map((doc) => newData.push(doc.data() as PlayerData));
+      setPlayerData2(newData);
+    });
+  }, [PlayerData2]);
+
   return (
     <div className="flex flex-col w-1/3 mt-8 mx-2">
       <div className="flex justify-between items-center mt-2 px-2">
@@ -23,7 +36,7 @@ export default function Players({ data }: PlayerProps) {
       </div>
 
       <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-        {data.map((player, index) => (
+        {PlayerData2.map((player, index) => (
           <div key={index}>
             <AdminPlayerCard data={player} position={index + 1} />
           </div>
@@ -31,7 +44,7 @@ export default function Players({ data }: PlayerProps) {
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <AddPlayerForm />
+        <AddPlayerForm PlayerData={PlayerData2} />
       </Modal>
     </div>
   );

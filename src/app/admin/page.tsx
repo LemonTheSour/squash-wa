@@ -14,7 +14,7 @@ export default function Admin() {
     <div className="flex flex-col justify-center items-center pt-20">
       <Tournaments TournamentData={TournamentData} PlayerData={AllPlayers} />
       <Leagues LeagueData={LeagueData} PlayerData={AllPlayers} />
-      <Players data={AllPlayers} />
+      <Players PlayerData={AllPlayers} />
     </div>
   );
 }

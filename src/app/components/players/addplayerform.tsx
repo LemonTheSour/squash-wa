@@ -2,8 +2,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import getPlayerIds from "@/app/hooks/getPlayerIds";
 import { PlayerData } from "@/app/types/database";
 import { addPlayer } from "@/app/hooks/addData";
+import getPlayers from "@/app/hooks/getPlayers";
+import { Dispatch, SetStateAction } from "react";
 
-export default function AddPlayerForm() {
+interface PlayerFormProps {
+  PlayerData: PlayerData[];
+}
+export default function AddPlayerForm({ PlayerData }: PlayerFormProps) {
   const {
     register,
     handleSubmit,
@@ -17,6 +22,7 @@ export default function AddPlayerForm() {
       return false;
     }
     addPlayer(data);
+    const NewData = await getPlayers();
   };
 
   return (
