@@ -15,16 +15,19 @@ interface PlayerProps {
 
 export default function Players({ PlayerData }: PlayerProps) {
   const [openModal, setOpenModal] = useState(false);
-  const [PlayerData2, setPlayerData2] = useState(PlayerData);
+  const [PlayerData2, setPlayerData2] = useState<PlayerData[]>(PlayerData);
 
   useEffect(() => {
     const dataRef = collection(db, "players");
+    console.log(dataRef);
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: PlayerData[] = [];
       snapshot.docs.map((doc) => newData.push(doc.data() as PlayerData));
+      newData.sort((a, b) => b.rating - a.rating);
       setPlayerData2(newData);
     });
-  }, [PlayerData2]);
+    return () => unsub();
+  }, []);
 
   return (
     <div className="flex flex-col w-1/3 mt-8 mx-2">
