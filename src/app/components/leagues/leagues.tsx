@@ -60,7 +60,10 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <LeagueForm PlayerData={PlayerData2} />
+        <LeagueForm
+          PlayerData={PlayerData2}
+          onClose={() => setOpenModal(false)}
+        />
       </Modal>
     </div>
   );

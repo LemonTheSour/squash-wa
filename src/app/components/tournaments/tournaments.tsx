@@ -72,7 +72,11 @@ export default function Tournaments({
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <TournamentForm maleData={MaleData} femaleData={FemaleData} />
+        <TournamentForm
+          maleData={MaleData}
+          femaleData={FemaleData}
+          onClose={() => setOpenModal(false)}
+        />
       </Modal>
     </div>
   );

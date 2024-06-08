@@ -4,11 +4,15 @@ import { addLeague } from "@/app/hooks/addData";
 
 interface FormComponentProps {
   PlayerData: PlayerData[];
+  onClose: () => void;
 }
 
 const selectorStyles = "border-2 border-slate-200 rounded-md pl-2 bg-white";
 
-export default function LeagueForm({ PlayerData }: FormComponentProps) {
+export default function LeagueForm({
+  PlayerData,
+  onClose,
+}: FormComponentProps) {
   const {
     register,
     handleSubmit,
@@ -21,7 +25,8 @@ export default function LeagueForm({ PlayerData }: FormComponentProps) {
     control,
   });
   const onSubmit: SubmitHandler<LeagueData> = async (data) => {
-    addLeague(data);
+    await addLeague(data);
+    onClose();
   };
 
   return (

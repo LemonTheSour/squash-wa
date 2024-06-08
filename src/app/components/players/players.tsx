@@ -47,7 +47,10 @@ export default function Players({ PlayerData }: PlayerProps) {
       </div>
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <AddPlayerForm PlayerData={PlayerData2} />
+        <AddPlayerForm
+          PlayerData={PlayerData2}
+          onClose={() => setOpenModal(false)}
+        />
       </Modal>
     </div>
   );

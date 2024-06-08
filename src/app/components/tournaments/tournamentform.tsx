@@ -8,11 +8,13 @@ const inputStyles = "w-full border-2 border-slate-200 rounded-md bg-white";
 interface AddTournamentFormProps {
   maleData: PlayerData[];
   femaleData: PlayerData[];
+  onClose: () => void;
 }
 
 export default function TournamentForm({
   maleData,
   femaleData,
+  onClose,
 }: AddTournamentFormProps) {
   const {
     register,
@@ -20,8 +22,9 @@ export default function TournamentForm({
     formState: { errors },
   } = useForm<TournamentData>();
 
-  const onSubmit: SubmitHandler<TournamentData> = (data) => {
-    addTournament(data);
+  const onSubmit: SubmitHandler<TournamentData> = async (data) => {
+    await addTournament(data);
+    onClose();
   };
 
   const [gender, setGender] = useState("men&women");

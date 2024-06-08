@@ -50,7 +50,7 @@ export async function calculateRating(Matches: MatchData[]) {
   });
 }
 
-// Function which returns an array of match histories.
+// Function which returns an array of League match histories.
 export function collectLeagueMatches(LeagueData: LeagueData) {
   const matches = LeagueData.matches;
   const matchList: Histories[] = [];

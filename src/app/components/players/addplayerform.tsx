@@ -7,8 +7,13 @@ import { Dispatch, SetStateAction } from "react";
 
 interface PlayerFormProps {
   PlayerData: PlayerData[];
+  onClose: () => void;
 }
-export default function AddPlayerForm({ PlayerData }: PlayerFormProps) {
+
+export default function AddPlayerForm({
+  PlayerData,
+  onClose,
+}: PlayerFormProps) {
   const {
     register,
     handleSubmit,
@@ -21,8 +26,8 @@ export default function AddPlayerForm({ PlayerData }: PlayerFormProps) {
       console.log("Cannot use Duplicate Id");
       return false;
     }
-    addPlayer(data);
-    const NewData = await getPlayers();
+    await addPlayer(data);
+    onClose();
   };
 
   return (
