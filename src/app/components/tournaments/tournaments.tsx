@@ -29,7 +29,6 @@ export default function Tournaments({
 
   useEffect(() => {
     const dataRef = collection(db, "players");
-    console.log(dataRef);
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: PlayerData[] = [];
       snapshot.docs.map((doc) => newData.push(doc.data() as PlayerData));
@@ -41,7 +40,6 @@ export default function Tournaments({
 
   useEffect(() => {
     const dataRef = collection(db, "tournaments");
-    console.log(dataRef);
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: TournamentData[] = [];
       snapshot.docs.map((doc) => newData.push(doc.data() as TournamentData));

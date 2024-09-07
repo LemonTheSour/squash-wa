@@ -65,3 +65,9 @@ export type Histories = {
     placement: string;
   }
 }
+
+export type History = {
+    points: number;
+    event: string;
+    placement: string
+}

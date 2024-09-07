@@ -1,6 +1,7 @@
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { PlayerData, LeagueData } from "@/app/types/database";
 import { updateLeague } from "@/app/hooks/updateData";
+import { updateLeagueMatches } from "@/app/hooks/updateMatches";
 
 interface EditProps {
   DefaultValues: LeagueData;
@@ -26,7 +27,8 @@ export default function EditLeagueForm({
   });
 
   const onSubmit: SubmitHandler<LeagueData> = async (data) => {
-    updateLeague(data);
+    await updateLeague(data);
+    await updateLeagueMatches(data, PlayerData);
   };
 
   return (

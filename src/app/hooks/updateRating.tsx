@@ -1,5 +1,11 @@
 import { db } from "../../../firebase/clientApp";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import {
   MatchData,
   TournamentData,
@@ -21,8 +27,17 @@ const PLATEWINNER = 1;
 export async function updateMatches(Histories: Histories[]) {
   Histories.map(async (match) => {
     try {
-      await updateDoc(doc(db, "matches", match.playerId), {
-        matches: arrayUnion(match.matches),
+      const subCollectionRef = collection(
+        db,
+        "matches",
+        match.playerId,
+        "matchHistory"
+      );
+      const newDocRef = doc(subCollectionRef);
+      await setDoc(newDocRef, {
+        points: match.matches.points,
+        event: match.matches.event,
+        placement: match.matches.placement,
       });
       console.log("Match History Updated");
       return true;
@@ -39,6 +54,7 @@ export async function calculateRating(Matches: MatchData[]) {
   // TODO Add function to remove match history based on time.
   Matches.map(async (match) => {
     const playerRef = doc(db, "players", match.playerId);
+    console.log(playerRef);
     let newRating = 0;
     match.matches.map((game) => {
       newRating += game.points;

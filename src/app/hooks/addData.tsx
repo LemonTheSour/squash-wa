@@ -1,5 +1,18 @@
-import { doc, setDoc } from "firebase/firestore";
-import { LeagueData, PlayerData, TournamentData } from "../types/database";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+} from "firebase/firestore";
+import {
+  History,
+  LeagueData,
+  MatchData,
+  PlayerData,
+  TournamentData,
+} from "../types/database";
 import {
   calculateRating,
   collectLeagueMatches,
@@ -15,27 +28,65 @@ export async function addPlayer({ ...PlayerData }: PlayerData) {
       ...PlayerData,
     });
     addMatch(PlayerData);
-    console.log("Document written with ID: ");
+    console.log("PlayerData successfully created");
     return true;
   } catch {
-    console.log("Error Adding Document ");
+    console.log("Error Adding PlayerData");
     return false;
   }
 }
 
 export async function addLeague({ ...LeagueData }: LeagueData) {
+  // Add the league to the database
   try {
     await setDoc(doc(db, "leagues", LeagueData.name), {
       ...LeagueData,
     });
-    console.log("Document written with ID: ");
+
+    // Update the players match history
     const histories = collectLeagueMatches(LeagueData);
-    updateMatches(histories);
-    const matches = await getMatches();
-    calculateRating(matches);
+    await updateMatches(histories);
+
+    // Collect all players in the league
+    const leagueMatches = LeagueData.matches;
+    const leaguePlayers: string[] = [];
+    leagueMatches.forEach((match) => {
+      if (leaguePlayers.indexOf(match.player1) === -1) {
+        leaguePlayers.push(match.player1);
+      }
+      if (leaguePlayers.indexOf(match.player2) === -1) {
+        leaguePlayers.push(match.player2);
+      }
+    });
+
+    // Update the players rating
+    const querySnapshot = await getDocs(
+      collection(db, "matches/1337/matchHistory")
+    );
+
+    const playerMatches: History[] = [];
+
+    // Fetch players match history
+    querySnapshot.forEach((doc) => {
+      if (doc.exists()) {
+        playerMatches.push({
+          points: doc.data().points,
+          event: doc.data().event,
+          placement: doc.data().placement,
+        });
+      }
+    });
+
+    // Calculate rating of one player
+    let rating = 0;
+    playerMatches.forEach((match) => {
+      rating += match.points;
+    });
+
+    console.log("League Successfully Created");
     return true;
   } catch {
-    console.log("Error Adding Document ");
+    console.log("Error Adding League");
     return false;
   }
 }
@@ -78,10 +129,7 @@ export async function addTournament({ ...TournamentData }: TournamentData) {
 
 async function addMatch(PlayerData: PlayerData) {
   try {
-    await setDoc(doc(db, "matches", PlayerData.squashId), {
-      playerId: PlayerData.squashId,
-      matches: [],
-    });
+    await setDoc(doc(db, "matches", PlayerData.squashId), {});
     console.log("Match Successfully Created");
     return true;
   } catch {
