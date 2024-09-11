@@ -17,6 +17,8 @@ export default function LeagueForm({
     register,
     handleSubmit,
     control,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<LeagueData>();
 
@@ -65,9 +67,16 @@ export default function LeagueForm({
           <label className="justify-self-center">Matches</label>
           <div>
             {fields.map((field, index) => {
+              setValue(`matches.${index}.matchId`, `${field.id}`);
               return (
                 <div key={field.id}>
                   <div className="grid grid-cols-9 gap-2 pl-7 mt-2 w-full">
+                    {/* ----- MatchId -------*/}
+
+                    <input
+                      type="hidden"
+                      {...register(`matches.${index}.matchId`)}
+                    />
                     <div className="flex flex-col">
                       <label className="text-xs">Division</label>
                       <select
@@ -83,7 +92,6 @@ export default function LeagueForm({
                         <option value={"4"}>4</option>
                       </select>
                     </div>
-
                     <div className="flex flex-col">
                       <label className="text-xs">Position</label>
                       <select
@@ -112,7 +120,6 @@ export default function LeagueForm({
                         ))}
                       </select>
                     </div>
-
                     <div className="flex flex-col col-span-1">
                       <label className="text-xs">Games</label>
                       <select
@@ -126,7 +133,6 @@ export default function LeagueForm({
                         <option value={3}>3</option>
                       </select>
                     </div>
-
                     <div className="flex flex-col col-span-2">
                       <label className="text-xs">Player2</label>
                       <select
@@ -171,6 +177,7 @@ export default function LeagueForm({
               className="border-black border-1 rounded-md ml-7 mt-2 text-sm p-1 hover:border-green-400"
               onClick={() =>
                 append({
+                  matchId: "",
                   division: "",
                   position: "",
                   player1: "",

@@ -33,7 +33,7 @@ export async function updateMatches(Histories: Histories[]) {
         match.playerId,
         "matchHistory"
       );
-      const newDocRef = doc(subCollectionRef);
+      const newDocRef = doc(subCollectionRef, match.matches.matchId);
       await setDoc(newDocRef, {
         points: match.matches.points,
         event: match.matches.event,
@@ -71,46 +71,29 @@ export function collectLeagueMatches(LeagueData: LeagueData) {
   const matches = LeagueData.matches;
   const matchList: Histories[] = [];
   matches.map((match) => {
-    // If player1 wins the match, updated the matchlist to reflect
-    // thier win and player2's loss
-    if (match.games1 > match.games2) {
-      matchList.push({
-        playerId: match.player1,
-        matches: {
-          points: LEAGUE,
-          placement: "Winner",
-          event: LeagueData.name,
-        },
-      });
-      matchList.push({
-        playerId: match.player2,
-        matches: {
-          points: 0,
-          placement: "Loser",
-          event: LeagueData.name,
-        },
-      });
-    }
-    // If player2 wins the match, update the match to reflect
-    // player2's win and player 1's loss
-    else {
-      matchList.push({
-        playerId: match.player2,
-        matches: {
-          points: LEAGUE,
-          placement: "Winner",
-          event: LeagueData.name,
-        },
-      });
-      matchList.push({
-        playerId: match.player1,
-        matches: {
-          points: 0,
-          placement: "Loser",
-          event: LeagueData.name,
-        },
-      });
-    }
+    // Determine the winning player and the losing player
+    const WINNER = match.games1 > match.games2 ? match.player1 : match.player2;
+    const LOSER = match.games1 > match.games2 ? match.player2 : match.player1;
+    console.log(WINNER);
+
+    matchList.push({
+      playerId: WINNER,
+      matches: {
+        points: LEAGUE,
+        placement: "Winner",
+        event: LeagueData.name,
+        matchId: match.matchId,
+      },
+    });
+    matchList.push({
+      playerId: LOSER,
+      matches: {
+        points: 0,
+        placement: "Loser",
+        event: LeagueData.name,
+        matchId: match.matchId,
+      },
+    });
   });
   return matchList;
 }
@@ -124,6 +107,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
+        matchId: "0",
       },
     },
     {
@@ -132,6 +116,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
+        matchId: "0",
       },
     },
     {
@@ -140,6 +125,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -148,6 +134,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -156,6 +143,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -164,6 +152,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -172,6 +161,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -180,6 +170,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -188,6 +179,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",
+        matchId: "0",
       },
     },
     {
@@ -196,6 +188,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
+        matchId: "0",
       },
     },
     {
@@ -204,6 +197,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
+        matchId: "0",
       },
     },
     {
@@ -212,6 +206,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -220,6 +215,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -228,6 +224,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -236,6 +233,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -244,6 +242,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -252,6 +251,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
+        matchId: "0",
       },
     },
     {
@@ -260,6 +260,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",
+        matchId: "0",
       },
     },
   ];

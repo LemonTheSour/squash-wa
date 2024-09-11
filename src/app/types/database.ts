@@ -11,6 +11,7 @@ export type LeagueData = {
   name: string;
   date: string;
   matches:{
+    matchId: string;
     division: string;
     position: string;
     player1: string;
@@ -63,6 +64,7 @@ export type Histories = {
     points: number;
     event: string;
     placement: string;
+    matchId: string;
   }
 }
 

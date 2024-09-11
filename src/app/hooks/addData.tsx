@@ -44,7 +44,6 @@ export async function addLeague({ ...LeagueData }: LeagueData) {
     await setDoc(doc(db, "leagues", LeagueData.name), {
       ...LeagueData,
     });
-
     // Update the players match history
     const histories = collectLeagueMatches(LeagueData);
     await updateMatches(histories);
