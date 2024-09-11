@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import {
   History,
@@ -20,7 +21,8 @@ import {
   updateMatches,
 } from "./updateRating";
 import { db } from "../../../firebase/clientApp";
-import getMatches from "./getMatches";
+import { getMatches } from "./getData";
+import { collectLeaguePlayers, updateLeaguePlayersRating } from "./utilities";
 
 export async function addPlayer({ ...PlayerData }: PlayerData) {
   try {
@@ -48,40 +50,10 @@ export async function addLeague({ ...LeagueData }: LeagueData) {
     await updateMatches(histories);
 
     // Collect all players in the league
-    const leagueMatches = LeagueData.matches;
-    const leaguePlayers: string[] = [];
-    leagueMatches.forEach((match) => {
-      if (leaguePlayers.indexOf(match.player1) === -1) {
-        leaguePlayers.push(match.player1);
-      }
-      if (leaguePlayers.indexOf(match.player2) === -1) {
-        leaguePlayers.push(match.player2);
-      }
-    });
+    const leaguePlayers = collectLeaguePlayers(LeagueData.matches);
 
     // Update the players rating
-    const querySnapshot = await getDocs(
-      collection(db, "matches/1337/matchHistory")
-    );
-
-    const playerMatches: History[] = [];
-
-    // Fetch players match history
-    querySnapshot.forEach((doc) => {
-      if (doc.exists()) {
-        playerMatches.push({
-          points: doc.data().points,
-          event: doc.data().event,
-          placement: doc.data().placement,
-        });
-      }
-    });
-
-    // Calculate rating of one player
-    let rating = 0;
-    playerMatches.forEach((match) => {
-      rating += match.points;
-    });
+    updateLeaguePlayersRating(leaguePlayers);
 
     console.log("League Successfully Created");
     return true;

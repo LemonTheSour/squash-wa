@@ -1,9 +1,7 @@
 import Tournaments from "../components/tournaments/tournaments";
 import Leagues from "../components/leagues/leagues";
 import Players from "../components/players/players";
-import getPlayers from "../hooks/getPlayers";
-import getLeagues from "../hooks/getLeagues";
-import getTournaments from "../hooks/getTournaments";
+import { getLeagues, getPlayers, getTournaments } from "../hooks/getData";
 
 const AllPlayers = await getPlayers();
 const LeagueData = await getLeagues();

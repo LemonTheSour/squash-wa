@@ -1,9 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import getPlayerIds from "@/app/hooks/getPlayerIds";
 import { PlayerData } from "@/app/types/database";
 import { addPlayer } from "@/app/hooks/addData";
-import getPlayers from "@/app/hooks/getPlayers";
 import { Dispatch, SetStateAction } from "react";
+import { getPlayerIds, getPlayers } from "@/app/hooks/getData";
 
 interface PlayerFormProps {
   PlayerData: PlayerData[];
