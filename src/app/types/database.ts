@@ -23,6 +23,7 @@ export type LeagueData = {
 
 export type TournamentData = {
   tournamentName: string;
+  matchId: string;
   date: string;
   gender: string;
   menSize: string;

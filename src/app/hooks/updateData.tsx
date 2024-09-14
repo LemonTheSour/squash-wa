@@ -26,10 +26,11 @@ export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
     await updateDoc(doc(db, "tournaments", TournamentData.tournamentName), {
       ...TournamentData,
     });
-    console.log("Document written with ID: ");
+
+    console.log("Tournament Succesfully Created");
     return true;
   } catch {
-    console.log("Error Adding Document ");
+    console.log("Error Creating Tournament");
     return false;
   }
 }

@@ -1,11 +1,8 @@
 import Rankings from "./components/homeRankings/rankings";
-import getPlayerData from "./hooks/getPlayerData";
+import { getPlayersByGender } from "./hooks/getData";
 
-const MaleData = await getPlayerData("Male");
-const FemaleData = await getPlayerData("Female");
-
-MaleData.sort((a, b) => Number(b.rating) - Number(a.rating));
-FemaleData.sort((a, b) => Number(b.rating) - Number(a.rating));
+const MaleData = await getPlayersByGender("Male");
+const FemaleData = await getPlayersByGender("Female");
 
 export default function Home() {
   return (

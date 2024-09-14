@@ -54,7 +54,7 @@ export async function calculateRating(Matches: MatchData[]) {
   // TODO Add function to remove match history based on time.
   Matches.map(async (match) => {
     const playerRef = doc(db, "players", match.playerId);
-    console.log(playerRef);
+
     let newRating = 0;
     match.matches.map((game) => {
       newRating += game.points;
@@ -74,7 +74,6 @@ export function collectLeagueMatches(LeagueData: LeagueData) {
     // Determine the winning player and the losing player
     const WINNER = match.games1 > match.games2 ? match.player1 : match.player2;
     const LOSER = match.games1 > match.games2 ? match.player2 : match.player1;
-    console.log(WINNER);
 
     matchList.push({
       playerId: WINNER,
@@ -100,14 +99,14 @@ export function collectLeagueMatches(LeagueData: LeagueData) {
 
 // Function which returns an array of MatchData from a Tournament form
 export function collectTournamentMatches(matches: TournamentData) {
-  const score: Histories[] = [
+  const scores: Histories[] = [
     {
       playerId: matches.menWinner,
       matches: {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MWI`,
       },
     },
     {
@@ -116,7 +115,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MRU`,
       },
     },
     {
@@ -125,7 +124,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MSF1`,
       },
     },
     {
@@ -134,7 +133,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MSF2`,
       },
     },
     {
@@ -143,7 +142,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MQF1`,
       },
     },
     {
@@ -152,7 +151,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MQF2`,
       },
     },
     {
@@ -161,7 +160,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MQF3`,
       },
     },
     {
@@ -170,7 +169,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MQF4`,
       },
     },
     {
@@ -179,7 +178,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-MPW`,
       },
     },
     {
@@ -188,7 +187,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WWI`,
       },
     },
     {
@@ -197,7 +196,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WRU`,
       },
     },
     {
@@ -206,7 +205,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WSF1`,
       },
     },
     {
@@ -215,7 +214,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WSF2`,
       },
     },
     {
@@ -224,7 +223,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WQF1`,
       },
     },
     {
@@ -233,7 +232,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WQF2`,
       },
     },
     {
@@ -242,7 +241,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WQF3`,
       },
     },
     {
@@ -251,7 +250,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WQF4`,
       },
     },
     {
@@ -260,9 +259,14 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",
-        matchId: "0",
+        matchId: `${matches.tournamentName}-WPW`,
       },
     },
   ];
-  return score;
+  scores.forEach((score, index) => {
+    if (!score.playerId) {
+      scores.splice(index, 1);
+    }
+  });
+  return scores;
 }

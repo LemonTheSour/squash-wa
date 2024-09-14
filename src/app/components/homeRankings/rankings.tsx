@@ -1,13 +1,5 @@
 import HomePlayerCard from "./homePlayerCard";
-
-interface PlayerData {
-  squashId: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  region: string;
-  rating: string;
-}
+import { PlayerData } from "@/app/types/database";
 
 interface RankingProps {
   title: string;

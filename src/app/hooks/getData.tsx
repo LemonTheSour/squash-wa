@@ -21,6 +21,8 @@ export async function getPlayersByGender(gender: string) {
       rating: doc.data().rating,
     });
   });
+
+  playerData.sort((a, b) => Number(b.rating) - Number(a.rating));
   return playerData;
 }
 
@@ -86,6 +88,7 @@ export async function getTournaments() {
   querySnapshot.forEach((doc) => {
     tournamentData.push({
       tournamentName: doc.data().tournamentName,
+      matchId: doc.data().matchId,
       date: doc.data().date,
       gender: doc.data().gender,
       menSize: doc.data().menSize,

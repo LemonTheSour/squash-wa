@@ -1,5 +1,5 @@
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { PlayerData } from "../types/database";
+import { PlayerData, TournamentData } from "../types/database";
 import { LeagueMatches } from "../types/rating";
 import { db } from "../../../firebase/clientApp";
 import { History } from "../types/database";
@@ -39,8 +39,37 @@ export function collectLeaguePlayers(leagueMatches: LeagueMatches[]) {
   return leaguePlayers;
 }
 
+export function collectTournamentPlayers(tournamentMatch: TournamentData) {
+  const tournamentPlayers: string[] = [
+    tournamentMatch.menPlateWinner,
+    tournamentMatch.menRunnerUp,
+    tournamentMatch.menSemiFinalist1,
+    tournamentMatch.menSemiFinalist2,
+    tournamentMatch.menQuarterFinalist1,
+    tournamentMatch.menQuarterFinalist2,
+    tournamentMatch.menQuarterFinalist3,
+    tournamentMatch.menQuarterFinalist4,
+    tournamentMatch.menPlateWinner,
+    tournamentMatch.womenPlateWinner,
+    tournamentMatch.womenRunnerUp,
+    tournamentMatch.womenSemiFinalist1,
+    tournamentMatch.womenSemiFinalist2,
+    tournamentMatch.womenQuarterFinalist1,
+    tournamentMatch.womenQuarterFinalist2,
+    tournamentMatch.womenQuarterFinalist3,
+    tournamentMatch.womenQuarterFinalist4,
+    tournamentMatch.womenPlateWinner,
+  ];
+  tournamentPlayers.forEach((score, index) => {
+    if (!score) {
+      tournamentPlayers.splice(index, 1);
+    }
+  });
+  return tournamentPlayers;
+}
+
 // Update individual players' rating
-export async function updateLeaguePlayersRating(leaguePlayers: string[]) {
+export async function updatePlayersRating(leaguePlayers: string[]) {
   leaguePlayers.forEach(async (player) => {
     const querySnapshot = await getDocs(
       collection(db, `matches/${player}/matchHistory`)

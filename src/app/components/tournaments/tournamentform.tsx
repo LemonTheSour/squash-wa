@@ -19,6 +19,7 @@ export default function TournamentForm({
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<TournamentData>();
 
@@ -31,6 +32,8 @@ export default function TournamentForm({
   const [menSize, setMenSize] = useState("16");
   const [womenSize, setWomenSize] = useState("16");
 
+  setValue(`matchId`, `tournamentName`);
+
   return (
     <div className="grid grid-cols-9 px-2 grid-rows-auto gap-2">
       <div className="text-2xl col-span-9 justify-self-center">
@@ -40,8 +43,9 @@ export default function TournamentForm({
         onSubmit={handleSubmit(onSubmit)}
         className="col-span-9 w-full justify-self-center"
       >
+        {/* ----- MatchId -------*/}
+        <input type="hidden" {...register("matchId", { required: true })} />
         {/*Title and First 3 Modules of the Form */}
-
         <div className="grid grid-cols-9 space-x-2">
           <div className="flex flex-col col-span-4">
             <label className="text-sm">Tournament</label>
@@ -170,7 +174,7 @@ export default function TournamentForm({
                   <div>
                     <label className="text-sm font-medium">Plate Winner</label>
                     <select
-                      {...register("menPlateWinner", { required: true })}
+                      {...register("menPlateWinner")}
                       className={inputStyles}
                     >
                       {maleData.map((player, index) => (
@@ -187,7 +191,7 @@ export default function TournamentForm({
                         Quarter Finalist 1
                       </label>
                       <select
-                        {...register("menQuarterFinalist1", { required: true })}
+                        {...register("menQuarterFinalist1")}
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
@@ -202,7 +206,7 @@ export default function TournamentForm({
                         Quarter Finalist 2
                       </label>
                       <select
-                        {...register("menQuarterFinalist2", { required: true })}
+                        {...register("menQuarterFinalist2")}
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
@@ -217,7 +221,7 @@ export default function TournamentForm({
                         Quarter Finalist 3
                       </label>
                       <select
-                        {...register("menQuarterFinalist3", { required: true })}
+                        {...register("menQuarterFinalist3")}
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
@@ -232,7 +236,7 @@ export default function TournamentForm({
                         Quarter Finalist 4
                       </label>
                       <select
-                        {...register("menQuarterFinalist4", { required: true })}
+                        {...register("menQuarterFinalist4")}
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
@@ -334,7 +338,7 @@ export default function TournamentForm({
                   <div>
                     <label className="text-sm font-medium">Plate Winner</label>
                     <select
-                      {...register("womenPlateWinner", { required: true })}
+                      {...register("womenPlateWinner")}
                       className={inputStyles}
                     >
                       {femaleData.map((player, index) => (
@@ -351,9 +355,7 @@ export default function TournamentForm({
                         Quarter Finalist 1
                       </label>
                       <select
-                        {...register("womenQuarterFinalist1", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist1")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
@@ -368,9 +370,7 @@ export default function TournamentForm({
                         Quarter Finalist 2
                       </label>
                       <select
-                        {...register("womenQuarterFinalist2", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist2")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
@@ -385,9 +385,7 @@ export default function TournamentForm({
                         Quarter Finalist 3
                       </label>
                       <select
-                        {...register("womenQuarterFinalist3", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist3")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
@@ -402,9 +400,7 @@ export default function TournamentForm({
                         Quarter Finalist 4
                       </label>
                       <select
-                        {...register("womenQuarterFinalist4", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist4")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (

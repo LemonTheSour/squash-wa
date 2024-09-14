@@ -22,7 +22,11 @@ import {
 } from "./updateRating";
 import { db } from "../../../firebase/clientApp";
 import { getMatches } from "./getData";
-import { collectLeaguePlayers, updateLeaguePlayersRating } from "./utilities";
+import {
+  collectLeaguePlayers,
+  collectTournamentPlayers,
+  updatePlayersRating,
+} from "./utilities";
 
 export async function addPlayer({ ...PlayerData }: PlayerData) {
   try {
@@ -52,7 +56,7 @@ export async function addLeague({ ...LeagueData }: LeagueData) {
     const leaguePlayers = collectLeaguePlayers(LeagueData.matches);
 
     // Update the players rating
-    updateLeaguePlayersRating(leaguePlayers);
+    updatePlayersRating(leaguePlayers);
 
     console.log("League Successfully Created");
     return true;
@@ -63,34 +67,28 @@ export async function addLeague({ ...LeagueData }: LeagueData) {
 }
 
 export async function addTournament({ ...TournamentData }: TournamentData) {
-  if (
-    TournamentData.menPlateWinner == undefined ||
-    TournamentData.womenPlateWinner == undefined
-  ) {
-    TournamentData.menPlateWinner = "Male Plate Winner";
-    TournamentData.womenPlateWinner = "Women Plate Winner";
-  }
-
-  if (TournamentData.menQuarterFinalist1 == undefined) {
-    TournamentData.menQuarterFinalist1 = "Male Quarter Finalist";
-    TournamentData.menQuarterFinalist2 = "Male Quarter Finalist";
-    TournamentData.menQuarterFinalist3 = "Male Quarter Finalist";
-    TournamentData.menQuarterFinalist4 = "Male Quarter Finalist";
-    TournamentData.womenQuarterFinalist1 = "Female Quarter Finalist";
-    TournamentData.womenQuarterFinalist2 = "Female Quarter Finalist";
-    TournamentData.womenQuarterFinalist3 = "Female Quarter Finalist";
-    TournamentData.womenQuarterFinalist4 = "Female Quarter Finalist";
-  }
-
+  // setValue of form input
   try {
     await setDoc(doc(db, "tournaments", TournamentData.tournamentName), {
       ...TournamentData,
     });
-    console.log("Document written with ID: ");
+    console.log("Tournament Successfully Created");
+
+    // Collect tournament data
     const histories = collectTournamentMatches(TournamentData);
-    updateMatches(histories);
-    const matches = await getMatches();
-    calculateRating(matches);
+    console.log("Histories successfully collected");
+
+    // Update players match histories
+    await updateMatches(histories);
+    console.log("Matches Successfully Updated");
+
+    // Collect all players in the tournament
+    const tournamentPlayers = collectTournamentPlayers(TournamentData);
+
+    // Update the players rating
+    updatePlayersRating(tournamentPlayers);
+    console.log("Rating successfully updated");
+
     return true;
   } catch {
     console.log("Error Adding Document ");
