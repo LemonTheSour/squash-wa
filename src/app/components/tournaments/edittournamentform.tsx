@@ -125,7 +125,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -139,7 +139,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -153,7 +153,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -167,7 +167,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {maleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -184,7 +184,7 @@ export default function EditTournamentForm({
                       className={inputStyles}
                     >
                       {maleData.map((player, index) => (
-                        <option key={index} value={player.squashId} selected>
+                        <option key={index} value={player.squashId}>
                           {player.firstName} {player.lastName}
                         </option>
                       ))}
@@ -202,7 +202,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -218,7 +218,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -234,7 +234,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -250,7 +250,7 @@ export default function EditTournamentForm({
                         className={inputStyles}
                       >
                         {maleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -301,7 +301,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -315,7 +315,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -329,7 +329,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -343,7 +343,7 @@ export default function EditTournamentForm({
                   className={inputStyles}
                 >
                   {femaleData.map((player, index) => (
-                    <option key={index} value={player.squashId} selected>
+                    <option key={index} value={player.squashId}>
                       {player.firstName} {player.lastName}
                     </option>
                   ))}
@@ -359,7 +359,7 @@ export default function EditTournamentForm({
                       className={inputStyles}
                     >
                       {femaleData.map((player, index) => (
-                        <option key={index} value={player.squashId} selected>
+                        <option key={index} value={player.squashId}>
                           {player.firstName} {player.lastName}
                         </option>
                       ))}

@@ -22,7 +22,11 @@ export default function LeagueCard({ PlayerData, DefaultValues }: Props) {
         <div>{DefaultValues.date}</div>
       </div>
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <EditLeagueForm DefaultValues={DefaultValues} PlayerData={PlayerData} />
+        <EditLeagueForm
+          DefaultValues={DefaultValues}
+          PlayerData={PlayerData}
+          onClose={() => setOpenModal(false)}
+        />
       </Modal>
     </div>
   );

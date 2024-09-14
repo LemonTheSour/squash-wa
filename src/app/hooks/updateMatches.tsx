@@ -8,7 +8,7 @@ import {
 import { collectLeagueMatches, collectTournamentMatches } from "./updateRating";
 import { db } from "../../../firebase/clientApp";
 
-export async function updateLeagueMatches(
+export async function updateLeagueMatches22(
   leagueData: LeagueData,
   playerData: PlayerData[]
 ) {
@@ -20,6 +20,7 @@ export async function updateLeagueMatches(
     const history = await getDoc(doc(matchRef, league.playerId));
     if (history) {
       const match = history.data() as MatchData;
+      console.log(match);
       match.matches.map((match) => {
         if (match.event == league.matches.event) {
           match = league.matches;

@@ -1,11 +1,11 @@
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { PlayerData, LeagueData } from "@/app/types/database";
 import { updateLeague } from "@/app/hooks/updateData";
-import { updateLeagueMatches } from "@/app/hooks/updateMatches";
 
 interface EditProps {
   DefaultValues: LeagueData;
   PlayerData: PlayerData[];
+  onClose: () => void;
 }
 
 const selectorStyles = "border-2 border-slate-200 rounded-md pl-2 bg-white";
@@ -13,6 +13,7 @@ const selectorStyles = "border-2 border-slate-200 rounded-md pl-2 bg-white";
 export default function EditLeagueForm({
   DefaultValues,
   PlayerData,
+  onClose,
 }: EditProps) {
   const {
     register,
@@ -28,7 +29,7 @@ export default function EditLeagueForm({
 
   const onSubmit: SubmitHandler<LeagueData> = async (data) => {
     await updateLeague(data);
-    await updateLeagueMatches(data, PlayerData);
+    onClose();
   };
 
   return (
@@ -72,6 +73,12 @@ export default function EditLeagueForm({
               return (
                 <div key={field.id}>
                   <div className="grid grid-cols-9 gap-2 pl-7 mt-2 w-full">
+                    {/* ----- MatchId -------*/}
+                    <input
+                      defaultValue={`DefaultValues?.matches.${index}.matchId`}
+                      type="hidden"
+                      {...register(`matches.${index}.matchId`)}
+                    />
                     <div className="flex flex-col">
                       <label className="text-xs">Division</label>
                       <select
@@ -175,6 +182,7 @@ export default function EditLeagueForm({
               className="border-black border-1 rounded-md ml-7 mt-2 text-sm p-1 hover:border-green-400"
               onClick={() =>
                 append({
+                  matchId: "",
                   division: "",
                   position: "",
                   player1: "",

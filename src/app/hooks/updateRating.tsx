@@ -1,11 +1,5 @@
 import { db } from "../../../firebase/clientApp";
-import {
-  arrayUnion,
-  collection,
-  doc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import {
   MatchData,
   TournamentData,
@@ -43,6 +37,32 @@ export async function updateMatches(Histories: Histories[]) {
       return true;
     } catch {
       console.log("Match History Failed To Update");
+      return false;
+    }
+  });
+}
+
+// Parse an array of matches and upload them to the database.
+export async function alterMatches(Histories: Histories[]) {
+  Histories.map(async (match) => {
+    try {
+      const docRef = doc(
+        db,
+        "matches",
+        match.playerId,
+        "matchHistory",
+        match.matches.matchId
+      );
+
+      await setDoc(docRef, {
+        points: match.matches.points,
+        event: match.matches.event,
+        placement: match.matches.placement,
+      });
+      console.log("Match History Altered");
+      return true;
+    } catch {
+      console.log("Match History Failed To Alter");
       return false;
     }
   });

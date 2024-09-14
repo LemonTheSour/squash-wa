@@ -1,6 +1,12 @@
 import { db } from "../../../firebase/clientApp";
 import { doc, updateDoc } from "firebase/firestore";
 import { TournamentData, LeagueData, PlayerData } from "../types/database";
+import {
+  alterMatches,
+  collectLeagueMatches,
+  updateMatches,
+} from "./updateRating";
+import { collectLeaguePlayers, updatePlayersRating } from "./utilities";
 
 export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
   if (
@@ -36,14 +42,25 @@ export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
 }
 
 export async function updateLeague({ ...LeagueData }: LeagueData) {
+  // Add the league to the database
   try {
     await updateDoc(doc(db, "leagues", LeagueData.name), {
       ...LeagueData,
     });
-    console.log("Document written with ID: ");
+
+    // Update the players match history
+    const histories = collectLeagueMatches(LeagueData);
+    await alterMatches(histories);
+
+    // Collect all players in the league
+    const leaguePlayers = collectLeaguePlayers(LeagueData.matches);
+    // Update the players rating
+    await updatePlayersRating(leaguePlayers);
+
+    console.log("League Successfully Updated");
     return true;
   } catch {
-    console.log("Error Adding Document ");
+    console.log("Error Updating League");
     return false;
   }
 }

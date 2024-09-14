@@ -1,27 +1,12 @@
+import { doc, setDoc } from "firebase/firestore";
+import { LeagueData, PlayerData, TournamentData } from "../types/database";
 import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import {
-  History,
-  LeagueData,
-  MatchData,
-  PlayerData,
-  TournamentData,
-} from "../types/database";
-import {
-  calculateRating,
   collectLeagueMatches,
   collectTournamentMatches,
   updateMatches,
 } from "./updateRating";
 import { db } from "../../../firebase/clientApp";
-import { getMatches } from "./getData";
+
 import {
   collectLeaguePlayers,
   collectTournamentPlayers,

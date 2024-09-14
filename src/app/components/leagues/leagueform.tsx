@@ -17,7 +17,6 @@ export default function LeagueForm({
     register,
     handleSubmit,
     control,
-    getValues,
     setValue,
     formState: { errors },
   } = useForm<LeagueData>();
@@ -72,7 +71,6 @@ export default function LeagueForm({
                 <div key={field.id}>
                   <div className="grid grid-cols-9 gap-2 pl-7 mt-2 w-full">
                     {/* ----- MatchId -------*/}
-
                     <input
                       type="hidden"
                       {...register(`matches.${index}.matchId`)}
