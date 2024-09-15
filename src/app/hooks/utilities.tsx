@@ -1,5 +1,17 @@
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { PlayerData, TournamentData } from "../types/database";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import {
+  LeagueData,
+  LeagueMatch,
+  PlayerData,
+  TournamentData,
+} from "../types/database";
 import { LeagueMatches } from "../types/rating";
 import { db } from "../../../firebase/clientApp";
 import { History } from "../types/database";
@@ -49,7 +61,6 @@ export function collectTournamentPlayers(tournamentMatch: TournamentData) {
     tournamentMatch.menQuarterFinalist2,
     tournamentMatch.menQuarterFinalist3,
     tournamentMatch.menQuarterFinalist4,
-    tournamentMatch.menPlateWinner,
     tournamentMatch.womenPlateWinner,
     tournamentMatch.womenRunnerUp,
     tournamentMatch.womenSemiFinalist1,
@@ -58,7 +69,6 @@ export function collectTournamentPlayers(tournamentMatch: TournamentData) {
     tournamentMatch.womenQuarterFinalist2,
     tournamentMatch.womenQuarterFinalist3,
     tournamentMatch.womenQuarterFinalist4,
-    tournamentMatch.womenPlateWinner,
   ];
   tournamentPlayers.forEach((score, index) => {
     if (!score) {
@@ -85,5 +95,32 @@ export async function updatePlayersRating(leaguePlayers: string[]) {
     });
   });
 
-  console.log("League Player Ratings Updated!");
+  console.log("Player Ratings Updated!");
+}
+
+// Remove changes from database
+export async function removePlayers(leagueData: LeagueData) {
+  const docRef = doc(db, "leagues", leagueData.name);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const matches = docSnap.data().matches;
+    matches.forEach((match: LeagueMatch, index: number) => {
+      if (
+        match.player1 != leagueData.matches[index].player1 ||
+        match.player1 != leagueData.matches[index].player2
+      ) {
+        deleteDoc(
+          doc(db, "matches", match.player1, "matchHistory", match.matchId)
+        );
+      }
+      if (
+        match.player2 != leagueData.matches[index].player1 ||
+        match.player2 != leagueData.matches[index].player2
+      ) {
+        deleteDoc(
+          doc(db, "matches", match.player2, "matchHistory", match.matchId)
+        );
+      }
+    });
+  }
 }

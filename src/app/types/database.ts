@@ -74,3 +74,13 @@ export type History = {
     event: string;
     placement: string
 }
+
+export type LeagueMatch = {
+  matchId: string;
+  division: string;
+  position: string;
+  player1: string;
+  player2: string;
+  games1: string;
+  games2: string;
+}

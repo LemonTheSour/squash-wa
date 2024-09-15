@@ -4,36 +4,39 @@ import { TournamentData, LeagueData, PlayerData } from "../types/database";
 import {
   alterMatches,
   collectLeagueMatches,
+  collectTournamentMatches,
   updateMatches,
 } from "./updateRating";
-import { collectLeaguePlayers, updatePlayersRating } from "./utilities";
+import {
+  collectLeaguePlayers,
+  collectTournamentPlayers,
+  removePlayers,
+  updatePlayersRating,
+} from "./utilities";
 
 export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
-  if (
-    TournamentData.menPlateWinner == undefined ||
-    TournamentData.womenPlateWinner == undefined
-  ) {
-    TournamentData.menPlateWinner = "Male Plate Winner";
-    TournamentData.womenPlateWinner = "Women Plate Winner";
-  }
-
-  if (TournamentData.menQuarterFinalist1 == undefined) {
-    TournamentData.menQuarterFinalist1 = "Male Quarter Finalist";
-    TournamentData.menQuarterFinalist2 = "Male Quarter Finalist";
-    TournamentData.menQuarterFinalist3 = "Male Quarter Finalist";
-    TournamentData.menQuarterFinalist4 = "Male Quarter Finalist";
-    TournamentData.womenQuarterFinalist1 = "Female Quarter Finalist";
-    TournamentData.womenQuarterFinalist2 = "Female Quarter Finalist";
-    TournamentData.womenQuarterFinalist3 = "Female Quarter Finalist";
-    TournamentData.womenQuarterFinalist4 = "Female Quarter Finalist";
-  }
-
   try {
     await updateDoc(doc(db, "tournaments", TournamentData.tournamentName), {
       ...TournamentData,
     });
 
-    console.log("Tournament Succesfully Created");
+    // Collect tournament data
+    const histories = collectTournamentMatches(TournamentData);
+    console.log(histories);
+    console.log("Histories successfully collected");
+
+    // Update players match histories
+    await updateMatches(histories);
+    console.log("Matches Successfully Updated");
+
+    // Collect all players in the tournament
+    const tournamentPlayers = collectTournamentPlayers(TournamentData);
+
+    // Update the players rating
+    updatePlayersRating(tournamentPlayers);
+    console.log("Rating successfully updated");
+
+    console.log("Tournament Succesfully Updated");
     return true;
   } catch {
     console.log("Error Creating Tournament");
@@ -42,6 +45,8 @@ export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
 }
 
 export async function updateLeague({ ...LeagueData }: LeagueData) {
+  await removePlayers(LeagueData);
+
   // Add the league to the database
   try {
     await updateDoc(doc(db, "leagues", LeagueData.name), {
@@ -54,6 +59,7 @@ export async function updateLeague({ ...LeagueData }: LeagueData) {
 
     // Collect all players in the league
     const leaguePlayers = collectLeaguePlayers(LeagueData.matches);
+
     // Update the players rating
     await updatePlayersRating(leaguePlayers);
 

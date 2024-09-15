@@ -19,7 +19,6 @@ export default function Players({ PlayerData }: PlayerProps) {
 
   useEffect(() => {
     const dataRef = collection(db, "players");
-    console.log(dataRef);
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: PlayerData[] = [];
       snapshot.docs.map((doc) => newData.push(doc.data() as PlayerData));
@@ -41,7 +40,7 @@ export default function Players({ PlayerData }: PlayerProps) {
       <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
         {PlayerData2.map((player, index) => (
           <div key={index}>
-            <AdminPlayerCard data={player} position={index + 1} />
+            <AdminPlayerCard data={player} />
           </div>
         ))}
       </div>

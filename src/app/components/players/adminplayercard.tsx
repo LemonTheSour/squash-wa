@@ -6,10 +6,9 @@ import { useState } from "react";
 
 interface PlayerCardProps {
   data: PlayerData;
-  position: number;
 }
 
-export default function AdminPlayerCard({ data, position }: PlayerCardProps) {
+export default function AdminPlayerCard({ data }: PlayerCardProps) {
   const [openModal, setOpenModal] = useState(false);
 
   return (

@@ -21,7 +21,6 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
 
   useEffect(() => {
     const dataRef = collection(db, "players");
-    console.log(dataRef);
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: PlayerData[] = [];
       snapshot.docs.map((doc) => newData.push(doc.data() as PlayerData));
@@ -33,7 +32,6 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
 
   useEffect(() => {
     const dataRef = collection(db, "leagues");
-    console.log(dataRef);
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: LeagueData[] = [];
       snapshot.docs.map((doc) => newData.push(doc.data() as LeagueData));

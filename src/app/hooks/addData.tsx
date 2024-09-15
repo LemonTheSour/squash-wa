@@ -52,18 +52,17 @@ export async function addLeague({ ...LeagueData }: LeagueData) {
 }
 
 export async function addTournament({ ...TournamentData }: TournamentData) {
-  // setValue of form input
   try {
     await setDoc(doc(db, "tournaments", TournamentData.tournamentName), {
       ...TournamentData,
     });
-    console.log("Tournament Successfully Created");
 
     // Collect tournament data
     const histories = collectTournamentMatches(TournamentData);
     console.log("Histories successfully collected");
 
     // Update players match histories
+    // TODO - DOCUMENT IDS CANNOT HAVE SPACES IN THEM
     await updateMatches(histories);
     console.log("Matches Successfully Updated");
 
@@ -74,6 +73,10 @@ export async function addTournament({ ...TournamentData }: TournamentData) {
     updatePlayersRating(tournamentPlayers);
     console.log("Rating successfully updated");
 
+    // TO UPDATE THE TOURNAMENT PLAYERS RATINGS PROPERLY, WE NEED TO DELETE
+    // ALL RECORDS OF THE TOURNAMENT EXISTING FIRST, IN CASE A PLAYER
+    // IS REMOVE FROM THAT TOURNAMENT
+    console.log("Tournament Successfully Created");
     return true;
   } catch {
     console.log("Error Adding Document ");

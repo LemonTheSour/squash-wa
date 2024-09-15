@@ -199,7 +199,7 @@ export default function EditLeagueForm({
         <div className="pl-5">
           <input
             type="submit"
-            value="Add League"
+            value="Update"
             className="w-1/6 h-8 m-2 rounded-md bg-yellow-400 hover:border-2 hover:border-black"
           />
         </div>

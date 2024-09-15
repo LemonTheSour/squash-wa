@@ -355,7 +355,7 @@ export default function EditTournamentForm({
                     <label className="text-sm font-medium">Plate Winner</label>
                     <select
                       defaultValue={data.womenPlateWinner}
-                      {...register("womenPlateWinner", { required: true })}
+                      {...register("womenPlateWinner")}
                       className={inputStyles}
                     >
                       {femaleData.map((player, index) => (
@@ -373,13 +373,11 @@ export default function EditTournamentForm({
                       </label>
                       <select
                         defaultValue={data.womenQuarterFinalist1}
-                        {...register("womenQuarterFinalist1", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist1")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -391,13 +389,11 @@ export default function EditTournamentForm({
                       </label>
                       <select
                         defaultValue={data.womenQuarterFinalist2}
-                        {...register("womenQuarterFinalist2", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist2")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -409,13 +405,11 @@ export default function EditTournamentForm({
                       </label>
                       <select
                         defaultValue={data.womenQuarterFinalist3}
-                        {...register("womenQuarterFinalist3", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist3")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
@@ -427,13 +421,11 @@ export default function EditTournamentForm({
                       </label>
                       <select
                         defaultValue={data.womenQuarterFinalist4}
-                        {...register("womenQuarterFinalist4", {
-                          required: true,
-                        })}
+                        {...register("womenQuarterFinalist4")}
                         className={inputStyles}
                       >
                         {femaleData.map((player, index) => (
-                          <option key={index} value={player.squashId} selected>
+                          <option key={index} value={player.squashId}>
                             {player.firstName} {player.lastName}
                           </option>
                         ))}
