@@ -113,6 +113,7 @@ export default function MatchesForm({ PlayerData, DefaultValues }: FormValues) {
         className="border-black border-1 rounded-md ml-7 mt-2 text-sm p-1 hover:border-green-400"
         onClick={() =>
           append({
+            matchId: "",
             division: "",
             position: "",
             player1: "",

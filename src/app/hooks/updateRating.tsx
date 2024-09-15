@@ -119,6 +119,7 @@ export function collectLeagueMatches(LeagueData: LeagueData) {
 
 // Function which returns an array of MatchData from a Tournament form
 export function collectTournamentMatches(matches: TournamentData) {
+  const matchId = matches.tournamentName.replace(/\s/g, "");
   const scores: Histories[] = [
     {
       playerId: matches.menWinner,
@@ -126,7 +127,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
-        matchId: `${matches.tournamentName}-MWI`,
+        matchId: matchId,
       },
     },
     {
@@ -135,7 +136,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
-        matchId: `${matches.tournamentName}-MRU`,
+        matchId: matchId,
       },
     },
     {
@@ -144,7 +145,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: `${matches.tournamentName}-MSF1`,
+        matchId: matchId,
       },
     },
     {
@@ -153,7 +154,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: `${matches.tournamentName}-MSF2`,
+        matchId: matchId,
       },
     },
     {
@@ -162,7 +163,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-MQF1`,
+        matchId: matchId,
       },
     },
     {
@@ -171,7 +172,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-MQF2`,
+        matchId: matchId,
       },
     },
     {
@@ -180,7 +181,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-MQF3`,
+        matchId: matchId,
       },
     },
     {
@@ -189,7 +190,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-MQF4`,
+        matchId: matchId,
       },
     },
     {
@@ -198,7 +199,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",
-        matchId: `${matches.tournamentName}-MPW`,
+        matchId: matchId,
       },
     },
     {
@@ -207,7 +208,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: WINNER,
         event: matches.tournamentName,
         placement: "Winner",
-        matchId: `${matches.tournamentName}-WWI`,
+        matchId: matchId,
       },
     },
     {
@@ -216,7 +217,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: RUNNERUP,
         event: matches.tournamentName,
         placement: "Runner Up",
-        matchId: `${matches.tournamentName}-WRU`,
+        matchId: matchId,
       },
     },
     {
@@ -225,7 +226,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: `${matches.tournamentName}-WSF1`,
+        matchId: matchId,
       },
     },
     {
@@ -234,7 +235,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: SEMIFINALIST,
         event: matches.tournamentName,
         placement: "Semi-Finalist",
-        matchId: `${matches.tournamentName}-WSF2`,
+        matchId: matchId,
       },
     },
     {
@@ -243,7 +244,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-WQF1`,
+        matchId: matchId,
       },
     },
     {
@@ -252,7 +253,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-WQF2`,
+        matchId: `${matches.tournamentName}`,
       },
     },
     {
@@ -261,7 +262,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-WQF3`,
+        matchId: `${matches.tournamentName}`,
       },
     },
     {
@@ -270,7 +271,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: QUARTERFINALIST,
         event: matches.tournamentName,
         placement: "Quarter-Finalist",
-        matchId: `${matches.tournamentName}-WQF4`,
+        matchId: `${matches.tournamentName}`,
       },
     },
     {
@@ -279,7 +280,7 @@ export function collectTournamentMatches(matches: TournamentData) {
         points: PLATEWINNER,
         event: matches.tournamentName,
         placement: "Plate Winner",
-        matchId: `${matches.tournamentName}-WPW`,
+        matchId: `${matches.tournamentName}`,
       },
     },
   ];
