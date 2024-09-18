@@ -284,10 +284,10 @@ export function collectTournamentMatches(matches: TournamentData) {
       },
     },
   ];
-  scores.forEach((score, index) => {
-    if (!score.playerId) {
-      scores.splice(index, 1);
-    }
+
+  // Remove any blank data from array
+  const cleanedScores = scores.filter((score) => {
+    return score.playerId !== undefined;
   });
-  return scores;
+  return cleanedScores;
 }

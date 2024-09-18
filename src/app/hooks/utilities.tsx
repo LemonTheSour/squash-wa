@@ -70,12 +70,11 @@ export function collectTournamentPlayers(tournamentMatch: TournamentData) {
     tournamentMatch.womenQuarterFinalist3,
     tournamentMatch.womenQuarterFinalist4,
   ];
-  tournamentPlayers.forEach((score, index) => {
-    if (!score) {
-      tournamentPlayers.splice(index, 1);
-    }
+  const cleanedTournamentPlayers = tournamentPlayers.filter((player) => {
+    return player !== undefined;
   });
-  return tournamentPlayers;
+
+  return cleanedTournamentPlayers;
 }
 
 // Update individual players' rating
@@ -99,7 +98,7 @@ export async function updatePlayersRating(leaguePlayers: string[]) {
 }
 
 // Remove changes from database
-export async function removePlayers(leagueData: LeagueData) {
+export async function removeLeaguePlayers(leagueData: LeagueData) {
   const docRef = doc(db, "leagues", leagueData.name);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -122,5 +121,16 @@ export async function removePlayers(leagueData: LeagueData) {
         );
       }
     });
+  }
+}
+
+// Remove players tournament match history, provided they are no longer in that
+// tournament
+export async function removeTournamentPlayers(tournamentData: TournamentData) {
+  const docRef = doc(db, "tournaments", tournamentData.matchId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    console.log("TEST");
+    console.log(docSnap.data().values);
   }
 }

@@ -70,7 +70,7 @@ export async function addTournament({ ...TournamentData }: TournamentData) {
     const tournamentPlayers = collectTournamentPlayers(TournamentData);
 
     // Update the players rating
-    updatePlayersRating(tournamentPlayers);
+    await updatePlayersRating(tournamentPlayers);
     console.log("Rating successfully updated");
 
     // TO UPDATE THE TOURNAMENT PLAYERS RATINGS PROPERLY, WE NEED TO DELETE

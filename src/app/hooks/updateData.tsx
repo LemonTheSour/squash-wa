@@ -10,7 +10,7 @@ import {
 import {
   collectLeaguePlayers,
   collectTournamentPlayers,
-  removePlayers,
+  removeLeaguePlayers,
   updatePlayersRating,
 } from "./utilities";
 
@@ -22,7 +22,6 @@ export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
 
     // Collect tournament data
     const histories = collectTournamentMatches(TournamentData);
-    console.log(histories);
     console.log("Histories successfully collected");
 
     // Update players match histories
@@ -45,7 +44,7 @@ export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
 }
 
 export async function updateLeague({ ...LeagueData }: LeagueData) {
-  await removePlayers(LeagueData);
+  await removeLeaguePlayers(LeagueData);
 
   // Add the league to the database
   try {
