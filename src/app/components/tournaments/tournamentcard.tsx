@@ -30,6 +30,7 @@ export default function TournamentCard({
           data={data}
           maleData={maleData}
           femaleData={femaleData}
+          onClose={() => setOpenModal(false)}
         />
       </Modal>
     </div>

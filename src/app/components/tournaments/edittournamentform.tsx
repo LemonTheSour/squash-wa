@@ -1,12 +1,13 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PlayerData, TournamentData } from "@/app/types/database";
-import { useState } from "react";
+import { useEffect } from "react";
 import { UpdateTournaments } from "@/app/hooks/updateData";
 
 interface EditTournamentFormProps {
   data: TournamentData;
   maleData: PlayerData[];
   femaleData: PlayerData[];
+  onClose: () => void;
 }
 
 const inputStyles = "w-full border-2 border-slate-200 rounded-md bg-white";
@@ -15,9 +16,12 @@ export default function EditTournamentForm({
   data,
   maleData,
   femaleData,
+  onClose,
 }: EditTournamentFormProps) {
   const {
     register,
+    unregister,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm<TournamentData>({
@@ -26,14 +30,69 @@ export default function EditTournamentForm({
     },
   });
 
-  const onSubmit: SubmitHandler<TournamentData> = (data) => {
-    UpdateTournaments(data);
+  const onSubmit: SubmitHandler<TournamentData> = async (data) => {
+    await UpdateTournaments(data);
+    onClose();
   };
 
-  const [gender, setGender] = useState(data.gender);
-  const [menSize, setMenSize] = useState(data.menSize);
-  const [womenSize, setWomenSize] = useState(data.womenSize);
+  const watchMenSize = watch("menSize");
+  const watchWomenSize = watch("womenSize");
+  const watchGender = watch("gender");
 
+  useEffect(() => {
+    if (watchGender === "men") {
+      unregister([
+        "womenWinner",
+        "womenRunnerUp",
+        "womenSemiFinalist1",
+        "womenSemiFinalist2",
+        "womenQuarterFinalist1",
+        "womenQuarterFinalist2",
+        "womenQuarterFinalist3",
+        "womenQuarterFinalist4",
+        "womenPlateWinner",
+        "womenSize",
+        "womenLevel",
+      ]);
+    }
+    if (watchGender === "women") {
+      unregister([
+        "menWinner",
+        "menRunnerUp",
+        "menSemiFinalist1",
+        "menSemiFinalist2",
+        "menQuarterFinalist1",
+        "menQuarterFinalist2",
+        "menQuarterFinalist3",
+        "menQuarterFinalist4",
+        "menPlateWinner",
+        "menSize",
+        "menLevel",
+      ]);
+    }
+    if (watchMenSize === "16") {
+      unregister("menPlateWinner");
+    }
+    if (watchWomenSize === "16") {
+      unregister("womenPlateWinner");
+    }
+    if (watchMenSize === "8") {
+      unregister([
+        "menQuarterFinalist1",
+        "menQuarterFinalist2",
+        "menQuarterFinalist3",
+        "menQuarterFinalist4",
+      ]);
+    }
+    if (watchWomenSize === "8") {
+      unregister([
+        "womenQuarterFinalist1",
+        "womenQuarterFinalist2",
+        "womenQuarterFinalist3",
+        "womenQuarterFinalist4",
+      ]);
+    }
+  }, [unregister, watchMenSize, watchWomenSize, watchGender]);
   return (
     <div className="grid grid-cols-9 px-2 grid-rows-auto gap-2">
       <div className="text-2xl col-span-9 justify-self-center">
@@ -76,7 +135,6 @@ export default function EditTournamentForm({
               defaultValue={data.gender}
               {...register("gender", { required: true })}
               className="text-xl bg-white border-2 border-slate-200 rounded-md"
-              onChange={(e) => setGender(e.target.value)}
             >
               <option value="men">Men</option>
               <option value="women">Women</option>
@@ -87,7 +145,7 @@ export default function EditTournamentForm({
         {/* -------------------------------------------------- Dynamic Form Options ---------------------------------- */}
         <div className="flex w-full">
           {/*---------------------------------Male Form Options------------------------------------*/}
-          {gender != "women" && (
+          {watchGender != "women" && (
             <div className="flex-col justify-center items-center w-1/2 m-2">
               <div className="text-2xl w-full text-center">Men</div>
               <div className="flex">
@@ -109,7 +167,6 @@ export default function EditTournamentForm({
                     defaultValue={data.menSize}
                     {...register("menSize", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
-                    onChange={(e) => setMenSize(e.target.value)}
                   >
                     <option value="8">8</option>
                     <option value="16">16</option>
@@ -175,7 +232,7 @@ export default function EditTournamentForm({
               </div>
               {/*-------------------------------- Dynamic Portion ---------------------------------- */}
               <div>
-                {menSize == "8" ? (
+                {watchMenSize == "8" ? (
                   <div>
                     <label className="text-sm font-medium">Plate Winner</label>
                     <select
@@ -263,7 +320,7 @@ export default function EditTournamentForm({
           )}
 
           {/* ---------------------------------Female Form Options------------------------------- */}
-          {gender != "men" && (
+          {watchGender != "men" && (
             <div className="flex-col justify-center items-center w-1/2 m-2">
               <div className="text-2xl w-full text-center">Women</div>
               <div className="flex">
@@ -285,7 +342,6 @@ export default function EditTournamentForm({
                     defaultValue={data.womenSize}
                     {...register("womenSize", { required: true })}
                     className="text-xl bg-white border-2 border-slate-200 rounded-md col-span-1"
-                    onChange={(e) => setWomenSize(e.target.value)}
                   >
                     <option value="8">8</option>
                     <option value="16">16</option>
@@ -350,7 +406,7 @@ export default function EditTournamentForm({
                 </select>
               </div>
               <div>
-                {womenSize == "8" ? (
+                {watchWomenSize == "8" ? (
                   <div>
                     <label className="text-sm font-medium">Plate Winner</label>
                     <select

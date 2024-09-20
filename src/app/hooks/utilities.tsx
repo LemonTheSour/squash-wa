@@ -14,7 +14,6 @@ import {
 } from "../types/database";
 import { LeagueMatches } from "../types/rating";
 import { db } from "../../../firebase/clientApp";
-import { History } from "../types/database";
 
 export function separateGenders(playerData: PlayerData[], gender: String) {
   let MaleData: PlayerData[] = [];
@@ -47,13 +46,13 @@ export function collectLeaguePlayers(leagueMatches: LeagueMatches[]) {
       leaguePlayers.push(match.player2);
     }
   });
-
   return leaguePlayers;
 }
 
 export function collectTournamentPlayers(tournamentMatch: TournamentData) {
   const tournamentPlayers: string[] = [
     tournamentMatch.menPlateWinner,
+    tournamentMatch.menWinner,
     tournamentMatch.menRunnerUp,
     tournamentMatch.menSemiFinalist1,
     tournamentMatch.menSemiFinalist2,
@@ -62,6 +61,7 @@ export function collectTournamentPlayers(tournamentMatch: TournamentData) {
     tournamentMatch.menQuarterFinalist3,
     tournamentMatch.menQuarterFinalist4,
     tournamentMatch.womenPlateWinner,
+    tournamentMatch.womenWinner,
     tournamentMatch.womenRunnerUp,
     tournamentMatch.womenSemiFinalist1,
     tournamentMatch.womenSemiFinalist2,
@@ -78,8 +78,8 @@ export function collectTournamentPlayers(tournamentMatch: TournamentData) {
 }
 
 // Update individual players' rating
-export async function updatePlayersRating(leaguePlayers: string[]) {
-  leaguePlayers.forEach(async (player) => {
+export async function updatePlayersRating(players: string[]) {
+  players.forEach(async (player) => {
     const querySnapshot = await getDocs(
       collection(db, `matches/${player}/matchHistory`)
     );
@@ -130,7 +130,17 @@ export async function removeTournamentPlayers(tournamentData: TournamentData) {
   const docRef = doc(db, "tournaments", tournamentData.matchId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    console.log("TEST");
-    console.log(docSnap.data().values);
+    const oldTournamentData = docSnap.data();
+    // @ts-ignore
+    const oldTournamentPlayers = collectTournamentPlayers(oldTournamentData);
+    oldTournamentPlayers.forEach((player) => {
+      try {
+        deleteDoc(
+          doc(db, "matches", player, "matchHistory", tournamentData.matchId)
+        );
+      } catch {
+        // Shouldn't really hit this ever, but just in case.
+      }
+    });
   }
 }

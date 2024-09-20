@@ -1,5 +1,5 @@
 import { db } from "../../../firebase/clientApp";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { TournamentData, LeagueData, PlayerData } from "../types/database";
 import {
   alterMatches,
@@ -11,10 +11,13 @@ import {
   collectLeaguePlayers,
   collectTournamentPlayers,
   removeLeaguePlayers,
+  removeTournamentPlayers,
   updatePlayersRating,
 } from "./utilities";
 
 export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
+  await removeTournamentPlayers(TournamentData);
+
   try {
     await updateDoc(doc(db, "tournaments", TournamentData.tournamentName), {
       ...TournamentData,
@@ -32,7 +35,7 @@ export async function UpdateTournaments({ ...TournamentData }: TournamentData) {
     const tournamentPlayers = collectTournamentPlayers(TournamentData);
 
     // Update the players rating
-    updatePlayersRating(tournamentPlayers);
+    await updatePlayersRating(tournamentPlayers);
     console.log("Rating successfully updated");
 
     console.log("Tournament Succesfully Updated");
