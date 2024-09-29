@@ -2,6 +2,7 @@ import Tournaments from "../components/tournaments/tournaments";
 import Leagues from "../components/leagues/leagues";
 import Players from "../components/players/players";
 import { getLeagues, getPlayers, getTournaments } from "../hooks/getData";
+import AdminLayout from "./layout";
 
 const AllPlayers = await getPlayers();
 const LeagueData = await getLeagues();

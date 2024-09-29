@@ -140,6 +140,7 @@ export async function removeTournamentPlayers(tournamentData: TournamentData) {
         );
       } catch {
         // Shouldn't really hit this ever, but just in case.
+        console.log("Delete Tournament Players Failed");
       }
     });
   }
