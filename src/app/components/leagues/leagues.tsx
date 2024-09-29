@@ -41,7 +41,7 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
   }, []);
 
   return (
-    <div className="flex flex-col w-1/3 mx-2 mt-8">
+    <div className="flex flex-col w-1/3 mx-2">
       <div className="flex justify-between items-center mt-2 px-2">
         <div className="text-3xl text-center">Leagues</div>
         <div className="w-1/4">

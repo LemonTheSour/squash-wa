@@ -8,6 +8,8 @@ import { PlayerData } from "@/app/types/database";
 import { useEffect, useState } from "react";
 import { db } from "../../../../firebase/clientApp";
 import { collection, onSnapshot } from "firebase/firestore";
+import PlayerTable from "./playerTable";
+import EditPlayerForm from "./editplayerform";
 
 interface PlayerProps {
   PlayerData: PlayerData[];
@@ -29,14 +31,13 @@ export default function Players({ PlayerData }: PlayerProps) {
   }, []);
 
   return (
-    <div className="flex flex-col w-1/3 mt-8 mx-2">
-      <div className="flex justify-between items-center mt-2 px-2">
-        <div className="text-3xl text-center">Players</div>
-        <div className="w-1/4">
-          <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
-        </div>
+    <div className="flex flex-col w-1/2 mx-2">
+      <div className="text-3xl text-center">Players</div>
+      <div className="w-1/6">
+        <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
       </div>
 
+      {/** 
       <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
         {PlayerData2.map((player, index) => (
           <div key={index}>
@@ -44,6 +45,12 @@ export default function Players({ PlayerData }: PlayerProps) {
           </div>
         ))}
       </div>
+      */}
+
+      <PlayerTable
+        PlayerData={PlayerData}
+        onClick={() => setOpenModal(!openModal)}
+      />
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <AddPlayerForm
