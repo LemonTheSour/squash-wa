@@ -20,6 +20,7 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
   const [LeagueData2, setLeagueData2] = useState<LeagueData[]>(LeagueData);
   // PLAYER DATA 2 AND LEAGUE DATA 2 NEED TO BE REWORKED, THE FUNCTIONS WORK GREAT
   // THE VARIABLE NAMES ARE LACKLUSTRE AND POTENTIALLY WORTHLESS
+
   useEffect(() => {
     const dataRef = collection(db, "players");
     const unsub = onSnapshot(dataRef, (snapshot) => {

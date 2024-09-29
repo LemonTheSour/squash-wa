@@ -1,6 +1,5 @@
 "use client";
 
-import TournamentCard from "./tournamentcard";
 import AddButton from "../addbutton";
 import Modal from "../modal";
 import { useEffect, useState } from "react";
@@ -9,6 +8,7 @@ import { PlayerData, TournamentData } from "@/app/types/database";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../../firebase/clientApp";
 import { separateGenders } from "@/app/hooks/utilities";
+import TournamentTable from "./tournamentTable";
 
 interface TournamentProps {
   TournamentData: TournamentData[];
@@ -49,25 +49,17 @@ export default function Tournaments({
   }, []);
 
   return (
-    <div className="flex flex-col w-1/3 mx-2">
-      <div className="flex justify-between items-center mt-2 px-2 ">
-        <div className="text-3xl text-center">Tournaments</div>
-        <div className="w-1/4">
-          <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
-        </div>
+    <div className="flex flex-col w-1/2 mx-2">
+      <div className="text-3xl text-center">Tournaments</div>
+
+      <div className="w-1/6">
+        <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
       </div>
 
-      <div className=" mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-        {TournamentData2.map((tournament, index) => (
-          <div key={index}>
-            <TournamentCard
-              data={tournament}
-              maleData={MaleData}
-              femaleData={FemaleData}
-            />
-          </div>
-        ))}
-      </div>
+      <TournamentTable
+        tournamentData={TournamentData2}
+        playerData={PlayerData2}
+      />
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <TournamentForm
