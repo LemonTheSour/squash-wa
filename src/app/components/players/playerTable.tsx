@@ -1,11 +1,11 @@
 import { PlayerData } from "@/app/types/database";
+import PlayerTableRow from "./playerTableRow";
 
 interface playerTableProps {
   PlayerData: PlayerData[];
-  onClick: () => void;
 }
 
-export default function PlayerTable({ PlayerData, onClick }: playerTableProps) {
+export default function PlayerTable({ PlayerData }: playerTableProps) {
   return (
     <table className="table-auto w-full text-left mt-8">
       <thead className=" border-b-2 border-grey">
@@ -19,16 +19,7 @@ export default function PlayerTable({ PlayerData, onClick }: playerTableProps) {
       </thead>
       <tbody>
         {PlayerData.map((player) => {
-          return (
-            <tr key={player.squashId} className="border-b-2 border-grey">
-              <td>{player.firstName}</td>
-              <td>{player.lastName}</td>
-              <td>{player.squashId}</td>
-              <td>{player.rating}</td>
-              <td>{player.region}</td>
-              <td onClick={onClick}>Edit</td>
-            </tr>
-          );
+          return <PlayerTableRow key={player.squashId} playerData={player} />;
         })}
       </tbody>
     </table>

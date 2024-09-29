@@ -47,10 +47,7 @@ export default function Players({ PlayerData }: PlayerProps) {
       </div>
       */}
 
-      <PlayerTable
-        PlayerData={PlayerData}
-        onClick={() => setOpenModal(!openModal)}
-      />
+      <PlayerTable PlayerData={PlayerData} />
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <AddPlayerForm
