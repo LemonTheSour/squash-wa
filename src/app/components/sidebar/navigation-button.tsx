@@ -12,16 +12,18 @@ export default function NavigationButton({
   isActive,
 }: NavigationButtonProps) {
   return (
-    <Link href={href}>
-      <li
-        className={
-          isActive
-            ? "text-2xl pl-2 text-white rounded-l-xl bg-black"
-            : "text-2xl pl-2 hover:text-white"
-        }
-      >
-        {title}
-      </li>
-    </Link>
+    <div className="pb-6">
+      <Link href={href}>
+        <li
+          className={
+            isActive
+              ? "text-2xl pl-2 text-white rounded-l-xl bg-black"
+              : "text-2xl pl-2 hover:text-white"
+          }
+        >
+          {title}
+        </li>
+      </Link>
+    </div>
   );
 }
