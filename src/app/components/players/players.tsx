@@ -1,7 +1,6 @@
 "use client";
 
 import AddButton from "../addbutton";
-import AdminPlayerCard from "./adminplayercard";
 import Modal from "../modal";
 import AddPlayerForm from "./addplayerform";
 import { PlayerData } from "@/app/types/database";
@@ -9,7 +8,6 @@ import { useEffect, useState } from "react";
 import { db } from "../../../../firebase/clientApp";
 import { collection, onSnapshot } from "firebase/firestore";
 import PlayerTable from "./playerTable";
-import EditPlayerForm from "./editplayerform";
 
 interface PlayerProps {
   PlayerData: PlayerData[];
@@ -18,7 +16,8 @@ interface PlayerProps {
 export default function Players({ PlayerData }: PlayerProps) {
   const [openModal, setOpenModal] = useState(false);
   const [PlayerData2, setPlayerData2] = useState<PlayerData[]>(PlayerData);
-
+  //  YOU MUST USE PLAYERDATA2 TO LIVE UPDATE THE DATA, COME BACK TO THIS
+  //  AND MAKE IT NOT AWFUL DOWN THE LINE
   useEffect(() => {
     const dataRef = collection(db, "players");
     const unsub = onSnapshot(dataRef, (snapshot) => {
@@ -37,17 +36,7 @@ export default function Players({ PlayerData }: PlayerProps) {
         <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
       </div>
 
-      {/** 
-      <div className="mt-2 p-4 border-2 border-grey-200 rounded-xl w-full">
-        {PlayerData2.map((player, index) => (
-          <div key={index}>
-            <AdminPlayerCard data={player} />
-          </div>
-        ))}
-      </div>
-      */}
-
-      <PlayerTable PlayerData={PlayerData} />
+      <PlayerTable PlayerData={PlayerData2} />
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <AddPlayerForm

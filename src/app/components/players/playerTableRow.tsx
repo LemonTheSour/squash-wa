@@ -16,6 +16,7 @@ export default function PlayerTableRow({ playerData }: PlayerTableRowProps) {
       <td>{playerData.squashId}</td>
       <td>{playerData.rating}</td>
       <td>{playerData.region}</td>
+      <td>{playerData.gender}</td>
       <td onClick={() => setOpenModal(!openModal)}>
         <button>Edit</button>
       </td>

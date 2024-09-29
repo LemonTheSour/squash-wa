@@ -15,6 +15,7 @@ export default function PlayerTable({ PlayerData }: playerTableProps) {
           <th>Id</th>
           <th>Rating</th>
           <th>Region</th>
+          <th>Gender</th>
         </tr>
       </thead>
       <tbody>
