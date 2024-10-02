@@ -60,7 +60,7 @@ export default function EditLeagueForm({
               <p className="flex text-red-400">League Name is required</p>
             )}
           </div>
-          <div className="flex flex-col w-1/4">
+          <div className="flex flex-col w-1/4 border-slate-200 border-b-2">
             <Controller
               control={control}
               name="date"

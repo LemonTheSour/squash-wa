@@ -39,8 +39,6 @@ export default function LeagueForm({
     onClose();
   };
 
-  const [startDate, setStartDate] = useState(new Date());
-
   return (
     <div className="flex flex-col w-full items-center">
       <div className="text-2xl">Add League</div>
@@ -60,7 +58,7 @@ export default function LeagueForm({
               <p className="flex text-red-400">League Name is required</p>
             )}
           </div>
-          <div className="flex flex-col border-slate-200">
+          <div className="flex flex-col border-slate-200 border-b-2 rounded-md">
             <Controller
               control={control}
               name="date"
