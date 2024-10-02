@@ -1,5 +1,5 @@
 import { db } from "../../../firebase/clientApp";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { TournamentData, LeagueData, PlayerData } from "../types/database";
 import {
   alterMatches,
@@ -53,6 +53,10 @@ export async function updateLeague({ ...LeagueData }: LeagueData) {
   try {
     await updateDoc(doc(db, "leagues", LeagueData.name), {
       ...LeagueData,
+      date: new Timestamp(
+        LeagueData.date.getSeconds(),
+        LeagueData.date.getMilliseconds()
+      ),
     });
 
     // Update the players match history

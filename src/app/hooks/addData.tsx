@@ -73,13 +73,10 @@ export async function addTournament({ ...TournamentData }: TournamentData) {
     await updatePlayersRating(tournamentPlayers);
     console.log("Rating successfully updated");
 
-    // TO UPDATE THE TOURNAMENT PLAYERS RATINGS PROPERLY, WE NEED TO DELETE
-    // ALL RECORDS OF THE TOURNAMENT EXISTING FIRST, IN CASE A PLAYER
-    // IS REMOVE FROM THAT TOURNAMENT
     console.log("Tournament Successfully Created");
     return true;
   } catch {
-    console.log("Error Adding Document ");
+    console.log("Error Adding Tournament ");
     return false;
   }
 }

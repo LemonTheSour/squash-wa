@@ -1,6 +1,15 @@
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import {
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+  Controller,
+} from "react-hook-form";
 import { PlayerData, LeagueData } from "@/app/types/database";
 import { addLeague } from "@/app/hooks/addData";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import { useState } from "react";
 
 interface FormComponentProps {
   PlayerData: PlayerData[];
@@ -30,6 +39,8 @@ export default function LeagueForm({
     onClose();
   };
 
+  const [startDate, setStartDate] = useState(new Date());
+
   return (
     <div className="flex flex-col w-full items-center">
       <div className="text-2xl">Add League</div>
@@ -49,12 +60,20 @@ export default function LeagueForm({
               <p className="flex text-red-400">League Name is required</p>
             )}
           </div>
-          <div className="flex flex-col w-1/4">
-            <input
-              placeholder="DD/MM/YYYY"
-              {...register("date", { required: true })}
-              className="border-2 border-slate-200 rounded-md w-full"
-            />
+          <div className="flex flex-col border-slate-200">
+            <Controller
+              control={control}
+              name="date"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <DatePicker
+                  showIcon
+                  selected={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              )}
+            ></Controller>
+
             {errors.date?.type === "required" && (
               <p className="flex text-red-400">Date is required</p>
             )}

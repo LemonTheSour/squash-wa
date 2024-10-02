@@ -1,6 +1,14 @@
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import {
+  Controller,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import { PlayerData, LeagueData } from "@/app/types/database";
 import { updateLeague } from "@/app/hooks/updateData";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
 interface EditProps {
   DefaultValues: LeagueData;
@@ -53,12 +61,18 @@ export default function EditLeagueForm({
             )}
           </div>
           <div className="flex flex-col w-1/4">
-            <input
-              placeholder="DD/MM/YYYY"
-              defaultValue={DefaultValues.date}
-              {...register("date", { required: true })}
-              className="border-2 border-slate-200 rounded-md w-full"
-            />
+            <Controller
+              control={control}
+              name="date"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <DatePicker
+                  showIcon
+                  selected={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              )}
+            ></Controller>
             {errors.date?.type === "required" && (
               <p className="flex text-red-400">Date is required</p>
             )}

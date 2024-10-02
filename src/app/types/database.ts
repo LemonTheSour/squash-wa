@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type PlayerData = {
   squashId: string;
   firstName: string;
@@ -9,7 +11,7 @@ export type PlayerData = {
 
 export type LeagueData = {
   name: string;
-  date: string;
+  date: Date;
   matches:{
     matchId: string;
     division: string;

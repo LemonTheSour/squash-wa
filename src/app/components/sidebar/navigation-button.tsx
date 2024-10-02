@@ -12,7 +12,7 @@ export default function NavigationButton({
   isActive,
 }: NavigationButtonProps) {
   return (
-    <div className="pb-6">
+    <div className="pb-4">
       <Link href={href}>
         <li
           className={

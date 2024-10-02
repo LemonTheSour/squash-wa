@@ -1,4 +1,10 @@
-import { collection, query, getDocs, where } from "firebase/firestore";
+import {
+  collection,
+  query,
+  getDocs,
+  where,
+  Timestamp,
+} from "firebase/firestore";
 import { db } from "../../../firebase/clientApp";
 import {
   MatchData,
@@ -61,7 +67,7 @@ export async function getLeagues() {
   querySnapshot.forEach((doc) => {
     leagueData.push({
       name: doc.data().name,
-      date: doc.data().date,
+      date: doc.data().date.toDate(),
       matches: doc.data().matches,
     });
   });

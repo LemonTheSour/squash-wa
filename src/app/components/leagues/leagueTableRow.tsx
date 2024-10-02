@@ -13,10 +13,14 @@ export default function PlayerTableRow({
   playerData,
 }: PlayerTableRowProps) {
   const [openModal, setOpenModal] = useState(false);
+
   return (
     <tr key={leagueData.name} className="border-b-2 border-grey">
       <td>{leagueData.name}</td>
-      <td>{leagueData.date}</td>
+      <td>
+        {leagueData.date.getDate()}/{leagueData.date.getMonth() + 1}/
+        {leagueData.date.getFullYear()}
+      </td>
       <td onClick={() => setOpenModal(!openModal)}>
         <button>Edit</button>
       </td>

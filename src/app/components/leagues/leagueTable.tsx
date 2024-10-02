@@ -1,3 +1,4 @@
+"use client";
 import { LeagueData, PlayerData } from "@/app/types/database";
 import LeagueTableRow from "./leagueTableRow";
 

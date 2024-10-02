@@ -36,7 +36,13 @@ export default function Tournaments({ LeagueData, PlayerData }: LeagueProps) {
     const dataRef = collection(db, "leagues");
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: LeagueData[] = [];
-      snapshot.docs.map((doc) => newData.push(doc.data() as LeagueData));
+      snapshot.docs.map((doc) =>
+        newData.push({
+          name: doc.data().name,
+          date: doc.data().date.toDate(),
+          matches: doc.data().matches,
+        })
+      );
       setLeagueData2(newData);
     });
     return () => unsub();
