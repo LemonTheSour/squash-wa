@@ -1,8 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { PlayerData } from "@/app/types/database";
 import { addPlayer } from "@/app/hooks/addData";
-import { Dispatch, SetStateAction } from "react";
-import { getPlayerIds, getPlayers } from "@/app/hooks/getData";
+import { getPlayerIds } from "@/app/hooks/getData";
+import { useState } from "react";
+import ErrorModal from "../errorModal";
 
 interface PlayerFormProps {
   PlayerData: PlayerData[];
@@ -19,10 +20,13 @@ export default function AddPlayerForm({
     formState: { errors },
   } = useForm<PlayerData>();
 
+  const [openModal, setOpenModal] = useState(false);
+
   const onSubmit: SubmitHandler<PlayerData> = async (data) => {
     const PlayerIds = getPlayerIds();
     if ((await PlayerIds).includes(data.squashId)) {
       console.log("Cannot use Duplicate Id");
+      setOpenModal(true);
       return false;
     }
     await addPlayer(data);
@@ -75,7 +79,6 @@ export default function AddPlayerForm({
           <option value="Unspecified">Unspecified</option>
         </select>
         <select
-          defaultValue=""
           {...register("region", { required: true })}
           className="bg-white border-2 border-slate-200 rounded-md col-span-1"
         >
@@ -93,6 +96,10 @@ export default function AddPlayerForm({
           className="h-8 rounded-md bg-yellow-400 hover:border-2 hover:border-black col-span-2"
         />
       </form>
+
+      <ErrorModal isOpen={openModal} onClose={() => setOpenModal(false)}>
+        <p>Squash Identification is already in use.</p>
+      </ErrorModal>
     </div>
   );
 }

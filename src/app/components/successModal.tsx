@@ -7,7 +7,11 @@ interface ModalProps {
   onClose: () => void;
 }
 
-export default function Modal({ children, isOpen, onClose }: ModalProps) {
+export default function SuccessModal({
+  children,
+  isOpen,
+  onClose,
+}: ModalProps) {
   return (
     isOpen && (
       <div className="flex justify-center items-center w-screen h-screen fixed inset-0 z-30 bg-slate-400/25">

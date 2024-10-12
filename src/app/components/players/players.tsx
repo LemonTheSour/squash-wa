@@ -15,16 +15,16 @@ interface PlayerProps {
 
 export default function Players({ PlayerData }: PlayerProps) {
   const [openModal, setOpenModal] = useState(false);
-  const [PlayerData2, setPlayerData2] = useState<PlayerData[]>(PlayerData);
-  //  YOU MUST USE PLAYERDATA2 TO LIVE UPDATE THE DATA, COME BACK TO THIS
-  //  AND MAKE IT NOT AWFUL DOWN THE LINE
+  const [playerDataUpdate, setPlayerDataUpdate] =
+    useState<PlayerData[]>(PlayerData);
+
   useEffect(() => {
     const dataRef = collection(db, "players");
     const unsub = onSnapshot(dataRef, (snapshot) => {
       const newData: PlayerData[] = [];
       snapshot.docs.map((doc) => newData.push(doc.data() as PlayerData));
       newData.sort((a, b) => b.rating - a.rating);
-      setPlayerData2(newData);
+      setPlayerDataUpdate(newData);
     });
     return () => unsub();
   }, []);
@@ -36,11 +36,11 @@ export default function Players({ PlayerData }: PlayerProps) {
         <AddButton title="Add" onClick={() => setOpenModal(!openModal)} />
       </div>
 
-      <PlayerTable PlayerData={PlayerData2} />
+      <PlayerTable PlayerData={playerDataUpdate} />
 
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <AddPlayerForm
-          PlayerData={PlayerData2}
+          PlayerData={playerDataUpdate}
           onClose={() => setOpenModal(false)}
         />
       </Modal>

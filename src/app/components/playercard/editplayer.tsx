@@ -11,7 +11,7 @@ type FormInputs = {
 
 async function addData({ firstName, lastName, gender, region }: FormInputs) {
   try {
-    const docRef = await setDoc(doc(db, "players", "player2"), {
+    await setDoc(doc(db, "players", "player2"), {
       firstName: firstName,
       lastName: lastName,
       gender: gender,

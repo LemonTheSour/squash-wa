@@ -17,7 +17,10 @@ export default function PlayerTableRow({ playerData }: PlayerTableRowProps) {
       <td>{playerData.rating}</td>
       <td>{playerData.region}</td>
       <td>{playerData.gender}</td>
-      <td onClick={() => setOpenModal(!openModal)}>
+      <td
+        onClick={() => setOpenModal(!openModal)}
+        className="hover:bg-slate-200"
+      >
         <button>Edit</button>
       </td>
 
